@@ -5,12 +5,32 @@
 #include <spdlog/spdlog.h>
 
 #include <QApplication>
-#include <MainWindow.hpp>
+#include <QSurfaceFormat>
+#include <gui/MainWindow.hpp>
+
+namespace
+{
+    void initializeSpdlog()
+    {
+        spdlog::set_level(spdlog::level::debug);
+    }
+
+    void initializeQtOpenGL ()
+    {
+        auto format = QSurfaceFormat::defaultFormat();
+        format.setMajorVersion(4);
+        format.setMinorVersion(6);
+        format.setProfile(QSurfaceFormat::CoreProfile);
+        format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
+        format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
+        QSurfaceFormat::setDefaultFormat(format);
+    }
+}
 
 int main (int argc, char **argv)
 {
-    spdlog::set_level(spdlog::level::debug);
-    spdlog::debug("Hello World!");
+    initializeSpdlog();
+    initializeQtOpenGL();
 
     QApplication app{argc, argv};
 

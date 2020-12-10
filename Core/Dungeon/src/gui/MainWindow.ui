@@ -65,7 +65,7 @@
   <customwidget>
    <class>OpenGLWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header>OpenGLWidget.hpp</header>
+   <header>gui/OpenGLWidget.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

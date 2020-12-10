@@ -12,20 +12,33 @@ set_compile_options(${THIS})
 set_compile_warnings(${THIS})
 deployqt(${THIS})
 
-target_include_directories(${THIS} PRIVATE gui inc)
+target_include_directories(${THIS} PRIVATE src)
 
 # add main (inc/src) source
 target_sources(${THIS} PRIVATE
-        inc/Statistics.h
+        src/gui/Drawable.hpp
+        src/common/FileUtil.cpp
+        src/common/FileUtil.hpp
+        src/game/Statistics.hpp
+        src/geometries/Geometries.cpp
+        src/geometries/Geometries.hpp
+        src/shader/Assets.cpp
+        src/shader/Assets.hpp
+        src/shader/Program.cpp
+        src/shader/Program.hpp
+        src/shader/Texture.cpp
+        src/shader/Texture.hpp
+        src/shader/Util.cpp
+        src/shader/Util.hpp
         src/main.cpp)
 
 # add gui (res) source
 target_sources(${THIS} PRIVATE
-        gui/MainWindow.cpp
-        gui/MainWindow.hpp
-        gui/MainWindow.ui
-        gui/OpenGLWidget.cpp
-        gui/OpenGLWidget.hpp
+        src/gui/MainWindow.cpp
+        src/gui/MainWindow.hpp
+        src/gui/MainWindow.ui
+        src/gui/OpenGLWidget.cpp
+        src/gui/OpenGLWidget.hpp
         res/index.qrc)
 
 # include opengl
