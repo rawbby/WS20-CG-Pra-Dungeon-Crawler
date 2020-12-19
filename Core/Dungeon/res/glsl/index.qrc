@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/glsl">
+    <file>Material.fs.glsl</file>
+    <file>Material.vs.glsl</file>
+    <file>Trivial.vs.glsl</file>
+    <file>TrivialRed.fs.glsl</file>
+</qresource>
+</RCC>

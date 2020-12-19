@@ -14,23 +14,17 @@ deployqt(${THIS})
 
 target_include_directories(${THIS} PRIVATE src)
 
-# add main (inc/src) source
+# add main (src) source
 target_sources(${THIS} PRIVATE
-        src/gui/Drawable.hpp
+        src/asset/Asset.cpp
+        src/asset/Asset.hpp
+        src/asset/Drawable.hpp
+        src/asset/Util.cpp
+        src/asset/Util.hpp
         src/common/FileUtil.cpp
         src/common/FileUtil.hpp
-        src/game/Statistics.hpp
-        src/geometries/Geometries.cpp
         src/geometries/Geometries.hpp
-        src/shader/Assets.cpp
-        src/shader/Assets.hpp
-        src/shader/Program.cpp
-        src/shader/Program.hpp
-        src/shader/Texture.cpp
-        src/shader/Texture.hpp
-        src/shader/Util.cpp
-        src/shader/Util.hpp
-        src/main.cpp)
+        src/Main.cpp)
 
 # add gui (res) source
 target_sources(${THIS} PRIVATE
@@ -39,7 +33,8 @@ target_sources(${THIS} PRIVATE
         src/gui/MainWindow.ui
         src/gui/OpenGLWidget.cpp
         src/gui/OpenGLWidget.hpp
-        res/index.qrc)
+        res/materials/index.qrc
+        res/glsl/index.qrc)
 
 # include opengl
 if (WIN32)

@@ -19,7 +19,7 @@ namespace
     {
         auto format = QSurfaceFormat::defaultFormat();
         format.setMajorVersion(4);
-        format.setMinorVersion(6);
+        format.setMinorVersion(5);
         format.setProfile(QSurfaceFormat::CoreProfile);
         format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
         format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);

@@ -2,13 +2,12 @@
 #include <GL/GL.h>
 
 #include <common/FileUtil.hpp>
-#include <shader/Util.hpp>
+#include <asset/Util.hpp>
 
 #include <spdlog/spdlog.h>
 
 #include <QFile>
 #include <QTextStream>
-#include <QOpenGLWidget>
 
 namespace common
 {
@@ -25,18 +24,5 @@ namespace common
         file.close();
 
         return result;
-    }
-
-    QImage load_image (std::string_view path)
-    {
-        return QImage{path.data()};
-    }
-
-    QImage load_image_argb32 (std::string_view path)
-    {
-        auto image = QImage{path.data()};
-        image.convertTo(QImage::Format_ARGB32);
-
-        return image;
     }
 }
