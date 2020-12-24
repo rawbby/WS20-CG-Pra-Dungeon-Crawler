@@ -7,7 +7,7 @@
 #include <vector>
 
 #include <asset/Drawable.hpp>
-#include <geometries/Geometries.hpp>
+#include <geometries/PlaneBottom.hpp>
 
 class [[maybe_unused]] OpenGLWidget
         : public QOpenGLWidget

@@ -92,7 +92,7 @@ void OpenGLWidget::initializeGL ()
     glewExperimental = GL_TRUE;
     glewInit();
 
-    asset::load_assets();
+    asset::init_assets();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_MULTISAMPLE);

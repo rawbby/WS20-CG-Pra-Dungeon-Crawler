@@ -16,14 +16,20 @@ target_include_directories(${THIS} PRIVATE src)
 
 # add main (src) source
 target_sources(${THIS} PRIVATE
-        src/asset/Asset.cpp
+
         src/asset/Asset.hpp
+        src/asset/Drawable.cpp
         src/asset/Drawable.hpp
-        src/asset/Util.cpp
-        src/asset/Util.hpp
-        src/common/FileUtil.cpp
-        src/common/FileUtil.hpp
-        src/geometries/Geometries.hpp
+        src/asset/Material.cpp
+        src/asset/Material.hpp
+        src/asset/Mvm.cpp
+        src/asset/Mvm.hpp
+        src/asset/Program.cpp
+        src/asset/Program.hpp
+        src/asset/Vao.cpp
+        src/asset/Vao.hpp
+
+        src/geometries/PlaneBottom.hpp
         src/Main.cpp)
 
 # add gui (res) source
