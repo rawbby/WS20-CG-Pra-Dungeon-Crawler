@@ -77,5 +77,8 @@ namespace asset::internal
 
         internal::vao::plane       = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
         internal::vao::plane_count = plane_indices.size();
+
+        const auto debug_plane_vao = internal::vao::plane;
+        const auto debug_plane_vao_count= internal::vao::plane_count;
     }
 }

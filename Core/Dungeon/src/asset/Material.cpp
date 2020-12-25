@@ -6,6 +6,13 @@
 #include <geometries/PlaneBottom.hpp>
 
 #include <QImage>
+#include <string_view>
+
+#define asset_material_init_material(material, vendor, name) \
+        material.tex_basecolor = texture_from_path(":/materials/" vendor "/" name "_basecolor.png"); \
+        material.tex_height    = texture_from_path(":/materials/" vendor "/" name "_height.png"); \
+        material.tex_mrao      = texture_from_path(":/materials/" vendor "/" name "_mrao.png"); \
+        material.tex_normal    = texture_from_path(":/materials/" vendor "/" name "_normal.png")
 
 namespace
 {
@@ -65,7 +72,7 @@ namespace
         return texture;
     } */
 
-    GLuint texture_from_path (std::string_view path) noexcept // check if noexcept is true
+    GLuint texture_from_path (std::string_view path)
     {   // TODO workaround used! copied QGLWidget's convertToGlFormat function from Qt5 wich is not supported anymore.
 
         using namespace asset;
@@ -101,19 +108,12 @@ namespace asset::internal
 {
     void init_materials ()
     {
-        asset::material::pile_of_skulls.tex_basecolor = texture_from_path(":/materials/gametextures/PileOfSkulls_basecolor.png");
-        asset::material::pile_of_skulls.tex_height    = texture_from_path(":/materials/gametextures/PileOfSkulls_height.png");
-        asset::material::pile_of_skulls.tex_mrao      = texture_from_path(":/materials/gametextures/PileOfSkulls_mrao.png");
-        asset::material::pile_of_skulls.tex_normal    = texture_from_path(":/materials/gametextures/PileOfSkulls_normal.png");
+        asset_material_init_material(asset::material::pile_of_skulls, "gametextures", "PileOfSkulls");
+        asset_material_init_material(asset::material::black_granite, "gametextures", "BlackGranite");
+        asset_material_init_material(asset::material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
 
-        asset::material::black_granite.tex_basecolor = texture_from_path(":/materials/gametextures/BlackGranite_basecolor.png");
-        asset::material::black_granite.tex_height    = texture_from_path(":/materials/gametextures/BlackGranite_height.png");
-        asset::material::black_granite.tex_mrao      = texture_from_path(":/materials/gametextures/BlackGranite_mrao.png");
-        asset::material::black_granite.tex_normal    = texture_from_path(":/materials/gametextures/BlackGranite_normal.png");
-
-        asset::material::broken_limestone_brick_path.tex_basecolor = texture_from_path(":/materials/gametextures/BrokenLimestoneBrickPath_basecolor.png");
-        asset::material::broken_limestone_brick_path.tex_height    = texture_from_path(":/materials/gametextures/BrokenLimestoneBrickPath_height.png");
-        asset::material::broken_limestone_brick_path.tex_mrao      = texture_from_path(":/materials/gametextures/BrokenLimestoneBrickPath_mrao.png");
-        asset::material::broken_limestone_brick_path.tex_normal    = texture_from_path(":/materials/gametextures/BrokenLimestoneBrickPath_normal.png");
+        const auto debug_pile_of_skulls_material              = asset::material::pile_of_skulls;
+        const auto debug_black_granite_material               = asset::material::black_granite;
+        const auto debug_broken_limestone_brick_path_material = asset::material::broken_limestone_brick_path;
     }
 }

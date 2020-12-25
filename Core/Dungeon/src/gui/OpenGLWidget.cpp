@@ -6,8 +6,6 @@
 #include <gui/OpenGLWidget.hpp>
 #include <asset/Asset.hpp>
 
-#include <spdlog/spdlog.h>
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>

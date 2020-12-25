@@ -123,5 +123,8 @@ namespace asset::internal
 
         glDeleteShader(material_fragment_shader);
         glDeleteShader(trivial_red_fragment_shader);
+
+        const auto debug_matterial_program = program::material;
+        const auto debug_trivial_program = program::trivial;
     }
 }
