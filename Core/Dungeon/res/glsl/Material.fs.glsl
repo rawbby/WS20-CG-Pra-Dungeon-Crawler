@@ -7,9 +7,9 @@ uniform sampler2D u_normal;
 uniform vec3 u_lights[16];   // TODO
 uniform uint u_lights_count; // TODO
 
-layout(location = 0) in vec3 f_position;
-layout(location = 1) in vec3 f_normal;
-layout(location = 2) in vec2 f_tex_coords;
+in vec3 f_position;
+in vec3 f_normal;
+in vec2 f_tex_coords;
 
 out vec4 o_color;
 
