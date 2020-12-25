@@ -32,7 +32,7 @@ namespace
         const auto status = glGetError();
         if (GL_NO_ERROR != status)
         {
-            spdlog::error("OPENGL ERROR! status: ", status);
+            spdlog::error("OPENGL ERROR! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, status);
 
             glDeleteTextures(1, &texture);
             return GL_NONE;
@@ -63,7 +63,7 @@ namespace
         const auto status = glGetError();
         if (GL_NO_ERROR != status)
         {
-            spdlog::error("OPENGL ERROR! status: ", status);
+            spdlog::error("OPENGL ERROR! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, status);
 
             glDeleteTextures(1, &texture);
             return GL_NONE;
@@ -111,9 +111,5 @@ namespace asset::internal
         asset_material_init_material(asset::material::pile_of_skulls, "gametextures", "PileOfSkulls");
         asset_material_init_material(asset::material::black_granite, "gametextures", "BlackGranite");
         asset_material_init_material(asset::material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
-
-        const auto debug_pile_of_skulls_material              = asset::material::pile_of_skulls;
-        const auto debug_black_granite_material               = asset::material::black_granite;
-        const auto debug_broken_limestone_brick_path_material = asset::material::broken_limestone_brick_path;
     }
 }

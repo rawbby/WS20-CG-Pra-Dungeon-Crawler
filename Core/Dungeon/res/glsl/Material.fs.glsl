@@ -4,8 +4,8 @@ uniform sampler2D u_basecolor;
 uniform sampler2D u_mrao;
 uniform sampler2D u_normal;
 
-uniform vec3 u_lights[16];   // TODO
-uniform uint u_lights_count; // TODO
+uniform vec3 u_lights[16];// TODO
+uniform uint u_lights_count;// TODO
 
 in vec3 f_position;
 in vec3 f_normal;

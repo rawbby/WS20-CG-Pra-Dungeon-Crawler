@@ -10,7 +10,7 @@
 
 namespace
 {
-    void initializeSpdlog()
+    void initializeSpdlog ()
     {
         spdlog::set_level(spdlog::level::debug);
     }

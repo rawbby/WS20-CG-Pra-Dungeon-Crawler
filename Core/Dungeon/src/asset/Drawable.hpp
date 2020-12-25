@@ -19,24 +19,24 @@ namespace asset
 
     struct TrivialDrawable
     {
-        GLuint    program = GL_NONE;
-        GLuint    vao     = GL_NONE;
-        GLsizei   count   = 0;
-        glm::mat4 model_view_matrix{}; // builds identity
+        GLuint    program           = GL_NONE;
+        GLuint    vao               = GL_NONE;
+        GLsizei   count             = 0;
+        glm::mat4 model_view_matrix = internal::mvm::id;
     };
 
     struct MaterialDrawable
             : public TrivialDrawable
-            , public Material
+                    , public Material
     {
     };
 
-    /* struct BlendMaterialDrawable
+    struct BlendMaterialDrawable
             : public TrivialDrawable
     {
         std::array<Material, 3> materials{};
         GLuint                  tex_blend = GL_NONE;
-    }; */
+    };
 
     namespace drawable
     {

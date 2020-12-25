@@ -54,7 +54,7 @@ namespace
         const auto status = glGetError();
         if (GL_NO_ERROR != status)
         {
-            spdlog::error("OPENGL ERROR! status: ", status);
+            spdlog::error("OPENGL ERROR! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, status);
 
             glDeleteVertexArrays(1, &vao);
             return GL_NONE;
@@ -77,8 +77,5 @@ namespace asset::internal
 
         internal::vao::plane       = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
         internal::vao::plane_count = plane_indices.size();
-
-        const auto debug_plane_vao = internal::vao::plane;
-        const auto debug_plane_vao_count= internal::vao::plane_count;
     }
 }

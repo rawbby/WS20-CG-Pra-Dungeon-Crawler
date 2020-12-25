@@ -17,7 +17,7 @@ namespace
         QFile file{path.data()};
         if (!file.open(QFile::ReadOnly | QFile::Text))
         {
-            spdlog::error("QFILE CAN NOT BE OPENED! path: ", path);
+            spdlog::error("QFILE CAN NOT BE OPENED! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, path);
             return "";
         }
 
@@ -47,7 +47,7 @@ namespace
             auto info_log = std::vector<GLchar>(info_log_length);
             glGetShaderInfoLog(shader, info_log_length, &info_log_length, info_log.data());
 
-            spdlog::error("OPENGL SHADER COMPILATION FAILED! log: {}, source: {}, file: {}, line: {} ", info_log.data(), shader_source, __FILE__, __LINE__);
+            spdlog::error("OPENGL SHADER COMPILATION FAILED! (FILE: \"{}\", LINE: \"{}\")\n{}\n{}", __FILE__, __LINE__, info_log.data(), shader_source);
 
             glDeleteShader(shader);
             return GL_NONE;
@@ -85,7 +85,7 @@ namespace
             auto info_log = std::vector<GLchar>(info_log_length);
             glGetProgramInfoLog(program, info_log_length, &info_log_length, info_log.data());
 
-            spdlog::error("OPENGL PROGRAM LINK FAILED! log: {}, file {}, line {}", info_log.data(), __FILE__, __LINE__);
+            spdlog::error("OPENGL PROGRAM LINK FAILED! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, info_log.data());
 
             glDeleteProgram(program);
             return GL_NONE;
@@ -123,8 +123,5 @@ namespace asset::internal
 
         glDeleteShader(material_fragment_shader);
         glDeleteShader(trivial_red_fragment_shader);
-
-        const auto debug_matterial_program = program::material;
-        const auto debug_trivial_program = program::trivial;
     }
 }
