@@ -15,14 +15,8 @@ namespace
     /** normalize x to br between l (lower) and u (upper). */
     [[nodiscard]] constexpr float clamp (float x, float l, float u) noexcept
     {   //@formatter:off
-        if (x > u)
-        {
-            return u;
-        }
-        if (x < l)
-        {
-            return l;
-        }
+        if (x > u) return u;
+        if (x < l) return l;
         return x;
     }   //@formatter:on
 
@@ -33,14 +27,8 @@ namespace
      */
     [[nodiscard]] constexpr float mod360 (float x) noexcept
     {   //@formatter:off
-        while (x >= 360.0f)
-        {
-            x -= 360.0f;
-        }
-        while (x < 0.0f)
-        {
-            x += 360.0f;
-        }
+        while (x >= 360.0f) x -= 360.0f;
+        while (x < 0.0f)    x += 360.0f;
         return x;
     }   //@formatter:on
 }
@@ -58,7 +46,7 @@ namespace
 
 void OpenGLWidget::mousePressEvent (QMouseEvent *event)
 {
-    m_mouse_pressed  = true;
+    m_mouse_pressed = true;
     m_mouse_position = event->pos();
 }
 
@@ -107,7 +95,7 @@ void OpenGLWidget::initializeGL ()
 void OpenGLWidget::resizeGL (int width, int height)
 {
     glViewport(0, 0, width, height);
-    m_width  = static_cast<float> (width);
+    m_width = static_cast<float> (width);
     m_height = static_cast<float> (height);
 }
 
@@ -115,20 +103,20 @@ void OpenGLWidget::paintGL ()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    const float fovy              = glm::radians(60.0f);
-    const float aspect            = m_width / m_height;
-    const float zNear             = 0.1f;
-    const float zFar              = 150.0f;
-    const auto  projection_matrix = glm::perspective(fovy, aspect, zNear, zFar);
+    const float fovy = glm::radians(60.0f);
+    const float aspect = m_width / m_height;
+    const float zNear = 0.1f;
+    const float zFar = 150.0f;
+    const auto projection_matrix = glm::perspective(fovy, aspect, zNear, zFar);
 
     glm::vec3 direction{0.0f, 0.0f, -1.0f};
     direction = glm::rotateX(direction, glm::radians(M_CAMERA_ROTATION_X));
     direction = glm::rotateY(direction, glm::radians(m_camera_rotation_y));
 
-    const auto position      = m_camera_distance * direction;
-    const auto center        = glm::vec3{0.0f, 0.0f, 0.0f};
-    const auto up            = glm::vec3{0.0f, 1.0f, 0.0f};
-    glm::mat4  camera_matrix = glm::lookAt(position, center, up);
+    const auto position = m_camera_distance * direction;
+    const auto center = glm::vec3{0.0f, 0.0f, 0.0f};
+    const auto up = glm::vec3{0.0f, 1.0f, 0.0f};
+    glm::mat4 camera_matrix = glm::lookAt(position, center, up);
 
     for (const auto &drawable : m_materialDrawable)
     {

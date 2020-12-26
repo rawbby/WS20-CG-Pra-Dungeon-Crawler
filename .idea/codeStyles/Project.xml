@@ -30,11 +30,12 @@
       <option name="DISCHARGED_SHORT_TERNARY_OPERATOR" value="true" />
       <option name="IN_LINE_SHORT_TERNARY_OPERATOR" value="false" />
       <option name="USE_MODERN_CASTS" value="false" />
-      <option name="TAG_PREFIX_OF_BLOCK_COMMENT" value="BACK_SLASH" />
+      <option name="ADD_BRIEF_TAG" value="true" />
+      <option name="TAG_PREFIX_OF_LINE_COMMENT" value="AT" />
       <option name="HEADER_GUARD_STYLE_PATTERN" value="" />
     </Objective-C>
     <Objective-C-extensions>
-      <option name="TAG_PREFIX_OF_BLOCK_COMMENT" value="BACK_SLASH" />
+      <option name="TAG_PREFIX_OF_LINE_COMMENT" value="AT" />
       <extensions>
         <pair source="cpp" header="hpp" fileNamingConvention="PASCAL_CASE" />
         <pair source="c" header="h" fileNamingConvention="NONE" />
@@ -51,7 +52,7 @@
         <rule entity="UNION" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="CLASS_MEMBER_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="SNAKE_CASE" suffix="" />
         <rule entity="STRUCT_MEMBER_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="SNAKE_CASE" suffix="" />
-        <rule entity="CLASS_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="" style="SNAKE_CASE" suffix="_" />
+        <rule entity="CLASS_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="m_" style="SNAKE_CASE" suffix="" />
         <rule entity="STRUCT_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="" style="SNAKE_CASE" suffix="" />
         <rule entity="GLOBAL_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="SNAKE_CASE" suffix="" />
         <rule entity="GLOBAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="g_" style="SNAKE_CASE" suffix="" />
@@ -78,7 +79,6 @@
       <option name="ALIGN_MULTILINE_ASSIGNMENT" value="false" />
       <option name="ALIGN_MULTILINE_TERNARY_OPERATION" value="false" />
       <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="false" />
-      <option name="ALIGN_GROUP_FIELD_DECLARATIONS" value="true" />
       <option name="SPACE_WITHIN_BRACES" value="false" />
       <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true" />
       <option name="SPACE_BEFORE_CLASS_LBRACE" value="false" />

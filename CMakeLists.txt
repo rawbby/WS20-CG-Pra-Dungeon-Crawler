@@ -7,10 +7,4 @@ include(cmake/set_compile_warnings.cmake)
 include(cmake/deployqt.cmake)
 
 include(cmake/conan.cmake)
-add_subdirectory(Core/Dungeon)
-
-# option(BUILD_TESTING ON)
-# if (BUILD_TESTING MATCHES ON)
-#     enable_testing()
-#     add_subdirectory(Test/Barracks)
-# endif ()
+add_subdirectory(core/dungeon)

@@ -10,9 +10,9 @@ namespace asset
     struct Material
     {
         GLuint tex_basecolor = GL_NONE;
-        GLuint tex_height    = GL_NONE;
-        GLuint tex_mrao      = GL_NONE;
-        GLuint tex_normal    = GL_NONE;
+        GLuint tex_height = GL_NONE;
+        GLuint tex_mrao = GL_NONE;
+        GLuint tex_normal = GL_NONE;
     };
 
     namespace material

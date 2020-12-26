@@ -82,7 +82,7 @@ namespace
 
         QImage gl_image(qt_image.size(), QImage::Format_ARGB32);
 
-        const auto width  = qt_image.width();
+        const auto width = qt_image.width();
         const auto height = qt_image.height();
 
         auto p = reinterpret_cast<const uint *> (qt_image.scanLine(qt_image.height() - 1));

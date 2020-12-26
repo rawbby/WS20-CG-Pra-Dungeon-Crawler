@@ -19,9 +19,9 @@ namespace asset
 
     struct TrivialDrawable
     {
-        GLuint    program           = GL_NONE;
-        GLuint    vao               = GL_NONE;
-        GLsizei   count             = 0;
+        GLuint program = GL_NONE;
+        GLuint vao = GL_NONE;
+        GLsizei count = 0;
         glm::mat4 model_view_matrix = internal::mvm::id;
     };
 
@@ -35,7 +35,7 @@ namespace asset
             : public TrivialDrawable
     {
         std::array<Material, 3> materials{};
-        GLuint                  tex_blend = GL_NONE;
+        GLuint tex_blend = GL_NONE;
     };
 
     namespace drawable

@@ -110,13 +110,13 @@ namespace asset::internal
     void init_programs ()
     {
         const auto material_vertex_shader = vertex_shader_from_path(":/glsl/Material.vs.glsl");
-        const auto trivial_vertex_shader  = vertex_shader_from_path(":/glsl/Trivial.vs.glsl");
+        const auto trivial_vertex_shader = vertex_shader_from_path(":/glsl/Trivial.vs.glsl");
 
-        const auto material_fragment_shader    = fragment_shader_from_path(":/glsl/Material.fs.glsl");
+        const auto material_fragment_shader = fragment_shader_from_path(":/glsl/Material.fs.glsl");
         const auto trivial_red_fragment_shader = fragment_shader_from_path(":/glsl/TrivialRed.fs.glsl");
 
         program::material = compile_program(material_vertex_shader, material_fragment_shader);
-        program::trivial  = compile_program(trivial_vertex_shader, trivial_red_fragment_shader);
+        program::trivial = compile_program(trivial_vertex_shader, trivial_red_fragment_shader);
 
         glDeleteShader(material_vertex_shader);
         glDeleteShader(trivial_vertex_shader);

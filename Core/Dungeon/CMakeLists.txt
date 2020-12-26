@@ -29,6 +29,22 @@ target_sources(${THIS} PRIVATE
         src/asset/Vao.cpp
         src/asset/Vao.hpp
 
+        src/engine/component/DynamicCollisionComponent.hpp
+        src/engine/component/GlBlendMaterialComponent.hpp
+        src/engine/component/GlMaterialComponent.hpp
+        src/engine/component/GlRenderComponent.hpp
+        src/engine/component/PositionComponent.hpp
+        src/engine/component/StaticCollisionComponent.hpp
+        src/engine/component/TranslationComponent.hpp
+
+        src/engine/service/CollisionService.cpp
+        src/engine/service/CollisionService.hpp
+        src/engine/service/RenderService.cpp
+        src/engine/service/RenderService.hpp
+
+        src/engine/Game.cpp
+        src/engine/Game.hpp
+
         src/geometries/PlaneBottom.hpp
         src/Main.cpp)
 
@@ -49,8 +65,18 @@ else ()
     target_link_libraries(${THIS} GL)
 endif ()
 
-# add qt6 components
-target_link_libraries(${THIS} Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets)
+# add qt6 dependencies
+target_link_libraries(${THIS}
+        Qt6::Widgets
+        Qt6::OpenGL
+        Qt6::OpenGLWidgets)
 
 # add conan dependencies
-target_link_libraries(${THIS} CONAN_PKG::glew CONAN_PKG::glm CONAN_PKG::spdlog)
+target_link_libraries(${THIS}
+        CONAN_PKG::glew
+        CONAN_PKG::glm
+        CONAN_PKG::entt
+        CONAN_PKG::spdlog)
+
+# add internal dependencies
+# target_link_libraries(${THIS} )

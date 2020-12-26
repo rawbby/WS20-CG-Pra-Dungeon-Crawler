@@ -70,12 +70,12 @@ namespace asset::internal
     {
         constexpr size_t divisions = 1024;
 
-        auto plane_points     = geometries::generate_plane_bottom_points(divisions);
-        auto plane_indices    = geometries::generate_plane_bottom_indices(divisions);
-        auto plane_normals    = geometries::generate_plane_bottom_normals(divisions);
+        auto plane_points = geometries::generate_plane_bottom_points(divisions);
+        auto plane_indices = geometries::generate_plane_bottom_indices(divisions);
+        auto plane_normals = geometries::generate_plane_bottom_normals(divisions);
         auto plane_tex_coords = geometries::generate_plane_bottom_tex_coords(divisions);
 
-        internal::vao::plane       = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
+        internal::vao::plane = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
         internal::vao::plane_count = plane_indices.size();
     }
 }
