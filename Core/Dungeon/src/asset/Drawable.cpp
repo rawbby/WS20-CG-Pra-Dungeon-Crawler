@@ -5,11 +5,11 @@
 
 namespace
 {
-    engine::component::GlMaterialComponent create_pile_of_skulls_plane (glm::mat4 mvm = {})
+    engine::component::GlMaterialComponent create_wool_woven_carpet_striped_burgundy_plane (glm::mat4 mvm = {})
     {
         using namespace asset;
         using namespace asset::internal;
-        return {program::material, vao::plane, vao::plane_count, mvm, material::pile_of_skulls};
+        return {program::material, vao::plane, vao::plane_count, mvm, material::wool_woven_carpet_striped_burgundy};
     }
 
     engine::component::GlMaterialComponent create_broken_limestone_brick_path_plane (glm::mat4 mvm = {})
@@ -33,7 +33,7 @@ namespace asset
     {
         [[maybe_unused]]  engine::component::GlMaterialComponent create_floor ()
         {
-            return create_pile_of_skulls_plane(internal::mvm::id);
+            return create_wool_woven_carpet_striped_burgundy_plane(internal::mvm::id);
         }
 
         [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_back ()

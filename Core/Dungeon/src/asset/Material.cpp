@@ -9,10 +9,10 @@
 #include <string_view>
 
 #define asset_material_init(material, vendor, name) \
-        material.tex_basecolor = texture_from_path(":/materials/" vendor "/" name "_basecolor.png"); \
-        material.tex_height    = texture_from_path(":/materials/" vendor "/" name "_height.png"); \
-        material.tex_mrao      = texture_from_path(":/materials/" vendor "/" name "_mrao.png"); \
-        material.tex_normal    = texture_from_path(":/materials/" vendor "/" name "_normal.png")
+        (material).tex_basecolor = texture_from_path(":/materials/" vendor "/" name "_basecolor.png"); \
+        (material).tex_height    = texture_from_path(":/materials/" vendor "/" name "_height.png"); \
+        (material).tex_mrao      = texture_from_path(":/materials/" vendor "/" name "_mrao.png"); \
+        (material).tex_normal    = texture_from_path(":/materials/" vendor "/" name "_normal.png")
 
 namespace
 {
@@ -100,7 +100,6 @@ namespace
             p -= 2 * width;
         }
 
-        spdlog::debug(path);
         return load_texture(gl_image.bits(), gl_image.width(), gl_image.height());
     }
 }
@@ -109,8 +108,8 @@ namespace asset::internal
 {
     void init_materials ()
     {
-        asset_material_init(material::pile_of_skulls, "gametextures", "PileOfSkulls");
         asset_material_init(material::black_granite, "gametextures", "BlackGranite");
+        asset_material_init(material::wool_woven_carpet_striped_burgundy, "gametextures", "WoolWovenCarpetStripedBurgundy");
         asset_material_init(material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
     }
 }

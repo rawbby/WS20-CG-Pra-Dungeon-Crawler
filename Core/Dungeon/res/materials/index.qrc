@@ -8,12 +8,12 @@
     <file>gametextures/BlackGranite_normal.png</file>
     <file>gametextures/BlackGranite_opacity.png</file>
 
-    <file>gametextures/PileOfSkulls_basecolor.png</file>
-    <file>gametextures/PileOfSkulls_emissive.png</file>
-    <file>gametextures/PileOfSkulls_height.png</file>
-    <file>gametextures/PileOfSkulls_mrao.png</file>
-    <file>gametextures/PileOfSkulls_normal.png</file>
-    <file>gametextures/PileOfSkulls_opacity.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_basecolor.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_emissive.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_height.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_mrao.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_normal.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_opacity.png</file>
 
     <file>gametextures/BrokenLimestoneBrickPath_basecolor.png</file>
     <file>gametextures/BrokenLimestoneBrickPath_emissive.png</file>

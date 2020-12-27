@@ -1,9 +1,11 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
+#include <gui/OpenGLWidget.hpp>
 #include <QMouseEvent>
 
-#include <gui/OpenGLWidget.hpp>
+#include <engine/component/GlPointLightComponent.hpp>
+
 #include <asset/Asset.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,7 +40,10 @@ namespace
         , m_timer(parent)
 {
     QWidget::connect(&m_timer, &QTimer::timeout, [this] (auto signal)
-    {Q_UNUSED(signal); QWidget::update();});
+    {
+        Q_UNUSED(signal);
+        QWidget::update();
+    });
 
     m_timer.setInterval(10);
     m_timer.start();
@@ -88,14 +93,23 @@ void OpenGLWidget::initializeGL ()
     entity = engine::Game::add_entity();
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
 
-    entity = engine::Game::add_entity({1.0f,1.0f});
+    entity = engine::Game::add_entity({1.0f, 0.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
+
+    entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_back());
 
-    entity = engine::Game::add_entity({1.0f,1.0f});
+    entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_right());
 
-    entity = engine::Game::add_entity({1.0f,1.0f});
+    entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
+
+    entity = engine::Game::add_entity({10.f, 3.0f});
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.0f, 0.8f, 0.0f}, 3.0f);
+
+    entity = engine::Game::add_entity({-2.f, 1.0f});
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.5f, 0.0f, 0.9f}, 1.0f);
 }
 
 void OpenGLWidget::resizeGL (int width, int height)

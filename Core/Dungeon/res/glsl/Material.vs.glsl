@@ -16,9 +16,11 @@ void main()
 {
     vec3 position = v_position + texture(u_height, v_tex_coords).x * v_normal * 0.075;
 
-    f_position = position;
-    f_normal = v_normal;
+    vec4 position4 = u_model_view_matrix * vec4(position, 1.0);
+    f_position = position4.xyz / position4.w;
+
+    f_normal = vec3(u_model_view_matrix * vec4(v_normal, 0.0));
     f_tex_coords = v_tex_coords;
 
-    gl_Position = u_projection_matrix * u_model_view_matrix * vec4(position, 1.0);
+    gl_Position = u_projection_matrix * position4;
 }
