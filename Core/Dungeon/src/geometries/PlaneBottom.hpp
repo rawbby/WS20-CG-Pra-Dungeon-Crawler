@@ -9,14 +9,14 @@
 
 namespace geometries
 {
-    inline std::vector<glm::vec3> generate_plane_bottom_points (size_t divisions)
+    inline std::vector<glm::vec3> generate_plane_bottom_points (uint32_t divisions)
     {
         std::vector<glm::vec3> points{};
         points.reserve((divisions + 2) * (divisions + 2));
 
-        for (size_t z = 0; z < divisions + 2; ++z)
+        for (uint32_t z = 0; z < divisions + 2; ++z)
         {
-            for (size_t x = 0; x < divisions + 2; ++x)
+            for (uint32_t x = 0; x < divisions + 2; ++x)
             {
                 const auto x_val = -0.5f + (static_cast<float> (x) / static_cast<float> (divisions + 1));
                 const auto z_val = +0.5f - (static_cast<float> (z) / static_cast<float> (divisions + 1));
@@ -27,14 +27,14 @@ namespace geometries
         return points;
     }
 
-    inline std::vector<uint32_t> generate_plane_bottom_indices (size_t divisions)
+    inline std::vector<uint32_t> generate_plane_bottom_indices (uint32_t divisions)
     {
         std::vector<uint32_t> indices{};
         indices.reserve((divisions + 1) * (divisions + 1) * 2 * 3);
 
-        for (size_t y = 0; y < divisions + 1; ++y)
+        for (uint32_t y = 0; y < divisions + 1; ++y)
         {
-            for (size_t x = 0; x < divisions + 1; ++x)
+            for (uint32_t x = 0; x < divisions + 1; ++x)
             {
                 indices.push_back((x + y + y * (divisions + 1)) + 0);
                 indices.push_back((x + y + y * (divisions + 1)) + divisions + 2);
@@ -49,12 +49,12 @@ namespace geometries
         return indices;
     }
 
-    inline std::vector<glm::vec3> generate_plane_bottom_normals (size_t divisions)
+    inline std::vector<glm::vec3> generate_plane_bottom_normals (uint32_t divisions)
     {
         std::vector<glm::vec3> normals{};
         normals.reserve((divisions + 2) * (divisions + 2));
 
-        for (size_t i = 0; i < (divisions + 2) * (divisions + 2); ++i)
+        for (uint32_t i = 0; i < (divisions + 2) * (divisions + 2); ++i)
         {
             normals.emplace_back(0.0f, 1.0f, 0.0f);
         }
@@ -62,14 +62,14 @@ namespace geometries
         return normals;
     }
 
-    inline std::vector<glm::vec2> generate_plane_bottom_tex_coords (size_t divisions)
+    inline std::vector<glm::vec2> generate_plane_bottom_tex_coords (uint32_t divisions)
     {
         std::vector<glm::vec2> tex_coords{};
         tex_coords.reserve((divisions + 2) * (divisions + 2));
 
-        for (size_t y = 0; y < divisions + 2; ++y)
+        for (uint32_t y = 0; y < divisions + 2; ++y)
         {
-            for (size_t x = 0; x < divisions + 2; ++x)
+            for (uint32_t x = 0; x < divisions + 2; ++x)
             {
                 const auto x_val = static_cast<float> (x) / static_cast<float> (divisions + 1);
                 const auto y_val = static_cast<float> (y) / static_cast<float> (divisions + 1);

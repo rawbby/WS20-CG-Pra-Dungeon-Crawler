@@ -1,5 +1,7 @@
 #pragma once
 
+#include <engine/component/GlMaterialComponent.hpp>
+
 namespace asset
 {
     namespace internal
@@ -7,18 +9,10 @@ namespace asset
         void init_materials ();
     }
 
-    struct Material
-    {
-        GLuint tex_basecolor = GL_NONE;
-        GLuint tex_height = GL_NONE;
-        GLuint tex_mrao = GL_NONE;
-        GLuint tex_normal = GL_NONE;
-    };
-
     namespace material
     {
-        [[maybe_unused]] inline Material pile_of_skulls{};
-        [[maybe_unused]] inline Material black_granite{};
-        [[maybe_unused]] inline Material broken_limestone_brick_path{};
+        [[maybe_unused]] inline engine::component::Material pile_of_skulls{};
+        [[maybe_unused]] inline engine::component::Material black_granite{};
+        [[maybe_unused]] inline engine::component::Material broken_limestone_brick_path{};
     }
 }

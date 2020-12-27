@@ -1,5 +1,9 @@
 #pragma once
 
+#include <engine/component/GlRenderComponent.hpp>
+#include <engine/component/GlMaterialComponent.hpp>
+#include <engine/component/GlBlendMaterialComponent.hpp>
+
 #include <asset/Material.hpp>
 #include <asset/Mvm.hpp>
 #include <asset/Program.hpp>
@@ -17,34 +21,13 @@ namespace asset
         void init_drawables ();
     }
 
-    struct TrivialDrawable
-    {
-        GLuint program = GL_NONE;
-        GLuint vao = GL_NONE;
-        GLsizei count = 0;
-        glm::mat4 model_view_matrix = internal::mvm::id;
-    };
-
-    struct MaterialDrawable
-            : public TrivialDrawable
-                    , public Material
-    {
-    };
-
-    struct BlendMaterialDrawable
-            : public TrivialDrawable
-    {
-        std::array<Material, 3> materials{};
-        GLuint tex_blend = GL_NONE;
-    };
-
     namespace drawable
-    {
-        [[maybe_unused]] MaterialDrawable create_floor ();
-        [[maybe_unused]] MaterialDrawable create_wall_back ();
-        [[maybe_unused]] MaterialDrawable create_wall_right ();
-        [[maybe_unused]] MaterialDrawable create_wall_front ();
-        [[maybe_unused]] MaterialDrawable create_wall_left ();
-        [[maybe_unused]] MaterialDrawable create_wall_top ();
+    {    // TODO find a better name for drawable, as it is a render and material component
+        [[maybe_unused]] engine::component::GlMaterialComponent create_floor ();
+        [[maybe_unused]] engine::component::GlMaterialComponent create_wall_back ();
+        [[maybe_unused]] engine::component::GlMaterialComponent create_wall_right ();
+        [[maybe_unused]] engine::component::GlMaterialComponent create_wall_front ();
+        [[maybe_unused]] engine::component::GlMaterialComponent create_wall_left ();
+        [[maybe_unused]] engine::component::GlMaterialComponent create_wall_top ();
     }
 }

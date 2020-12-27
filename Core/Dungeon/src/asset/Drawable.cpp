@@ -5,14 +5,14 @@
 
 namespace
 {
-    asset::MaterialDrawable create_pile_of_skulls_plane (glm::mat4 mvm = {})
+    engine::component::GlMaterialComponent create_pile_of_skulls_plane (glm::mat4 mvm = {})
     {
         using namespace asset;
         using namespace asset::internal;
         return {program::material, vao::plane, vao::plane_count, mvm, material::pile_of_skulls};
     }
 
-    asset::MaterialDrawable create_broken_limestone_brick_path_plane (glm::mat4 mvm = {})
+    engine::component::GlMaterialComponent create_broken_limestone_brick_path_plane (glm::mat4 mvm = {})
     {
         using namespace asset;
         using namespace asset::internal;
@@ -31,32 +31,32 @@ namespace asset
 
     namespace drawable
     {
-        [[maybe_unused]] MaterialDrawable create_floor ()
+        [[maybe_unused]]  engine::component::GlMaterialComponent create_floor ()
         {
             return create_pile_of_skulls_plane(internal::mvm::id);
         }
 
-        [[maybe_unused]] MaterialDrawable create_wall_back ()
+        [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_back ()
         {
             return create_broken_limestone_brick_path_plane(internal::mvm::rot_x270);
         }
 
-        [[maybe_unused]] MaterialDrawable create_wall_right ()
+        [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_right ()
         {
             return create_broken_limestone_brick_path_plane(internal::mvm::rot_x270_z270);
         }
 
-        [[maybe_unused]] MaterialDrawable create_wall_front ()
+        [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_front ()
         {
             return create_broken_limestone_brick_path_plane(internal::mvm::rot_x270_z180);
         }
 
-        [[maybe_unused]] MaterialDrawable create_wall_left ()
+        [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_left ()
         {
             return create_broken_limestone_brick_path_plane(internal::mvm::rot_x270_z90);
         }
 
-        [[maybe_unused]] MaterialDrawable create_wall_top ()
+        [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_top ()
         {
             return create_broken_limestone_brick_path_plane(internal::mvm::tra_y1);
         }

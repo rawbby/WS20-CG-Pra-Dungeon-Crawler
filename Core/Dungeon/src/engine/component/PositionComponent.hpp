@@ -12,8 +12,5 @@ namespace engine::component
      * Also used by the CollisionService
      * to translate the 2d bounding box.
      */
-    struct PositionComponent
-    {
-        glm::vec2 position{};
-    };
+    using PositionComponent = glm::vec2;
 }

@@ -35,14 +35,13 @@ target_sources(${THIS} PRIVATE
         src/engine/component/GlRenderComponent.hpp
         src/engine/component/PositionComponent.hpp
         src/engine/component/StaticCollisionComponent.hpp
-        src/engine/component/TranslationComponent.hpp
 
         src/engine/service/CollisionService.cpp
         src/engine/service/CollisionService.hpp
         src/engine/service/RenderService.cpp
         src/engine/service/RenderService.hpp
 
-        src/engine/Game.cpp
+        src/engine/Entity.hpp
         src/engine/Game.hpp
 
         src/geometries/PlaneBottom.hpp

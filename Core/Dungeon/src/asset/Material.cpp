@@ -8,7 +8,7 @@
 #include <QImage>
 #include <string_view>
 
-#define asset_material_init_material(material, vendor, name) \
+#define asset_material_init(material, vendor, name) \
         material.tex_basecolor = texture_from_path(":/materials/" vendor "/" name "_basecolor.png"); \
         material.tex_height    = texture_from_path(":/materials/" vendor "/" name "_height.png"); \
         material.tex_mrao      = texture_from_path(":/materials/" vendor "/" name "_mrao.png"); \
@@ -32,7 +32,7 @@ namespace
         const auto status = glGetError();
         if (GL_NO_ERROR != status)
         {
-            spdlog::error("OPENGL ERROR! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, status);
+            spdlog::error(R"(OPENGL ERROR! (FILE: "{}", LINE: "{}", STATUS: "{}"))", __FILE__, __LINE__, status);
 
             glDeleteTextures(1, &texture);
             return GL_NONE;
@@ -63,7 +63,7 @@ namespace
         const auto status = glGetError();
         if (GL_NO_ERROR != status)
         {
-            spdlog::error("OPENGL ERROR! (FILE: \"{}\", LINE: \"{}\")\n{}", __FILE__, __LINE__, status);
+            spdlog::error(R"(OPENGL ERROR! (FILE: "{}", LINE: "{}", STATUS: "{}"))", __FILE__, __LINE__, status);
 
             glDeleteTextures(1, &texture);
             return GL_NONE;
@@ -100,6 +100,7 @@ namespace
             p -= 2 * width;
         }
 
+        spdlog::debug(path);
         return load_texture(gl_image.bits(), gl_image.width(), gl_image.height());
     }
 }
@@ -108,8 +109,8 @@ namespace asset::internal
 {
     void init_materials ()
     {
-        asset_material_init_material(asset::material::pile_of_skulls, "gametextures", "PileOfSkulls");
-        asset_material_init_material(asset::material::black_granite, "gametextures", "BlackGranite");
-        asset_material_init_material(asset::material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
+        asset_material_init(material::pile_of_skulls, "gametextures", "PileOfSkulls");
+        asset_material_init(material::black_granite, "gametextures", "BlackGranite");
+        asset_material_init(material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
     }
 }

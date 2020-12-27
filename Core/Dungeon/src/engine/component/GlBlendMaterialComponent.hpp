@@ -1,5 +1,8 @@
 #pragma once
 
+#include <engine/component/GlRenderComponent.hpp>
+#include <engine/component/GlMaterialComponent.hpp>
+
 #include <array>
 
 namespace engine::component
@@ -10,13 +13,9 @@ namespace engine::component
      * Up to three materials are supported.
      */
     struct GlBlendMaterialComponent
+            : public GlRenderComponent
     {
-        std::array <struct {
-            GLuint tex_basecolor = GL_NONE;
-            GLuint tex_height = GL_NONE;
-            GLuint tex_mrao = GL_NONE;
-            GLuint tex_normal = GL_NONE;
-        }> materials[3];
+        std::array <Material, 3> materials{};
         GLuint tex_blend = GL_NONE;
     };
 }

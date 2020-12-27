@@ -38,7 +38,7 @@ namespace
         , m_timer(parent)
 {
     QWidget::connect(&m_timer, &QTimer::timeout, [this] (auto signal)
-    {update();});
+    {Q_UNUSED(signal); QWidget::update();});
 
     m_timer.setInterval(10);
     m_timer.start();
@@ -52,6 +52,7 @@ void OpenGLWidget::mousePressEvent (QMouseEvent *event)
 
 void OpenGLWidget::mouseReleaseEvent (QMouseEvent *event)
 {
+    Q_UNUSED(event);
     m_mouse_pressed = false;
 }
 
@@ -75,21 +76,26 @@ void OpenGLWidget::wheelEvent (QWheelEvent *event)
 
 void OpenGLWidget::initializeGL ()
 {
-    glewExperimental = GL_TRUE;
-    glewInit();
-
+    engine::Game::init();
     asset::init_assets();
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_MULTISAMPLE);
-    glEnable(GL_TEXTURE_2D);
+    auto entity = engine::Game::add_entity();
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_back());
 
-    m_materialDrawable.push_back(asset::drawable::create_floor());
-    m_materialDrawable.push_back(asset::drawable::create_wall_back());
-    m_materialDrawable.push_back(asset::drawable::create_wall_right());
-    // m_materialDrawable.push_back(asset::drawable::create_wall_front());
-    // m_materialDrawable.push_back(asset::drawable::create_wall_left());
-    // m_materialDrawable.push_back(asset::drawable::create_wall_top());
+    entity = engine::Game::add_entity();
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_right());
+
+    entity = engine::Game::add_entity();
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
+
+    entity = engine::Game::add_entity({1.0f,1.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_back());
+
+    entity = engine::Game::add_entity({1.0f,1.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_right());
+
+    entity = engine::Game::add_entity({1.0f,1.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
 }
 
 void OpenGLWidget::resizeGL (int width, int height)
@@ -118,33 +124,8 @@ void OpenGLWidget::paintGL ()
     const auto up = glm::vec3{0.0f, 1.0f, 0.0f};
     glm::mat4 camera_matrix = glm::lookAt(position, center, up);
 
-    for (const auto &drawable : m_materialDrawable)
-    {
-        glUseProgram(drawable.program);
-        glBindVertexArray(drawable.vao);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, drawable.tex_basecolor);
-
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, drawable.tex_height);
-
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, drawable.tex_mrao);
-
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, drawable.tex_normal);
-
-        glUniform1i(glGetUniformLocation(drawable.program, "u_basecolor"), 0);
-        glUniform1i(glGetUniformLocation(drawable.program, "u_height"), 1);
-        glUniform1i(glGetUniformLocation(drawable.program, "u_mrao"), 2);
-        glUniform1i(glGetUniformLocation(drawable.program, "u_normal"), 3);
-
-        glUniformMatrix4fv(glGetUniformLocation(drawable.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix));
-        glUniformMatrix4fv(glGetUniformLocation(drawable.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(camera_matrix * drawable.model_view_matrix));
-
-        glDrawElements(GL_TRIANGLES, drawable.count, GL_UNSIGNED_INT, nullptr);
-    }
+    // TODO replace delta by a more accurate value
+    engine::Game::update(projection_matrix, camera_matrix, 0.01f);
 }
 
 OpenGLWidget::~OpenGLWidget () = default;

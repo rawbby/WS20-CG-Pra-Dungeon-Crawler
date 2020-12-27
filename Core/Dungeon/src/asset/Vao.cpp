@@ -76,6 +76,6 @@ namespace asset::internal
         auto plane_tex_coords = geometries::generate_plane_bottom_tex_coords(divisions);
 
         internal::vao::plane = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
-        internal::vao::plane_count = plane_indices.size();
+        internal::vao::plane_count = static_cast<GLsizei> (plane_indices.size());
     }
 }

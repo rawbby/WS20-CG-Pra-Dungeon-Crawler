@@ -6,11 +6,15 @@
 #include <QOpenGLWidget>
 #include <vector>
 
+#include <entt/entt.hpp>
+
 #include <asset/Drawable.hpp>
 #include <geometries/PlaneBottom.hpp>
+#include <engine/Game.hpp>
 
 class [[maybe_unused]] OpenGLWidget
         : public QOpenGLWidget
+        , public engine::Game
 {
 private:
 
@@ -29,10 +33,6 @@ private:
     QTimer m_timer;
     QPoint m_mouse_position = {};
     bool m_mouse_pressed = false;
-
-private:
-
-    std::vector<asset::MaterialDrawable> m_materialDrawable;
 
 public:
 
