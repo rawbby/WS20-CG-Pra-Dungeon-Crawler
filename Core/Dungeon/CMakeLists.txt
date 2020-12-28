@@ -2,11 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 set(THIS dungeon)
 
-find_package(Qt6 COMPONENTS Widgets OpenGL OpenGLWidgets REQUIRED)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
 add_executable(${THIS})
 set_compile_options(${THIS})
 set_compile_warnings(${THIS})
@@ -52,18 +47,10 @@ target_sources(${THIS} PRIVATE
         src/gui/MainWindow.hpp
         src/gui/MainWindow.ui
         src/gui/OpenGLWidget.cpp
-        src/gui/OpenGLWidget.hpp
-        res/materials/BlackGranite.qrc
-#        res/materials/BlackOstrichHideWrinkles2.qrc
-        res/materials/BrokenLimestoneBrickPath.qrc
-#        res/materials/ChunkyWetGravelAndDirt.qrc
-#        res/materials/Clay01.qrc
-#        res/materials/CrackedRedCeramicRoof.qrc
-#        res/materials/DirtyHammeredCopper.qrc
-        res/materials/PileOfSkulls.qrc
-#        res/materials/WhiteWoolCloth.qrc
-        res/materials/WoolWovenCarpetStripedBurgundy.qrc
-        res/glsl/index.qrc)
+        src/gui/OpenGLWidget.hpp)
+
+# copy resource folder to output directory
+target_resource_directory(${THIS} res)
 
 # include opengl
 if (WIN32)

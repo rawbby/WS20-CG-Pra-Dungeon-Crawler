@@ -8,8 +8,3 @@ if (NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
 endif ()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
-
-conan_cmake_run(REQUIRES glew/2.1.0   BASIC_SETUP CMAKE_TARGETS)
-conan_cmake_run(REQUIRES glm/0.9.9.8  BASIC_SETUP CMAKE_TARGETS)
-conan_cmake_run(REQUIRES spdlog/1.8.1 BASIC_SETUP CMAKE_TARGETS)
-conan_cmake_run(REQUIRES entt/3.5.2   BASIC_SETUP CMAKE_TARGETS)

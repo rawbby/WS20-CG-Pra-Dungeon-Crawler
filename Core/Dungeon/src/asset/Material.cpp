@@ -9,10 +9,10 @@
 #include <string_view>
 
 #define asset_material_init(material, vendor, name) \
-        (material).tex_basecolor = texture_from_path(":/materials/" vendor "/" name "_basecolor.png"); \
-        (material).tex_height    = texture_from_path(":/materials/" vendor "/" name "_height.png"); \
-        (material).tex_mrao      = texture_from_path(":/materials/" vendor "/" name "_mrao.png"); \
-        (material).tex_normal    = texture_from_path(":/materials/" vendor "/" name "_normal.png")
+        (material).tex_basecolor = texture_from_path("./res/materials/" vendor "/" name "_basecolor.png"); \
+        (material).tex_height    = texture_from_path("./res/materials/" vendor "/" name "_height.png"); \
+        (material).tex_mrao      = texture_from_path("./res/materials/" vendor "/" name "_mrao.png"); \
+        (material).tex_normal    = texture_from_path("./res/materials/" vendor "/" name "_normal.png")
 
 namespace
 {

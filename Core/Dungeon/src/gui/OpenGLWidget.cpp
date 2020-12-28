@@ -69,7 +69,7 @@ void OpenGLWidget::mouseMoveEvent (QMouseEvent *event)
         m_mouse_position = event->pos();
 
         const auto dx = -static_cast<float> (delta.x());
-        m_camera_rotation_y = mod360(m_camera_rotation_y + dx); // TODO mod360
+        m_camera_rotation_y = mod360(m_camera_rotation_y + dx);
     }
 }
 
