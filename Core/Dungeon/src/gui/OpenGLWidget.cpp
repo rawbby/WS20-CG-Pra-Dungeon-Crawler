@@ -91,9 +91,12 @@ void OpenGLWidget::initializeGL ()
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_right());
 
     entity = engine::Game::add_entity();
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_left());
+
+    entity = engine::Game::add_entity();
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
 
-    entity = engine::Game::add_entity({1.0f, 0.0f});
+    entity = engine::Game::add_entity({0.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
 
     entity = engine::Game::add_entity({1.0f, 1.0f});
@@ -105,11 +108,15 @@ void OpenGLWidget::initializeGL ()
     entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
 
-    entity = engine::Game::add_entity({10.f, 3.0f});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.0f, 0.8f, 0.0f}, 3.0f);
+    entity = engine::Game::add_entity();
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_player());
 
-    entity = engine::Game::add_entity({-2.f, 1.0f});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.5f, 0.0f, 0.9f}, 1.0f);
+    // entity = engine::Game::add_entity({10.f, 3.0f});
+    // engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.0f, 0.8f, 0.0f}, 3.0f);
+
+    entity = engine::Game::add_entity({0.0f, 0.0f});
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.95f, 0.85f, 0.8f}, 0.0f);
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_debug_light());
 }
 
 void OpenGLWidget::resizeGL (int width, int height)
@@ -129,11 +136,10 @@ void OpenGLWidget::paintGL ()
     const float zFar = 150.0f;
     const auto projection_matrix = glm::perspective(fovy, aspect, zNear, zFar);
 
-    glm::vec3 direction{0.0f, 0.0f, -1.0f};
-    direction = glm::rotateX(direction, glm::radians(M_CAMERA_ROTATION_X));
-    direction = glm::rotateY(direction, glm::radians(m_camera_rotation_y));
+    auto position = glm::vec3{0.0f, 0.0f, m_camera_distance};
+    position = glm::rotateX(position, glm::radians(M_CAMERA_ROTATION_X));
+    position = glm::rotateY(position, glm::radians(m_camera_rotation_y));
 
-    const auto position = m_camera_distance * direction;
     const auto center = glm::vec3{0.0f, 0.0f, 0.0f};
     const auto up = glm::vec3{0.0f, 1.0f, 0.0f};
     glm::mat4 camera_matrix = glm::lookAt(position, center, up);

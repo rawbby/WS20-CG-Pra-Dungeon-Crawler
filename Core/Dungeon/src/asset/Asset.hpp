@@ -4,7 +4,6 @@
 
 #include <asset/Drawable.hpp>
 #include <asset/Material.hpp>
-#include <asset/Mvm.hpp>
 #include <asset/Program.hpp>
 #include <asset/Vao.hpp>
 
@@ -14,7 +13,6 @@ namespace asset
     {
         internal::init_programs();
         internal::init_materials();
-        internal::init_mvms();
         internal::init_vaos();
 
         // NOTICE: drawables needs to be initialized last!

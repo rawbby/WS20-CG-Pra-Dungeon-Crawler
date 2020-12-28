@@ -9,12 +9,12 @@
 #include <entt/entt.hpp>
 
 #include <asset/Drawable.hpp>
-#include <geometries/PlaneBottom.hpp>
+#include <geometries/Plane.hpp>
 #include <engine/Game.hpp>
 
 class [[maybe_unused]] OpenGLWidget
         : public QOpenGLWidget
-        , public engine::Game
+                , public engine::Game
 {
 private:
 
@@ -25,7 +25,7 @@ private:
 
     const float M_MIN_DISTANCE = 1.0f;
     const float M_MAX_DISTANCE = 6.0f;
-    const float M_CAMERA_ROTATION_X = 65.0f;
+    const float M_CAMERA_ROTATION_X = -65.0f;
 
     float m_camera_rotation_y = 0.0f;
     float m_camera_distance = M_MIN_DISTANCE;

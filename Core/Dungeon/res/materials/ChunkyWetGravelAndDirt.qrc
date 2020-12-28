@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/materials">
+    <file>gametextures/ChunkyWetGravelAndDirt_basecolor.png</file>
+    <file>gametextures/ChunkyWetGravelAndDirt_emissive.png</file>
+    <file>gametextures/ChunkyWetGravelAndDirt_height.png</file>
+    <file>gametextures/ChunkyWetGravelAndDirt_mrao.png</file>
+    <file>gametextures/ChunkyWetGravelAndDirt_normal.png</file>
+    <file>gametextures/ChunkyWetGravelAndDirt_opacity.png</file>
+</qresource>
+</RCC>

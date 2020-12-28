@@ -10,10 +10,10 @@
 
 #include <engine/component/PositionComponent.hpp>
 
-#include <glm/vec2.hpp>
-
+#include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 #include <spdlog/spdlog.h>
 
 namespace engine::service
@@ -59,7 +59,7 @@ namespace engine::service
 
                 const auto x = position[0];
                 const auto z = position[1];
-                const auto model_view_matrix = camera_matrix * glm::translate(glm::mat4{1.0f}, glm::vec3{x, 0.0f, z}) * data.model_view_matrix;
+                const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, glm::vec3{x, 0.0f, z}) * data.model_view_matrix;
 
                 glUseProgram(data.program);
                 glBindVertexArray(data.vao);
@@ -85,7 +85,7 @@ namespace engine::service
                 glUniform1i(glGetUniformLocation(data.program, "u_mrao"), 2);
                 glUniform1i(glGetUniformLocation(data.program, "u_normal"), 3);
 
-                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix));
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix * camera_matrix));
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
 
                 glDrawElements(GL_TRIANGLES, data.count, GL_UNSIGNED_INT, nullptr);

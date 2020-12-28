@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/materials">
+    <file>gametextures/BlackOstrichHideWrinkles2_basecolor.png</file>
+    <file>gametextures/BlackOstrichHideWrinkles2_emissive.png</file>
+    <file>gametextures/BlackOstrichHideWrinkles2_height.png</file>
+    <file>gametextures/BlackOstrichHideWrinkles2_mrao.png</file>
+    <file>gametextures/BlackOstrichHideWrinkles2_normal.png</file>
+    <file>gametextures/BlackOstrichHideWrinkles2_opacity.png</file>
+</qresource>
+</RCC>

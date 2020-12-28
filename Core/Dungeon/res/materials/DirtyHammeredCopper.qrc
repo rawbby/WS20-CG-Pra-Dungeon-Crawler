@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/materials">
+    <file>gametextures/DirtyHammeredCopper_basecolor.png</file>
+    <file>gametextures/DirtyHammeredCopper_emissive.png</file>
+    <file>gametextures/DirtyHammeredCopper_height.png</file>
+    <file>gametextures/DirtyHammeredCopper_mrao.png</file>
+    <file>gametextures/DirtyHammeredCopper_normal.png</file>
+    <file>gametextures/DirtyHammeredCopper_opacity.png</file>
+</qresource>
+</RCC>

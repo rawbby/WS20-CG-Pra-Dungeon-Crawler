@@ -2,7 +2,6 @@
 
 uniform sampler2D u_basecolor;
 uniform sampler2D u_mrao;
-uniform sampler2D u_normal;
 
 uniform vec3 u_light_positions[16];
 uniform vec3 u_light_colors[16];
@@ -18,7 +17,6 @@ void main()
 {
     vec3 basecolor = texture(u_basecolor, f_tex_coords).xyz;
     vec3 mrao      = texture(u_mrao, f_tex_coords).xyz;
-    vec3 normal    = texture(u_normal, f_tex_coords).xyz;
 
     vec3 n = normalize(f_normal);
     vec3 v = normalize(-f_position);
@@ -34,9 +32,9 @@ void main()
 
         vec3 r = reflect(-l, n);
 
-        vec3 Ia =                               light_color;
-        vec3 Id =     max(dot(n, l), 0.0)     * light_color;
-        vec3 Is = pow(max(dot(v, r), 0.0), 4) * light_color;
+        vec3 Ia =                                                 vec3(0.0) * light_color;
+        vec3 Id =     max(dot(n, l), 0.0)                       * vec3(0.95) * light_color;
+        vec3 Is = pow(max(dot(v, r), 0.0), 1.0 + mrao[1] * 8.0) * vec3(0.25) * light_color;
 
         intensity += Ia + Id + Is;
     }

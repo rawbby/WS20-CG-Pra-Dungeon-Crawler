@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/materials">
+    <file>gametextures/WhiteWoolCloth_basecolor.png</file>
+    <file>gametextures/WhiteWoolCloth_emissive.png</file>
+    <file>gametextures/WhiteWoolCloth_height.png</file>
+    <file>gametextures/WhiteWoolCloth_mrao.png</file>
+    <file>gametextures/WhiteWoolCloth_normal.png</file>
+    <file>gametextures/WhiteWoolCloth_opacity.png</file>
+</qresource>
+</RCC>

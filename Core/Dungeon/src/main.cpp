@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
-#include <glm/common.hpp>
 
+#include <glm/glm.hpp>
 #include <spdlog/spdlog.h>
 
 #include <QApplication>
@@ -27,10 +27,20 @@ namespace
     }
 }
 
+#include <geometries/Sphere.hpp>
+
 int main (int argc, char **argv)
 {
     initializeSpdlog();
     initializeQtOpenGL();
+
+    // const auto points = geometries::generate_sphere_points(4, 3);
+    // for (const auto point : points)
+    // {
+    //     spdlog::debug("({}, {}, {})", point.x, point.y, point.z);
+    // }
+
+    const auto indices = geometries::generate_sphere_indices(3, 5);
 
     QApplication app{argc, argv};
 

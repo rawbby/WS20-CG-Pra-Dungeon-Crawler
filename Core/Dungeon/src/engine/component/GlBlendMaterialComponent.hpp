@@ -15,7 +15,7 @@ namespace engine::component
     struct GlBlendMaterialComponent
             : public GlRenderComponent
     {
-        std::array <Material, 3> materials{};
+        std::array<Material, 3> materials{};
         GLuint tex_blend = GL_NONE;
     };
 }

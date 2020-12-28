@@ -22,8 +22,6 @@ target_sources(${THIS} PRIVATE
         src/asset/Drawable.hpp
         src/asset/Material.cpp
         src/asset/Material.hpp
-        src/asset/Mvm.cpp
-        src/asset/Mvm.hpp
         src/asset/Program.cpp
         src/asset/Program.hpp
         src/asset/Vao.cpp
@@ -44,7 +42,8 @@ target_sources(${THIS} PRIVATE
         src/engine/Entity.hpp
         src/engine/Game.hpp
 
-        src/geometries/PlaneBottom.hpp
+        src/geometries/Plane.hpp
+        src/geometries/Sphere.hpp
         src/Main.cpp)
 
 # add gui (res) source
@@ -54,7 +53,16 @@ target_sources(${THIS} PRIVATE
         src/gui/MainWindow.ui
         src/gui/OpenGLWidget.cpp
         src/gui/OpenGLWidget.hpp
-        res/materials/index.qrc
+        res/materials/BlackGranite.qrc
+#        res/materials/BlackOstrichHideWrinkles2.qrc
+        res/materials/BrokenLimestoneBrickPath.qrc
+#        res/materials/ChunkyWetGravelAndDirt.qrc
+#        res/materials/Clay01.qrc
+#        res/materials/CrackedRedCeramicRoof.qrc
+#        res/materials/DirtyHammeredCopper.qrc
+        res/materials/PileOfSkulls.qrc
+#        res/materials/WhiteWoolCloth.qrc
+        res/materials/WoolWovenCarpetStripedBurgundy.qrc
         res/glsl/index.qrc)
 
 # include opengl

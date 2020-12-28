@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 
 namespace engine::component
 {
@@ -10,6 +10,6 @@ namespace engine::component
     struct GlPointLightComponent
     {
         glm::vec3 color{};
-        float height = 0.5f;
+        float height = 0.0f;
     };
 }

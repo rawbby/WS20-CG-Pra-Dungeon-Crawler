@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/materials">
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_basecolor.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_emissive.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_height.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_mrao.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_normal.png</file>
+    <file>gametextures/WoolWovenCarpetStripedBurgundy_opacity.png</file>
+</qresource>
+</RCC>
