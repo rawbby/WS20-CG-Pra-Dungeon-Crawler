@@ -111,10 +111,10 @@ namespace asset::internal
         asset_material_init(material::black_granite, "gametextures", "BlackGranite");
 //        asset_material_init(material::black_ostrich_hide_wrinkles_2, "gametextures", "BlackOstrichHideWrinkles2");
         asset_material_init(material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
-//        asset_material_init(material::chunky_wet_gravel_and_dirt, "gametextures", "ChunkyWetGravelAndDirt");
+        asset_material_init(material::chunky_wet_gravel_and_dirt, "gametextures", "ChunkyWetGravelAndDirt");
 //        asset_material_init(material::clay_01, "gametextures", "Clay01");
 //        asset_material_init(material::cracked_red_ceramic_roof, "gametextures", "CrackedRedCeramicRoof");
-//        asset_material_init(material::dirty_hammered_copper, "gametextures", "DirtyHammeredCopper");
+        asset_material_init(material::dirty_hammered_copper, "gametextures", "DirtyHammeredCopper");
         asset_material_init(material::pile_of_skulls, "gametextures", "PileOfSkulls");
 //        asset_material_init(material::white_wool_cloth, "gametextures", "WhiteWoolCloth");
         asset_material_init(material::wool_woven_carpet_striped_burgundy, "gametextures", "WoolWovenCarpetStripedBurgundy");

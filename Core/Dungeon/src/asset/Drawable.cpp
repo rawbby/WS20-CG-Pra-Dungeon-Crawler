@@ -31,7 +31,7 @@ namespace asset
         {
             auto mvm = glm::identity<glm::mat4>();
             mvm = glm::rotate(mvm, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-            return create_plane(asset::material::wool_woven_carpet_striped_burgundy, mvm);
+            return create_plane(asset::material::dirty_hammered_copper, mvm);
         }
 
         [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_back ()
@@ -58,7 +58,7 @@ namespace asset
         {
             auto mvm = glm::identity<glm::mat4>();
             mvm = glm::rotate(mvm, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            return create_plane(asset::material::broken_limestone_brick_path, mvm);
+            return create_plane(asset::material::chunky_wet_gravel_and_dirt, mvm);
         }
 
         [[maybe_unused]]  engine::component::GlMaterialComponent create_wall_top ()

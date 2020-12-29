@@ -62,15 +62,16 @@ void OpenGLWidget::initializeGL ()
     entity = engine::Game::add_entity();
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_player());
     engine::Game::add_component<engine::component::DynamicCollisionComponent>(entity, 0.5f, glm::vec2{});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 1.0f, 1.0f}, 0.0f);
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.6f, 0.6f, 0.6f}, 0.0f);
     m_player = entity;
 
-    // entity = engine::Game::add_entity({10.f, 3.0f});
-    // engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.0f, 0.8f, 0.0f}, 3.0f);
+    entity = engine::Game::add_entity({0.0f, 1.0f});
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f);
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_debug_light());
 
-    // entity = engine::Game::add_entity({0.0f, 0.0f});
-    // engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.95f, 0.85f, 0.8f}, 0.0f);
-    // engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_debug_light());
+    entity = engine::Game::add_entity({1.0f, 1.0f});
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f);
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_debug_light());
 }
 
 void OpenGLWidget::resizeGL (int width, int height)
@@ -92,7 +93,7 @@ void OpenGLWidget::paintGL ()
     auto &player_dynamic = engine::Game::get_component<engine::component::DynamicCollisionComponent>(m_player);
     auto &player_position = engine::Game::get_component<engine::component::PositionComponent>(m_player);
 
-    auto velocity_sideway = glm::normalize(glm::vec2(-camera_position.z, camera_position.x)) * 0.01f * gui::camera_distance;
+    auto velocity_sideway = glm::normalize(glm::vec2(-camera_position.z, camera_position.x)) * 0.025f * gui::camera_distance;
     auto velocity_forward = glm::vec2(velocity_sideway.y, -velocity_sideway.x);
 
     player_dynamic.velocity = glm::vec2{};
