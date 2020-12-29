@@ -6,9 +6,9 @@
 
 namespace gui
 {
-    constexpr float MIN_DISTANCE = 1.0f;
+    constexpr float MIN_DISTANCE = 0.3f;
     constexpr float MAX_DISTANCE = 6.0f;
-    constexpr float CAMERA_ROTATION_X = -65.0f;
+    constexpr float CAMERA_ROTATION_X = -25.0f;
 
     inline float camera_rotation_y = 0.0f;
     inline float camera_distance = MIN_DISTANCE;

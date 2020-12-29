@@ -39,5 +39,6 @@ void main()
         intensity += Ia + Id + Is;
     }
 
-    o_color = vec4(basecolor * intensity, 1.0);
+    //o_color = vec4(basecolor * intensity, 1.0);
+    o_color = vec4(basecolor, 1.0);
 }
