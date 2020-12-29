@@ -1,5 +1,7 @@
 #include <engine/service/CollisionService.hpp>
 
+#include <spdlog/spdlog.h>
+
 namespace engine::service
 {
     void Collision::init ()
@@ -31,7 +33,6 @@ namespace engine::service
                     dynamic_i.velocity = {};
                     dynamic_j.velocity = {};
                 }
-
             }
         }
 

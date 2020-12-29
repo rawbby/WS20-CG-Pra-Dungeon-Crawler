@@ -12,7 +12,7 @@ namespace
     {
         using namespace asset;
         using namespace asset::internal;
-        return {program::material, vao::plane, vao::plane_count, mvm, material};
+        return {program::pbr, vao::plane, vao::plane_count, mvm, material};
     }
 }
 

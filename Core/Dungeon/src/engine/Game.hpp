@@ -12,11 +12,11 @@ namespace engine
 {
     class Game
     {
-    private:
+    protected: // TODO should be private
 
         entt::registry m_registry{};
 
-    private:
+    protected: // TODO should be private
 
         service::Collision m_collision;
         service::Render m_render;
@@ -29,10 +29,10 @@ namespace engine
             m_render.init();
         }
 
-        void update (glm::mat4 projection_matrix, glm::mat4 camera_matrix, float delta)
+        void update (glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position, float delta)
         {
             m_collision.update(m_registry, delta);
-            m_render.update(m_registry, projection_matrix, camera_matrix);
+            m_render.update(m_registry, projection_matrix, camera_matrix, camera_position);
         }
 
     public:

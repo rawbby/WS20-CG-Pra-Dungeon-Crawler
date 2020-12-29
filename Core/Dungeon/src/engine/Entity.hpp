@@ -5,4 +5,5 @@
 namespace engine
 {
     using Entity = entt::entity;
+    constexpr Entity ENTITY_NULL = entt::null;
 }

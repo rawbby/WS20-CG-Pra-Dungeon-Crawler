@@ -26,7 +26,7 @@ namespace engine::service
         glEnable(GL_DEPTH_TEST);
     }
 
-    void Render::update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix)
+    void Render::update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position)
     {
         using namespace component;
 
@@ -79,6 +79,8 @@ namespace engine::service
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), 16, glm::value_ptr(*light_positions.data()));
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), 16, glm::value_ptr(*light_colors.data()));
                 glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), light_positions.size());
+
+                glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
 
                 glUniform1i(glGetUniformLocation(data.program, "u_basecolor"), 0);
                 glUniform1i(glGetUniformLocation(data.program, "u_height"), 1);

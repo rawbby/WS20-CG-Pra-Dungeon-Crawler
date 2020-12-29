@@ -94,12 +94,12 @@ namespace
         return program;
     }
 
-    GLuint vertex_shader_from_path (std::string_view path) noexcept // check if noexcept is true
+    GLuint vertex_shader_from_path (std::string_view path)
     {
         return compile_vertex_shader(load_text(path));
     }
 
-    GLuint fragment_shader_from_path (std::string_view path) noexcept // check if noexcept is true
+    GLuint fragment_shader_from_path (std::string_view path)
     {
         return compile_fragment_shader(load_text(path));
     }
@@ -111,17 +111,22 @@ namespace asset::internal
     {
         const auto material_vertex_shader = vertex_shader_from_path("./res/glsl/Material.vs.glsl");
         const auto trivial_vertex_shader = vertex_shader_from_path("./res/glsl/Trivial.vs.glsl");
+        const auto pbr_vertex_shader = vertex_shader_from_path("./res/glsl/PBR.vs.glsl");
 
         const auto material_fragment_shader = fragment_shader_from_path("./res/glsl/Material.fs.glsl");
         const auto trivial_red_fragment_shader = fragment_shader_from_path("./res/glsl/TrivialRed.fs.glsl");
+        const auto pbr_fragment_shader = fragment_shader_from_path("./res/glsl/PBR.fs.glsl");
 
         program::material = compile_program(material_vertex_shader, material_fragment_shader);
         program::trivial = compile_program(trivial_vertex_shader, trivial_red_fragment_shader);
+        program::pbr = compile_program(pbr_vertex_shader, pbr_fragment_shader);
 
         glDeleteShader(material_vertex_shader);
         glDeleteShader(trivial_vertex_shader);
+        glDeleteShader(pbr_vertex_shader);
 
         glDeleteShader(material_fragment_shader);
         glDeleteShader(trivial_red_fragment_shader);
+        glDeleteShader(pbr_fragment_shader);
     }
 }

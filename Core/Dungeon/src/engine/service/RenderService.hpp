@@ -11,6 +11,6 @@ namespace engine::service
 
         void init ();
 
-        void update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix);
+        void update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position);
     };
 }
