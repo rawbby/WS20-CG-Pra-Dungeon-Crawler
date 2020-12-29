@@ -3,8 +3,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-#include <spdlog/spdlog.h>
-
 #include <vector>
 
 namespace geometries
@@ -86,8 +84,6 @@ namespace geometries
             indices.push_back(i + 1);
         }
 
-        // Main
-        spdlog::debug("");
         for (uint32_t i = 1; i < stacks - 2; ++i)
         {
             const auto offset = (i - 1) * slices + 1;
