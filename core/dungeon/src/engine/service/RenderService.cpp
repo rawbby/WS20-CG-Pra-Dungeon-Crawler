@@ -78,7 +78,7 @@ namespace engine::service
 
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), 16, glm::value_ptr(*light_positions.data()));
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), 16, glm::value_ptr(*light_colors.data()));
-                glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), light_positions.size());
+                glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
 
                 glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
 

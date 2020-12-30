@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 
 unset(CMAKE_CXX_FLAGS_DEBUG)
 unset(CMAKE_CXX_FLAGS_RELEASE)

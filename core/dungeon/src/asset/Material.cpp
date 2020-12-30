@@ -3,26 +3,19 @@
 
 #include <asset/Material.hpp>
 
-#include <geometries/Plane.hpp>
+#include <resource/PbrMaterial.hpp>
 
-#include <QImage>
 #include <string_view>
-
-#define asset_material_init(material, vendor, name) \
-        (material).tex_basecolor = texture_from_path("./res/materials/" vendor "/" name "_basecolor.png"); \
-        (material).tex_height    = texture_from_path("./res/materials/" vendor "/" name "_height.png"); \
-        (material).tex_mrao      = texture_from_path("./res/materials/" vendor "/" name "_mrao.png"); \
-        (material).tex_normal    = texture_from_path("./res/materials/" vendor "/" name "_normal.png")
 
 namespace
 {
-    GLuint load_texture (void *texture_source, GLsizei width, GLsizei height)
+    GLuint load_texture (void *texture_source, GLsizei width, GLsizei height, GLuint format = GL_RGBA)
     {
         GLuint texture;
         glGenTextures(1, &texture);
 
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, texture_source);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -41,66 +34,50 @@ namespace
         return texture;
     }
 
-    /* GLuint load_texture_skybox (void *texture_source, GLsizei width, GLsizei height)
+//    GLuint texture_from_path (std::string_view path)
+//    {   // TODO workaround used! copied QGLWidget's convertToGlFormat function from Qt5 wich is not supported anymore.
+//
+//        using namespace asset;
+//
+//        auto qt_image = QImage(QString(path.data()));
+//        qt_image.convertTo(QImage::Format_ARGB32);
+//
+//        QImage gl_image(qt_image.size(), QImage::Format_ARGB32);
+//
+//        const auto width = qt_image.width();
+//        const auto height = qt_image.height();
+//
+//        auto p = reinterpret_cast<const uint *> (qt_image.scanLine(qt_image.height() - 1));
+//        auto q = reinterpret_cast<uint *> (gl_image.scanLine(0));
+//
+//        for (int i = 0; i < height; ++i)
+//        {
+//            const uint *end = p + width;
+//            while (p < end)
+//            {
+//                *q = ((*p << 16) & 0xff0000) | ((*p >> 16) & 0xff) | (*p & 0xff00ff00);
+//                ++p;
+//                ++q;
+//            }
+//            p -= 2 * width;
+//        }
+//
+//        return load_texture(gl_image.bits(), gl_image.width(), gl_image.height());
+//    }
+
+    engine::component::Material pbr_from_path (std::string_view path, size_t width, size_t height)
     {
-        GLuint texture;
-        glGenTextures(1, &texture);
+        const auto pbr = resource::load(path, width, height);
+        const auto gl_width = static_cast<GLsizei> (pbr.width);
+        const auto gl_height = static_cast<GLsizei> (pbr.height);
 
-        glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_source);
-
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-        const auto status = glGetError();
-        if (GL_NO_ERROR != status)
+        return
         {
-            spdlog::error(R"(OPENGL ERROR! (FILE: "{}", LINE: "{}", STATUS: "{}"))", __FILE__, __LINE__, status);
-
-            glDeleteTextures(1, &texture);
-            return GL_NONE;
-        }
-
-        return texture;
-    } */
-
-    GLuint texture_from_path (std::string_view path)
-    {   // TODO workaround used! copied QGLWidget's convertToGlFormat function from Qt5 wich is not supported anymore.
-
-        using namespace asset;
-
-        auto qt_image = QImage(QString(path.data()));
-        qt_image.convertTo(QImage::Format_ARGB32);
-
-        QImage gl_image(qt_image.size(), QImage::Format_ARGB32);
-
-        const auto width = qt_image.width();
-        const auto height = qt_image.height();
-
-        auto p = reinterpret_cast<const uint *> (qt_image.scanLine(qt_image.height() - 1));
-        auto q = reinterpret_cast<uint *> (gl_image.scanLine(0));
-
-        for (int i = 0; i < height; ++i)
-        {
-            const uint *end = p + width;
-            while (p < end)
-            {
-                *q = ((*p << 16) & 0xff0000) | ((*p >> 16) & 0xff) | (*p & 0xff00ff00);
-                ++p;
-                ++q;
-            }
-            p -= 2 * width;
-        }
-
-        return load_texture(gl_image.bits(), gl_image.width(), gl_image.height());
+            .tex_basecolor = load_texture(pbr.color_rgba, gl_width, gl_height, GL_RGBA),
+            .tex_height    = load_texture(pbr.height_gray, gl_width, gl_height, GL_RED),
+            .tex_mrao      = load_texture(pbr.mrao_rgb, gl_width, gl_height, GL_RGB),
+            .tex_normal    = load_texture(pbr.normal_rgb, gl_width, gl_height, GL_RGB)
+        };
     }
 }
 
@@ -108,15 +85,11 @@ namespace asset::internal
 {
     void init_materials ()
     {
-        asset_material_init(material::black_granite, "gametextures", "BlackGranite");
-//        asset_material_init(material::black_ostrich_hide_wrinkles_2, "gametextures", "BlackOstrichHideWrinkles2");
-        asset_material_init(material::broken_limestone_brick_path, "gametextures", "BrokenLimestoneBrickPath");
-        asset_material_init(material::chunky_wet_gravel_and_dirt, "gametextures", "ChunkyWetGravelAndDirt");
-//        asset_material_init(material::clay_01, "gametextures", "Clay01");
-//        asset_material_init(material::cracked_red_ceramic_roof, "gametextures", "CrackedRedCeramicRoof");
-        asset_material_init(material::dirty_hammered_copper, "gametextures", "DirtyHammeredCopper");
-        asset_material_init(material::pile_of_skulls, "gametextures", "PileOfSkulls");
-//        asset_material_init(material::white_wool_cloth, "gametextures", "WhiteWoolCloth");
-        asset_material_init(material::wool_woven_carpet_striped_burgundy, "gametextures", "WoolWovenCarpetStripedBurgundy");
+        material::black_granite = pbr_from_path("./res/materials/gametextures/BlackGranite_2048x2048.pbr", 2048, 2048);
+        material::broken_limestone_brick_path = pbr_from_path("./res/materials/gametextures/BrokenLimestoneBrickPath_2048x2048.pbr", 2048, 2048);
+        material::chunky_wet_gravel_and_dirt = pbr_from_path("./res/materials/gametextures/ChunkyWetGravelAndDirt_2048x2048.pbr", 2048, 2048);
+        material::dirty_hammered_copper = pbr_from_path("./res/materials/gametextures/DirtyHammeredCopper_2048x2048.pbr", 2048, 2048);
+        material::pile_of_skulls = pbr_from_path("./res/materials/gametextures/PileOfSkulls_2048x2048.pbr", 2048, 2048);
+        material::wool_woven_carpet_striped_burgundy = pbr_from_path("./res/materials/gametextures/WoolWovenCarpetStripedBurgundy_2048x2048.pbr", 2048, 2048);
     }
 }

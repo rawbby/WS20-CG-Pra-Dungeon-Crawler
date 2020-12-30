@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 
 project(DungeonCrawler LANGUAGES CXX)
 
@@ -17,6 +17,8 @@ conan_cmake_run(REQUIRES
         BASIC_SETUP CMAKE_TARGETS)
 
 find_package(Qt6 COMPONENTS
+        Core
+        Gui
         Widgets
         OpenGL
         OpenGLWidgets
@@ -27,3 +29,4 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 add_subdirectory(core/dungeon)
+add_subdirectory(tools/resource)

@@ -7,6 +7,7 @@ For licensing look at [LICENSE.md](LICENSE.md) or [https://gametextures.com/supp
 
 The Files from GAMETEXTURES.COM are downloaded using "Unreal" format wich provides simply the texture files we need.
 Also all textures use "2k Bitmap" resolution.
+The Files are converted using this projects FromUnrealPbr tool and can be read using the resource library.
 
 Each file provides following channels:
 - basecolor

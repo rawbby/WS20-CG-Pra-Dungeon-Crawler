@@ -11,6 +11,7 @@ namespace engine::service
     void Collision::update (entt::registry &reg, float delta)
     {
         using namespace component;
+        (void) delta; // TODO use delta - this behavior is only accepted as this function is WIP
 
         auto static_group = reg.group<StaticCollisionComponent>(entt::get<PositionComponent>);
         auto dynamic_group = reg.group<DynamicCollisionComponent>(entt::get<PositionComponent>);

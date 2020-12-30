@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 
-set(THIS dungeon)
+set(THIS DungeonCrawler)
 
 add_executable(${THIS})
 set_compile_options(${THIS})
@@ -50,7 +50,18 @@ target_sources(${THIS} PRIVATE
         src/gui/OpenGLWidget.hpp)
 
 # copy resource folder to output directory
-target_resource_directory(${THIS} res)
+target_resource_directories(${THIS} res/glsl)
+target_tar_gz_resources(${THIS}
+        res/materials/gametextures/BlackGranite.tar.gz
+        res/materials/gametextures/BlackOstrichHideWrinkles2.tar.gz
+        res/materials/gametextures/BrokenLimestoneBrickPath.tar.gz
+        res/materials/gametextures/ChunkyWetGravelAndDirt.tar.gz
+        res/materials/gametextures/Clay01.tar.gz
+        res/materials/gametextures/CrackedRedCeramicRoof.tar.gz
+        res/materials/gametextures/DirtyHammeredCopper.tar.gz
+        res/materials/gametextures/PileOfSkulls.tar.gz
+        res/materials/gametextures/WhiteWoolCloth.tar.gz
+        res/materials/gametextures/WoolWovenCarpetStripedBurgundy.tar.gz)
 
 # include opengl
 if (WIN32)
@@ -73,4 +84,5 @@ target_link_libraries(${THIS}
         CONAN_PKG::spdlog)
 
 # add internal dependencies
-# target_link_libraries(${THIS} )
+target_link_libraries(${THIS}
+        resource)

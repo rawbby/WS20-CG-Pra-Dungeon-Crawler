@@ -1,0 +1,16 @@
+### compress pbr outputs
+
+cmake -E tar cz BlackGranite.tar.gz -- BlackGranite_2048x2048.pbr
+cmake -E tar cz BlackOstrichHideWrinkles2.tar.gz -- BlackOstrichHideWrinkles2_2048x2048.pbr
+cmake -E tar cz BrokenLimestoneBrickPath.tar.gz -- BrokenLimestoneBrickPath_2048x2048.pbr
+cmake -E tar cz ChunkyWetGravelAndDirt.tar.gz -- ChunkyWetGravelAndDirt_2048x2048.pbr
+cmake -E tar cz Clay01.tar.gz -- Clay01_2048x2048.pbr
+cmake -E tar cz CrackedRedCeramicRoof.tar.gz -- CrackedRedCeramicRoof_2048x2048.pbr
+cmake -E tar cz DirtyHammeredCopper.tar.gz -- DirtyHammeredCopper_2048x2048.pbr
+cmake -E tar cz PileOfSkulls.tar.gz -- PileOfSkulls_2048x2048.pbr
+cmake -E tar cz WhiteWoolCloth.tar.gz -- WhiteWoolCloth_2048x2048.pbr
+cmake -E tar cz WoolWovenCarpetStripedBurgundy.tar.gz -- WoolWovenCarpetStripedBurgundy_2048x2048.pbr
+
+### commandline arguments
+
+gametextures BlackGranite BlackOstrichHideWrinkles2 BrokenLimestoneBrickPath ChunkyWetGravelAndDirt Clay01 CrackedRedCeramicRoof DirtyHammeredCopper PileOfSkulls WhiteWoolCloth WoolWovenCarpetStripedBurgundy

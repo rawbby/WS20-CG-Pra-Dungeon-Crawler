@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 
 function(set_compile_warnings THIS)
 
     if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
         target_compile_options(${THIS} PRIVATE
-                $<$<CONFIG:RELEASE>:-Werror>
+#                $<$<CONFIG:RELEASE>:-Werror>
                 $<$<CONFIG:Debug>:-Wshadow>
                 $<$<CONFIG:Debug>:-Wunused>
                 -Wall -Wextra
@@ -22,7 +22,7 @@ function(set_compile_warnings THIS)
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
         target_compile_options(${THIS} PRIVATE
-                $<$<CONFIG:RELEASE>:-Werror>
+#                $<$<CONFIG:RELEASE>:-Werror>
                 $<$<CONFIG:Debug>:-Wshadow>
                 $<$<CONFIG:Debug>:-Wunused>
                 -Wall -Wextra
@@ -39,7 +39,7 @@ function(set_compile_warnings THIS)
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 
         target_compile_options(${THIS} PRIVATE
-                $<$<CONFIG:RELEASE>:/WX>
+#                $<$<CONFIG:RELEASE>:/WX>
                 /W4
                 /w14242 /w14254 /w14263
                 /w14265 /w14287 /we4289
