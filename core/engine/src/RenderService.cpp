@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-#include <engine/service/RenderService.hpp>
+#include "engine/service/RenderService.hpp"
 
 #include <engine/component/GlRenderComponent.hpp>
 #include <engine/component/GlMaterialComponent.hpp>

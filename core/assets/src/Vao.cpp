@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-#include <asset/Vao.hpp>
+#include <asset/Asset.hpp>
 
 #include <geometries/Plane.hpp>
 #include <geometries/Sphere.hpp>
@@ -78,8 +78,8 @@ namespace asset::internal
             auto plane_normals = geometries::generate_plane_back_normals(divisions);
             auto plane_tex_coords = geometries::generate_plane_tex_coords(divisions);
 
-            internal::vao::plane = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
-            internal::vao::plane_count = static_cast<GLsizei> (plane_indices.size());
+            vao::plane = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
+            vao::plane_count = static_cast<GLsizei> (plane_indices.size());
         }
 
         // initialize base sphere
@@ -92,8 +92,8 @@ namespace asset::internal
             auto sphere_normals = geometries::generate_sphere_normals(slices, stacks);
             auto sphere_tex_coords = geometries::generate_sphere_tex_coords(slices, stacks);
 
-            internal::vao::sphere = generate_vao(sphere_points, sphere_indices, sphere_normals, sphere_tex_coords);
-            internal::vao::sphere_count = static_cast<GLsizei> (sphere_indices.size());
+            vao::sphere = generate_vao(sphere_points, sphere_indices, sphere_normals, sphere_tex_coords);
+            vao::sphere_count = static_cast<GLsizei> (sphere_indices.size());
         }
     }
 }

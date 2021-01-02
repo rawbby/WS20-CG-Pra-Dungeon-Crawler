@@ -24,9 +24,8 @@ find_package(Qt6 COMPONENTS
         OpenGLWidgets
         REQUIRED)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
+add_subdirectory(core/engine)
+add_subdirectory(core/assets)
 add_subdirectory(core/dungeon)
-add_subdirectory(tools/resource)
+
+add_subdirectory(tools/from_unreal_pbr)

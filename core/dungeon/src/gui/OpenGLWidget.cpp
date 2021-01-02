@@ -4,14 +4,13 @@
 #include <gui/OpenGLWidget.hpp>
 #include <gui/MainWindow.hpp>
 
+#include <asset/Asset.hpp>
+
 #include <QMouseEvent>
 
 #include <engine/component/GlPointLightComponent.hpp>
 
-#include <asset/Asset.hpp>
-
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
 [[maybe_unused]] OpenGLWidget::OpenGLWidget (QWidget *parent)
@@ -36,42 +35,42 @@ void OpenGLWidget::initializeGL ()
     asset::init_assets();
 
     auto entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_back());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_back());
 
     entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_right());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_right());
 
     entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_left());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_left());
 
     entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
 
     entity = engine::Game::add_entity({0.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
 
     entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_back());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_back());
 
     entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_wall_right());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_right());
 
     entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_floor());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
 
     entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_player());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_player());
     engine::Game::add_component<engine::component::DynamicCollisionComponent>(entity, 0.5f, glm::vec2{});
     engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.6f, 0.6f, 0.6f}, 0.0f);
     m_player = entity;
 
     entity = engine::Game::add_entity({0.0f, 1.0f});
     engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f);
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_debug_light());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
 
     entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f);
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::drawable::create_debug_light());
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
 }
 
 void OpenGLWidget::resizeGL (int width, int height)

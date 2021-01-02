@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-#include <asset/Program.hpp>
+#include <asset/Asset.hpp>
 
 #include <spdlog/spdlog.h>
 

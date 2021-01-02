@@ -8,8 +8,6 @@
 
 #include <entt/entt.hpp>
 
-#include <asset/Drawable.hpp>
-#include <geometries/Plane.hpp>
 #include <engine/Game.hpp>
 
 class [[maybe_unused]] OpenGLWidget

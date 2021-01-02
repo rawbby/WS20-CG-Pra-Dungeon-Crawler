@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/service/CollisionService.hpp>
+#include "CollisionService.hpp"
 
 #include <engine/component/DynamicCollisionComponent.hpp>
 #include <engine/component/StaticCollisionComponent.hpp>

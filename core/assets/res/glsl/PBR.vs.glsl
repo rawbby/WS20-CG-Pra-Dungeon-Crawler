@@ -15,7 +15,7 @@ out vec3 f_normal;
 
 vec4 get_position_from_map()
 {
-    float height = texture(u_height, v_tex_coords).x * 0.0625;
+    float height = texture(u_height, v_tex_coords).x * 0.046875;
     return u_model_view_matrix * vec4(v_position + (height * v_normal), 1.0);
 }
 
