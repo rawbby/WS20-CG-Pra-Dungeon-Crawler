@@ -71,7 +71,7 @@ namespace asset::internal
     {
         // initialize base plane
         {
-            constexpr size_t divisions = 120;
+            constexpr size_t divisions = 512;
 
             auto plane_points = geometries::generate_plane_back_points(divisions);
             auto plane_indices = geometries::generate_plane_indices(divisions);
@@ -82,10 +82,23 @@ namespace asset::internal
             vao::plane_count = static_cast<GLsizei> (plane_indices.size());
         }
 
+        // initialize base plane
+        {
+            constexpr size_t divisions = 192;
+
+            auto plane_points = geometries::generate_plane_back_points(divisions);
+            auto plane_indices = geometries::generate_plane_indices(divisions);
+            auto plane_normals = geometries::generate_plane_back_normals(divisions);
+            auto plane_tex_coords = geometries::generate_plane_tex_coords(divisions);
+
+            vao::plane_lr = generate_vao(plane_points, plane_indices, plane_normals, plane_tex_coords);
+            vao::plane_lr_count = static_cast<GLsizei> (plane_indices.size());
+        }
+
         // initialize base sphere
         {
-            constexpr size_t slices = 32;
-            constexpr size_t stacks = 32;
+            constexpr size_t slices = 24;
+            constexpr size_t stacks = 24;
 
             auto sphere_points = geometries::generate_sphere_points(slices, stacks);
             auto sphere_indices = geometries::generate_sphere_indices(slices, stacks);
@@ -94,6 +107,20 @@ namespace asset::internal
 
             vao::sphere = generate_vao(sphere_points, sphere_indices, sphere_normals, sphere_tex_coords);
             vao::sphere_count = static_cast<GLsizei> (sphere_indices.size());
+        }
+
+        // initialize base sphere
+        {
+            constexpr size_t slices = 12;
+            constexpr size_t stacks = 12;
+
+            auto sphere_points = geometries::generate_sphere_points(slices, stacks);
+            auto sphere_indices = geometries::generate_sphere_indices(slices, stacks);
+            auto sphere_normals = geometries::generate_sphere_normals(slices, stacks);
+            auto sphere_tex_coords = geometries::generate_sphere_tex_coords(slices, stacks);
+
+            vao::sphere_lr = generate_vao(sphere_points, sphere_indices, sphere_normals, sphere_tex_coords);
+            vao::sphere_lr_count = static_cast<GLsizei> (sphere_indices.size());
         }
     }
 }

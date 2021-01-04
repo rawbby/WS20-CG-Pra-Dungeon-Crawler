@@ -24,7 +24,7 @@ namespace engine::service
     {
         using namespace component;
 
-        int shadow_map_size = 256;
+        int shadow_map_size = 1024;
 
         for (const auto entity: reg.group<GlPointLightComponent>(entt::get<PositionComponent>))
         {
@@ -38,10 +38,9 @@ namespace engine::service
             glm::vec3 lightPos = glm::vec3{position[0], data.height, position[1]};
 
             GLuint shadow_map = 0;
-            if (shadow_map == 0)
-            {
-                glGenTextures(1, &shadow_map);
-            }
+
+            glGenTextures(1, &shadow_map);
+
             glBindTexture(GL_TEXTURE_CUBE_MAP, shadow_map);
             for (unsigned int i = 0; i < 6; ++i)
             {
@@ -95,9 +94,9 @@ namespace engine::service
                 const auto z = material_position[1];
                 const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, glm::vec3{x, 0.0f, z}) * material.model_view_matrix;
 
-                glBindVertexArray(material.vao);
+                glBindVertexArray(material.vao_lr);
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
-                glDrawElements(GL_TRIANGLES, material.count, GL_UNSIGNED_INT, nullptr);
+                glDrawElements(GL_TRIANGLES, material.count_lr, GL_UNSIGNED_INT, nullptr);
             }
 
             data.tex_shadow = shadow_map;

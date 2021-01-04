@@ -11,7 +11,7 @@ namespace
     {
         using namespace asset;
         using namespace asset::internal;
-        return {program::material, vao::plane, vao::plane_count, mvm, material};
+        return {program::pbr, vao::plane, vao::plane_lr, vao::plane_count, vao::plane_lr_count, mvm, material};
     }
 }
 
@@ -66,7 +66,7 @@ namespace asset::material
 
         auto mvm = glm::identity<glm::mat4>();
         mvm = glm::scale(mvm, glm::vec3{0.125f, 0.125f, 0.125f});
-        return {program::material, vao::sphere, vao::sphere_count, mvm, material::black_granite};
+        return {program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, mvm, material::black_granite};
     }
 
     engine::component::GlMaterialComponent create_debug_light ()
@@ -76,6 +76,6 @@ namespace asset::material
 
         auto mvm = glm::identity<glm::mat4>();
         mvm = glm::scale(mvm, glm::vec3{0.0625f, 0.0625f, 0.0625f});
-        return {program::material, vao::sphere, vao::sphere_count, mvm, material::pile_of_skulls};
+        return {program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, mvm, material::pile_of_skulls};
     }
 }

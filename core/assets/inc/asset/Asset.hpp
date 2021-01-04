@@ -30,10 +30,16 @@ namespace asset
     namespace vao
     {
         inline GLuint plane = GL_NONE;
+        inline GLuint plane_lr = GL_NONE;
+
         inline GLuint sphere = GL_NONE;
+        inline GLuint sphere_lr = GL_NONE;
 
         inline GLsizei plane_count = 0;
+        inline GLsizei plane_lr_count = 0;
+
         inline GLsizei sphere_count = 0;
+        inline GLsizei sphere_lr_count = 0;
     }
 
     namespace program

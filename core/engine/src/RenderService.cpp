@@ -30,16 +30,14 @@ namespace engine::service
     {
         using namespace component;
 
-        int shadow_map_size = 1024;
-
         std::vector<glm::vec3> light_positions;
         light_positions.reserve(16);
 
         std::vector<glm::vec3> light_colors;
         light_colors.reserve(16);
 
-        std::vector<GLuint> light_tex_shadow;
-        light_tex_shadow.reserve(16);
+        std::vector<GLuint> light_tex_shadows;
+        light_tex_shadows.reserve(16);
 
         // fetch point light sources
         {
@@ -51,8 +49,21 @@ namespace engine::service
 
                 light_positions.emplace_back(glm::vec3{position[0], data.height, position[1]});
                 light_colors.push_back(data.color);
-                light_tex_shadow.push_back(data.tex_shadow);
+                light_tex_shadows.push_back(data.tex_shadow);
+
+                if (light_positions.size() >= 16)
+                {
+                    break;
+                }
             }
+        }
+
+        std::vector<GLint> shadow_map_indices{};
+        shadow_map_indices.reserve(light_tex_shadows.size());
+
+        for (size_t i = 0; i < light_tex_shadows.size(); ++i)
+        {
+            shadow_map_indices.emplace_back(4 + i);
         }
 
         // render material components
@@ -84,11 +95,14 @@ namespace engine::service
                 glActiveTexture(GL_TEXTURE3);
                 glBindTexture(GL_TEXTURE_2D, data.material.tex_normal);
 
-                glActiveTexture(GL_TEXTURE4);
-                glBindTexture(GL_TEXTURE_CUBE_MAP, light_tex_shadow[0]);
+                for (size_t i = 0; i < light_tex_shadows.size(); ++i)
+                {
+                    glActiveTexture(GL_TEXTURE4 + i);
+                    glBindTexture(GL_TEXTURE_CUBE_MAP, light_tex_shadows[i]);
+                }
 
-                glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), 16, glm::value_ptr(*light_positions.data()));
-                glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), 16, glm::value_ptr(*light_colors.data()));
+                glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), static_cast<GLsizei> (light_positions.size()), glm::value_ptr(*light_positions.data()));
+                glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), static_cast<GLsizei> (light_colors.size()), glm::value_ptr(*light_colors.data()));
                 glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
                 glUniform1f(glGetUniformLocation(data.program, "u_far_plane"), far_plane);
 
@@ -98,14 +112,24 @@ namespace engine::service
                 glUniform1i(glGetUniformLocation(data.program, "u_height"), 1);
                 glUniform1i(glGetUniformLocation(data.program, "u_mrao"), 2);
                 glUniform1i(glGetUniformLocation(data.program, "u_normal"), 3);
-                glUniform1i(glGetUniformLocation(data.program, "u_shadow_map"), 4);
+                glUniform1iv(glGetUniformLocation(data.program, "u_shadow_maps"), static_cast<GLsizei> (shadow_map_indices.size()), shadow_map_indices.data());
 
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix * camera_matrix));
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
 
                 glDrawElements(GL_TRIANGLES, data.count, GL_UNSIGNED_INT, nullptr);
+
+                const auto status = glGetError();
+                if (GL_NO_ERROR != status)
+                {
+                    spdlog::error(R"(OPENGL ERROR! (FILE: "{}", LINE: "{}", STATUS: "{}"))", __FILE__, __LINE__, status);
+                }
             }
-            glDeleteTextures(1, &light_tex_shadow[0]);
+
+            for (const auto i : light_tex_shadows)
+            {
+                glDeleteTextures(1, &i);
+            }
         }
     }
 }

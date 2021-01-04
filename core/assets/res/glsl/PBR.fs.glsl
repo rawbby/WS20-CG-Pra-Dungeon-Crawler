@@ -3,20 +3,39 @@
 uniform sampler2D u_basecolor;
 uniform sampler2D u_normal;
 uniform sampler2D u_mrao;
-uniform sampler2D u_shadow_map;
+
+uniform sampler2DShadow u_shadow_maps[16];
 
 uniform vec3 u_light_positions[16];
 uniform vec3 u_light_colors[16];
 uniform int  u_lights_count;
+
+uniform float u_far_plane;
 
 uniform vec3 u_camera_position;
 
 in    vec3  f_position;
 in    vec3  f_normal;
 in    vec2  f_tex_coords;
+
 in    vec4  f_pos_light_space;
 out   vec4  o_color;
 const float pi = 3.14159265359;
+
+float calculate_shadow(vec3 frag_position, int light_index)
+{
+    vec3 frag_to_light = frag_position - u_light_positions[light_index];
+
+    float closest_depth = texture(u_shadow_maps[light_index], frag_to_light).r;
+    closest_depth *= u_far_plane;
+    float current_depth = length(frag_to_light);
+
+    float bias = 0.0234375;
+
+    float shadow = current_depth - bias > closest_depth ? 1.0 : 0.0;
+
+    return shadow;
+}
 
 vec3 get_normal_from_map()
 {
@@ -97,6 +116,11 @@ void main()
 
     for (int i = 0; i < u_lights_count; ++i)
     {
+        if (calculate_shadow(f_position, i) == 1.0)
+        {
+            continue;
+        }
+
         // calculate per-light radiance
         vec3  l           = normalize(u_light_positions[i] - f_position);
         vec3  h           = normalize(v + l);

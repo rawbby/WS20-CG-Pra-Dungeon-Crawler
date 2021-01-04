@@ -76,11 +76,11 @@ void OpenGLWidget::initializeGL ()
     m_player = entity;
 
     entity = engine::Game::add_entity({0.0f, 1.0f});
-    //engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f, asset::program::shadow);
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f, asset::program::shadow);
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
 
     entity = engine::Game::add_entity({0.0f, 0.0f});
-    //engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f, asset::program::shadow);
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f, asset::program::shadow);
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
 }
 
