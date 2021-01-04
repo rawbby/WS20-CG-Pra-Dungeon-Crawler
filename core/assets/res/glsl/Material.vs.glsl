@@ -47,5 +47,6 @@ void main()
 
     vec4 position = u_model_view_matrix * vec4(v_position + height * v_normal, 1.0);
     f_position = position.xyz / position.w;
+
     gl_Position = u_projection_matrix * position;
 }

@@ -3,6 +3,7 @@
 uniform sampler2D u_basecolor;
 uniform sampler2D u_normal;
 uniform sampler2D u_mrao;
+uniform sampler2D u_shadow_map;
 
 uniform vec3 u_light_positions[16];
 uniform vec3 u_light_colors[16];
@@ -13,6 +14,7 @@ uniform vec3 u_camera_position;
 in    vec3  f_position;
 in    vec3  f_normal;
 in    vec2  f_tex_coords;
+in    vec4  f_pos_light_space;
 out   vec4  o_color;
 const float pi = 3.14159265359;
 

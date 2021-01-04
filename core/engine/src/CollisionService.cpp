@@ -19,6 +19,7 @@ namespace engine::service
         const auto dynamic_size = dynamic_group.size();
         for (size_t i = 0; i < dynamic_size; ++i)
         {
+            // TODO reference not copy!
             auto[dynamic_i, position_i] = dynamic_group.get<DynamicCollisionComponent, PositionComponent>(dynamic_group[i]);
 
             for (size_t j = 0; j < i; ++j)

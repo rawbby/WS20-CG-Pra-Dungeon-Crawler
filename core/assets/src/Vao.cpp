@@ -47,10 +47,10 @@ namespace
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
 
         glBindVertexArray(GL_NONE);
-        glDeleteBuffers(1, &pointsBuffer);
-        glDeleteBuffers(1, &texCoordsBuffer);
-        glDeleteBuffers(1, &indicesBuffer);
-        glDeleteBuffers(1, &normalsBuffer);
+        //glDeleteBuffers(1, &pointsBuffer);
+        //glDeleteBuffers(1, &texCoordsBuffer);
+        //glDeleteBuffers(1, &indicesBuffer);
+        //glDeleteBuffers(1, &normalsBuffer);
 
         const auto status = glGetError();
         if (GL_NO_ERROR != status)
@@ -71,7 +71,7 @@ namespace asset::internal
     {
         // initialize base plane
         {
-            constexpr size_t divisions = 1024;
+            constexpr size_t divisions = 120;
 
             auto plane_points = geometries::generate_plane_back_points(divisions);
             auto plane_indices = geometries::generate_plane_indices(divisions);

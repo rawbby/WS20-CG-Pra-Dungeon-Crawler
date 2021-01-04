@@ -41,6 +41,7 @@ namespace asset
         inline GLuint trivial{};
         inline GLuint material{};
         inline GLuint pbr{};
+        inline GLuint shadow{};
     }
 
     namespace material

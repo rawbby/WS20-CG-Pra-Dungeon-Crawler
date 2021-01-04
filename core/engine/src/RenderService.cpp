@@ -26,15 +26,20 @@ namespace engine::service
         glEnable(GL_DEPTH_TEST);
     }
 
-    void Render::update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position)
+    void Render::update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position, float width, float height)
     {
         using namespace component;
+
+        int shadow_map_size = 1024;
 
         std::vector<glm::vec3> light_positions;
         light_positions.reserve(16);
 
         std::vector<glm::vec3> light_colors;
         light_colors.reserve(16);
+
+        std::vector<GLuint> light_tex_shadow;
+        light_tex_shadow.reserve(16);
 
         // fetch point light sources
         {
@@ -46,12 +51,15 @@ namespace engine::service
 
                 light_positions.emplace_back(glm::vec3{position[0], data.height, position[1]});
                 light_colors.push_back(data.color);
+                light_tex_shadow.push_back(data.tex_shadow);
             }
         }
 
         // render material components
         {
             auto render_group = reg.group<GlMaterialComponent>(entt::get<PositionComponent>);
+
+            float far_plane = 10.0f;
 
             for (const auto entity: render_group)
             {
@@ -76,9 +84,13 @@ namespace engine::service
                 glActiveTexture(GL_TEXTURE3);
                 glBindTexture(GL_TEXTURE_2D, data.material.tex_normal);
 
+                glActiveTexture(GL_TEXTURE4);
+                glBindTexture(GL_TEXTURE_CUBE_MAP, light_tex_shadow[0]);
+
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), 16, glm::value_ptr(*light_positions.data()));
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), 16, glm::value_ptr(*light_colors.data()));
                 glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
+                glUniform1f(glGetUniformLocation(data.program, "u_far_plane"), far_plane);
 
                 glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
 
@@ -86,12 +98,14 @@ namespace engine::service
                 glUniform1i(glGetUniformLocation(data.program, "u_height"), 1);
                 glUniform1i(glGetUniformLocation(data.program, "u_mrao"), 2);
                 glUniform1i(glGetUniformLocation(data.program, "u_normal"), 3);
+                glUniform1i(glGetUniformLocation(data.program, "u_shadow_map"), 4);
 
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix * camera_matrix));
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
 
                 glDrawElements(GL_TRIANGLES, data.count, GL_UNSIGNED_INT, nullptr);
             }
+            glDeleteTextures(1, &light_tex_shadow[0]);
         }
     }
 }

@@ -4,6 +4,7 @@
 
 #include "engine/service/CollisionService.hpp"
 #include "engine/service/RenderService.hpp"
+#include "engine/service/ShadowMapService.hpp"
 #include <engine/Entity.hpp>
 
 #include <entt/entt.hpp>
@@ -19,6 +20,7 @@ namespace engine
     protected: // TODO should be private
 
         service::Collision m_collision;
+        service::ShadowMap m_shadow_map;
         service::Render m_render;
 
     public:
@@ -32,7 +34,7 @@ namespace engine
         void update (glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position, float delta)
         {
             m_collision.update(m_registry, delta);
-            m_render.update(m_registry, projection_matrix, camera_matrix, camera_position);
+            m_render.update(m_registry, projection_matrix, camera_matrix, camera_position, 1024.0f, 1024.0f);
         }
 
     public:

@@ -11,5 +11,9 @@ namespace engine::component
     {
         glm::vec3 color{};
         float height = 0.0f;
+        GLuint program = GL_NONE;
+
+        // TODO save width and height
+        GLuint tex_shadow = GL_NONE;
     };
 }

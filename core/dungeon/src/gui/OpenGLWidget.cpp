@@ -34,6 +34,8 @@ void OpenGLWidget::initializeGL ()
     engine::Game::init();
     asset::init_assets();
 
+    makeCurrent();
+
     auto entity = engine::Game::add_entity();
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_back());
 
@@ -49,6 +51,12 @@ void OpenGLWidget::initializeGL ()
     entity = engine::Game::add_entity({0.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
 
+    entity = engine::Game::add_entity({0.0f, 1.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_left());
+
+    entity = engine::Game::add_entity({0.0f, 1.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_front());
+
     entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_back());
 
@@ -58,18 +66,21 @@ void OpenGLWidget::initializeGL ()
     entity = engine::Game::add_entity({1.0f, 1.0f});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
 
-    entity = engine::Game::add_entity();
+    entity = engine::Game::add_entity({1.0f, 1.0f});
+    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_front());
+
+    entity = engine::Game::add_entity({0.5, 1.0});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_player());
     engine::Game::add_component<engine::component::DynamicCollisionComponent>(entity, 0.5f, glm::vec2{});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.6f, 0.6f, 0.6f}, 0.0f);
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.6f, 0.6f, 0.6f}, 0.0f, asset::program::shadow);
     m_player = entity;
 
     entity = engine::Game::add_entity({0.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f);
+    //engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f, asset::program::shadow);
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
 
-    entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f);
+    entity = engine::Game::add_entity({0.0f, 0.0f});
+    //engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f, asset::program::shadow);
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
 }
 
@@ -103,10 +114,10 @@ void OpenGLWidget::paintGL ()
 
     m_collision.update(m_registry, 0.01f);
 
-    const float fovy = glm::radians(60.0f);
+    const float fovy = glm::radians(90.0f);
     const float aspect = m_width / m_height;
     const float zNear = 0.1f;
-    const float zFar = 150.0f;
+    const float zFar = 10.0f;
     const auto projection_matrix = glm::perspective(fovy, aspect, zNear, zFar);
 
     auto camera_center = glm::vec3{0.0f, 0.0f, 0.0f};
@@ -116,8 +127,16 @@ void OpenGLWidget::paintGL ()
     camera_center += glm::vec3{player_position[0], 0.0f, player_position[1]};
 
     glm::mat4 camera_matrix = glm::lookAt(camera_position, camera_center, camera_up);
+    //glm::mat4 camera_matrix = glm::lookAt(glm::vec3(1.0, 0.0, 1.0), glm::vec3(1.0, 0.0, 1.0) + glm::vec3( 0.0f,  0.0f,  -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
 
-    m_render.update(m_registry, projection_matrix, camera_matrix, camera_position);
+    m_shadow_map.update(m_registry);
+
+    makeCurrent();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(0, 0, m_width, m_height);
+
+    m_render.update(m_registry, projection_matrix, camera_matrix, camera_position, m_width, m_height);
 }
 
 OpenGLWidget::~OpenGLWidget () = default;

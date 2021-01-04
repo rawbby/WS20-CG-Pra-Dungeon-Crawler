@@ -16,13 +16,15 @@ target_sources(${THIS} PUBLIC
 
         inc/engine/service/CollisionService.hpp
         inc/engine/service/RenderService.hpp
+        inc/engine/service/ShadowMapService.hpp
 
         inc/engine/Entity.hpp
         inc/engine/Game.hpp)
 
 target_sources(${THIS} PRIVATE
         src/CollisionService.cpp
-        src/RenderService.cpp)
+        src/RenderService.cpp
+        src/ShadowMapService.cpp)
 
 target_include_directories(${THIS} PUBLIC inc)
 
