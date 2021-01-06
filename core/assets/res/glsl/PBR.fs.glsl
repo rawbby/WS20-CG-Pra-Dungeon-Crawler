@@ -4,7 +4,7 @@ uniform sampler2D u_basecolor;
 uniform sampler2D u_normal;
 uniform sampler2D u_mrao;
 
-uniform sampler2DShadow u_shadow_maps[16];
+uniform samplerCubeArray u_shadow_maps;
 
 uniform vec3 u_light_positions[16];
 uniform vec3 u_light_colors[16];
@@ -26,11 +26,12 @@ float calculate_shadow(vec3 frag_position, int light_index)
 {
     vec3 frag_to_light = frag_position - u_light_positions[light_index];
 
-    float closest_depth = texture(u_shadow_maps[light_index], frag_to_light).r;
+    float closest_depth = texture(u_shadow_maps, vec4(frag_to_light, light_index)).r;
     closest_depth *= u_far_plane;
     float current_depth = length(frag_to_light);
 
-    float bias = 0.0234375;
+    //float bias = 0.0234375;
+    float bias = 0.03;
 
     float shadow = current_depth - bias > closest_depth ? 1.0 : 0.0;
 

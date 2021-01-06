@@ -63,9 +63,9 @@ void main()
     vec3 Id =     max(dot(n, l), 0.0)                       * vec3(0.95) * light_color;
     vec3 Is = pow(max(dot(v, r), 0.0), 1.0 + mrao[1] * 8.0) * vec3(0.25) * light_color;
 
-    float shadow = ShadowCalculation(f_position);
-    intensity += Ia + (1.0 - shadow) * (Id + Is);
+    //float shadow = ShadowCalculation(f_position);
+    //intensity += Ia + (1.0 - shadow) * (Id + Is);
 
-    o_color = vec4(basecolor * intensity, 1.0);
-    //o_color = vec4(basecolor, 1.0);
+    //o_color = vec4(basecolor * intensity, 1.0);
+    o_color = vec4(basecolor, 1.0);
 }

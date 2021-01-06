@@ -86,7 +86,7 @@ namespace geometries
 
         for (uint32_t i = 1; i < stacks - 2; ++i)
         {
-            const auto offset = (i - 1) * slices + 1;
+            const auto offset = (i - 1) * slices + 1 + (i - 1);
 
             for (uint32_t j = 0; j < slices; ++j)
             {

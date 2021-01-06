@@ -72,8 +72,6 @@ namespace engine::service
             shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f)));
 
             glViewport(0, 0, shadow_map_size, shadow_map_size);
-
-            glClearColor(0.1f, 0.4f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             glUseProgram(data.program);
@@ -102,7 +100,6 @@ namespace engine::service
             data.tex_shadow = shadow_map;
             glDeleteFramebuffers(1, &shadow_fbo);
         }
-
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 }

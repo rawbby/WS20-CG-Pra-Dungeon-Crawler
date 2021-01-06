@@ -72,7 +72,7 @@ void OpenGLWidget::initializeGL ()
     entity = engine::Game::add_entity({0.5, 1.0});
     engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_player());
     engine::Game::add_component<engine::component::DynamicCollisionComponent>(entity, 0.5f, glm::vec2{});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.6f, 0.6f, 0.6f}, 0.0f, asset::program::shadow);
+    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.8f, 0.8f, 0.8f}, 0.0f, asset::program::shadow);
     m_player = entity;
 
     entity = engine::Game::add_entity({0.0f, 1.0f});
