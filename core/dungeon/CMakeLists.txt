@@ -34,4 +34,5 @@ target_link_libraries(${THIS}
         CONAN_PKG::entt
         CONAN_PKG::spdlog
         Assets
+        DaeLoader
         Engine)

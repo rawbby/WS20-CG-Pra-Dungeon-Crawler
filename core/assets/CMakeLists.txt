@@ -16,6 +16,7 @@ target_sources(${THIS} PUBLIC
         inc/resource/UnrealPbrMaterial.hpp)
 
 target_sources(${THIS} PRIVATE
+        src/AnimationVao.cpp
         src/GlMaterialComponent.cpp
         src/Material.cpp
         src/Program.cpp
@@ -44,4 +45,5 @@ target_link_libraries(${THIS} PUBLIC
         $<$<NOT:${WIN32}>:GL>
         CONAN_PKG::glew
         CONAN_PKG::glm
+        DaeLoader
         Engine)

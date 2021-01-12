@@ -14,6 +14,7 @@ conan_cmake_run(REQUIRES
         glm/0.9.9.8
         spdlog/1.8.1
         entt/3.5.2
+        assimp/5.0.1
         BASIC_SETUP CMAKE_TARGETS)
 
 find_package(Qt6 COMPONENTS
@@ -23,6 +24,8 @@ find_package(Qt6 COMPONENTS
         OpenGL
         OpenGLWidgets
         REQUIRED)
+
+add_subdirectory(tools/from_dea)
 
 add_subdirectory(core/engine)
 add_subdirectory(core/assets)

@@ -7,6 +7,7 @@
 #include <engine/component/GlMaterialComponent.hpp>
 #include <engine/component/GlBlendMaterialComponent.hpp>
 #include <engine/component/GlPointLightComponent.hpp>
+#include <engine/component/AnimatedModelComponent.hpp>
 
 #include <engine/component/PositionComponent.hpp>
 
@@ -81,6 +82,54 @@ namespace engine::service
                 glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
 
                 glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
+
+                glUniform1i(glGetUniformLocation(data.program, "u_basecolor"), 0);
+                glUniform1i(glGetUniformLocation(data.program, "u_height"), 1);
+                glUniform1i(glGetUniformLocation(data.program, "u_mrao"), 2);
+                glUniform1i(glGetUniformLocation(data.program, "u_normal"), 3);
+
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix * camera_matrix));
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
+
+                glDrawElements(GL_TRIANGLES, data.count, GL_UNSIGNED_INT, nullptr);
+            }
+        }
+
+        // render animation components
+        {
+            auto render_group = reg.group<JointAnimatorComponent>(entt::get<PositionComponent>);
+
+            for (const auto entity: render_group)
+            {
+                auto[position, data] = render_group.get<PositionComponent, JointAnimatorComponent>(entity);
+
+                const auto x = position[0];
+                const auto z = position[1];
+                const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, glm::vec3{x, 0.0f, z}) * data.model_view_matrix;
+
+                glUseProgram(data.program);
+                glBindVertexArray(data.vao);
+
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, data.material.tex_basecolor);
+
+                glActiveTexture(GL_TEXTURE1);
+                glBindTexture(GL_TEXTURE_2D, data.material.tex_height);
+
+                glActiveTexture(GL_TEXTURE2);
+                glBindTexture(GL_TEXTURE_2D, data.material.tex_mrao);
+
+                glActiveTexture(GL_TEXTURE3);
+                glBindTexture(GL_TEXTURE_2D, data.material.tex_normal);
+
+                glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), 16, glm::value_ptr(*light_positions.data()));
+                glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), 16, glm::value_ptr(*light_colors.data()));
+                glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
+
+                glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
+
+                const GLfloat* gg = reinterpret_cast<GLfloat*> (data.current_joint_transformations.get());
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_joint_transformations"), static_cast<GLsizei> (data.model->joint_count), GL_FALSE, gg);
 
                 glUniform1i(glGetUniformLocation(data.program, "u_basecolor"), 0);
                 glUniform1i(glGetUniformLocation(data.program, "u_height"), 1);

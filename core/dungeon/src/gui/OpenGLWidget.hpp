@@ -16,7 +16,7 @@ class [[maybe_unused]] OpenGLWidget
 {
 private:
 
-    engine::Entity m_player = engine::ENTITY_NULL;
+    engine::Entity m_player{};
 
 private:
 

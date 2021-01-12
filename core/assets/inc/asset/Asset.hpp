@@ -2,10 +2,13 @@
 
 // expose interface
 
+#include <engine/component/AnimatedModelComponent.hpp>
 #include <engine/component/GlRenderComponent.hpp>
 #include <engine/component/GlMaterialComponent.hpp>
 #include <engine/component/GlBlendMaterialComponent.hpp>
 #include <engine/component/GlMaterialComponent.hpp>
+
+#include <AnimatedMesh.hpp>
 
 #include <glm/glm.hpp>
 
@@ -16,6 +19,7 @@ namespace asset
     namespace internal
     {
         void init_vaos ();
+        void init_animation_vaos ();
         void init_programs ();
         void init_materials ();
     }
@@ -23,6 +27,7 @@ namespace asset
     inline void init_assets ()
     {
         internal::init_vaos();
+        internal::init_animation_vaos();
         internal::init_programs();
         internal::init_materials();
     }
@@ -34,6 +39,14 @@ namespace asset
 
         inline GLsizei plane_count = 0;
         inline GLsizei sphere_count = 0;
+
+        namespace animation
+        {
+            inline AnimatedMesh player_mesh{};
+            inline Animation player_animation{};
+            inline GLuint player = GL_NONE;
+            inline GLsizei player_count = 0;
+        }
     }
 
     namespace program
@@ -41,6 +54,7 @@ namespace asset
         inline GLuint trivial{};
         inline GLuint material{};
         inline GLuint pbr{};
+        inline GLuint animated_pbr{};
     }
 
     namespace material
@@ -61,8 +75,9 @@ namespace asset
         engine::component::GlMaterialComponent create_wall_right ();
         engine::component::GlMaterialComponent create_wall_front ();
         engine::component::GlMaterialComponent create_wall_left ();
-        engine::component::GlMaterialComponent create_wall_top ();
-        engine::component::GlMaterialComponent create_player ();
+        engine::component::GlMaterialComponent create_top ();
         engine::component::GlMaterialComponent create_debug_light ();
+
+        engine::component::JointAnimatorComponent create_animated_player ();
     }
 }

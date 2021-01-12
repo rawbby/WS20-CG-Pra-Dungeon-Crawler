@@ -20,6 +20,7 @@ target_link_libraries(${THIS}
 
 # add conan dependencies
 target_link_libraries(${THIS}
+        CONAN_PKG::glm
         CONAN_PKG::spdlog)
 
 target_link_libraries(${THIS} Assets)
