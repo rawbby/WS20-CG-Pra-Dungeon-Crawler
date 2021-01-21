@@ -86,6 +86,8 @@ namespace engine::service
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, material.material.tex_height);
 
+                glUniform1f(glGetUniformLocation(data.program, "u_height_mult"), material.material.tex_height_mult);
+
                 glUniform1i(glGetUniformLocation(data.program, "u_height"), 0);
 
                 const auto x = material_position[0];

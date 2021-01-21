@@ -10,6 +10,7 @@ namespace engine::component
         GLuint tex_height = GL_NONE;
         GLuint tex_mrao = GL_NONE;
         GLuint tex_normal = GL_NONE;
+        float tex_height_mult = GL_NONE;
     };
 
     /**

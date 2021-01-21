@@ -4,6 +4,7 @@ uniform sampler2D u_height;
 
 uniform mat4 u_projection_matrix;
 uniform mat4 u_model_view_matrix;
+uniform float u_height_mult;
 
 layout (location = 0) in vec3 v_position;
 layout (location = 1) in vec3 v_normal;
@@ -15,7 +16,7 @@ out vec3 f_normal;
 
 vec4 get_position_from_map()
 {
-    float height = texture(u_height, v_tex_coords).x * 0.046875;
+    float height = texture(u_height, v_tex_coords).x * u_height_mult;
     return u_model_view_matrix * vec4(v_position + (height * v_normal), 1.0);
 }
 

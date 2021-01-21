@@ -65,14 +65,16 @@ namespace engine::service
 
         glTexImage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 0, GL_DEPTH_COMPONENT, 1024, 1024, light_tex_shadows.size() * 6, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
-        for(int i = 0; i < light_tex_shadows.size(); ++i) {
-            glCopyImageSubData(light_tex_shadows[i], GL_TEXTURE_CUBE_MAP, 0, 0, 0, 0, shadow_maps, GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, i * 6, 1024, 1024, 6);
-        }
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+        for(int i = 0; i < light_tex_shadows.size(); ++i)
+        {
+            glCopyImageSubData(light_tex_shadows[i], GL_TEXTURE_CUBE_MAP, 0, 0, 0, 0, shadow_maps, GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, i * 6, 1024, 1024, 6);
+        }
 
         glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, 0);
 
@@ -112,6 +114,7 @@ namespace engine::service
                 glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), static_cast<GLsizei> (light_colors.size()), glm::value_ptr(*light_colors.data()));
                 glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
                 glUniform1f(glGetUniformLocation(data.program, "u_far_plane"), far_plane);
+                glUniform1f(glGetUniformLocation(data.program, "u_height_mult"), data.material.tex_height_mult);
 
                 glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
 

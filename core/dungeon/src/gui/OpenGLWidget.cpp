@@ -127,7 +127,6 @@ void OpenGLWidget::paintGL ()
     camera_center += glm::vec3{player_position[0], 0.0f, player_position[1]};
 
     glm::mat4 camera_matrix = glm::lookAt(camera_position, camera_center, camera_up);
-    //glm::mat4 camera_matrix = glm::lookAt(glm::vec3(1.0, 0.0, 1.0), glm::vec3(1.0, 0.0, 1.0) + glm::vec3( 0.0f,  0.0f,  -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
 
     m_shadow_map.update(m_registry);
 
