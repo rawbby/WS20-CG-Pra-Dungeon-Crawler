@@ -6,7 +6,7 @@ set(CMAKE_AUTOUIC ON)
 
 set(THIS Dungeon)
 
-add_executable(${THIS})
+add_executable(${THIS} src/gui/Scene001.hpp)
 set_compile_options(${THIS})
 set_compile_warnings(${THIS})
 deployqt(${THIS})

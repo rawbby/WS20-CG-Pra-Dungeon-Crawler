@@ -10,6 +10,8 @@
 
 #include <engine/component/GlPointLightComponent.hpp>
 
+#include <gui/Scene001.hpp>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
@@ -31,57 +33,15 @@
 
 void OpenGLWidget::initializeGL ()
 {
-    engine::Game::init();
+    using namespace engine;
+    using namespace component;
+
+    Game::init();
     asset::init_assets();
 
     makeCurrent();
 
-    auto entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_back());
-
-    entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_right());
-
-    entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_left());
-
-    entity = engine::Game::add_entity();
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
-
-    entity = engine::Game::add_entity({0.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
-
-    entity = engine::Game::add_entity({0.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_left());
-
-    entity = engine::Game::add_entity({0.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_front());
-
-    entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_back());
-
-    entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_right());
-
-    entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_floor());
-
-    entity = engine::Game::add_entity({1.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_wall_front());
-
-    entity = engine::Game::add_entity({0.5, 1.0});
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_player());
-    engine::Game::add_component<engine::component::DynamicCollisionComponent>(entity, 0.5f, glm::vec2{});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.8f, 0.8f, 0.8f}, 0.0f, asset::program::shadow);
-    m_player = entity;
-
-    entity = engine::Game::add_entity({0.0f, 1.0f});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{0.4f, 0.4f, 1.0f}, 0.75f, asset::program::shadow);
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
-
-    entity = engine::Game::add_entity({0.0f, 0.0f});
-    engine::Game::add_component<engine::component::GlPointLightComponent>(entity, glm::vec3{1.0f, 0.5f, 0.5f}, 0.0f, asset::program::shadow);
-    engine::Game::add_component<engine::component::GlMaterialComponent>(entity, asset::material::create_debug_light());
+    scene001::create_scene(*this, m_player);
 }
 
 void OpenGLWidget::resizeGL (int width, int height)
@@ -99,8 +59,7 @@ void OpenGLWidget::paintGL ()
     camera_position = glm::rotateX(camera_position, glm::radians(gui::CAMERA_ROTATION_X));
     camera_position = glm::rotateY(camera_position, glm::radians(gui::camera_rotation_y));
 
-
-    auto &player_dynamic = engine::Game::get_component<engine::component::DynamicCollisionComponent>(m_player);
+    auto &player_dynamic = engine::Game::get_component<engine::component::DynamicCollisionCircle>(m_player);
     auto &player_position = engine::Game::get_component<engine::component::PositionComponent>(m_player);
 
     auto velocity_sideway = glm::normalize(glm::vec2(-camera_position.z, camera_position.x)) * 0.025f * gui::camera_distance;

@@ -71,7 +71,7 @@ namespace asset::internal
     {
         // initialize base plane
         {
-            constexpr size_t divisions = 512;
+            constexpr size_t divisions = 128;
 
             auto plane_points = geometries::generate_plane_back_points(divisions);
             auto plane_indices = geometries::generate_plane_indices(divisions);
@@ -84,7 +84,7 @@ namespace asset::internal
 
         // initialize base plane
         {
-            constexpr size_t divisions = 192;
+            constexpr size_t divisions = 64;
 
             auto plane_points = geometries::generate_plane_back_points(divisions);
             auto plane_indices = geometries::generate_plane_indices(divisions);
@@ -97,8 +97,8 @@ namespace asset::internal
 
         // initialize base sphere
         {
-            constexpr size_t slices = 24;
-            constexpr size_t stacks = 24;
+            constexpr size_t slices = 16;
+            constexpr size_t stacks = 16;
 
             auto sphere_points = geometries::generate_sphere_points(slices, stacks);
             auto sphere_indices = geometries::generate_sphere_indices(slices, stacks);
@@ -111,8 +111,8 @@ namespace asset::internal
 
         // initialize base sphere
         {
-            constexpr size_t slices = 12;
-            constexpr size_t stacks = 12;
+            constexpr size_t slices = 8;
+            constexpr size_t stacks = 8;
 
             auto sphere_points = geometries::generate_sphere_points(slices, stacks);
             auto sphere_indices = geometries::generate_sphere_indices(slices, stacks);

@@ -2,8 +2,8 @@
 
 #include "CollisionService.hpp"
 
-#include <engine/component/DynamicCollisionComponent.hpp>
-#include <engine/component/StaticCollisionComponent.hpp>
+#include <engine/component/DynamicCollisionCircle.hpp>
+#include <engine/component/StaticCollisionLine.hpp>
 #include <engine/component/PositionComponent.hpp>
 
 #include <glm/ext/quaternion_common.hpp>

@@ -7,12 +7,12 @@ set_compile_options(${THIS})
 set_compile_warnings(${THIS})
 
 target_sources(${THIS} PUBLIC
-        inc/engine/component/DynamicCollisionComponent.hpp
+        inc/engine/component/DynamicCollisionCircle.hpp
         inc/engine/component/GlBlendMaterialComponent.hpp
         inc/engine/component/GlMaterialComponent.hpp
         inc/engine/component/GlRenderComponent.hpp
         inc/engine/component/PositionComponent.hpp
-        inc/engine/component/StaticCollisionComponent.hpp
+        inc/engine/component/StaticCollisionLine.hpp
 
         inc/engine/service/CollisionService.hpp
         inc/engine/service/RenderService.hpp

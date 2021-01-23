@@ -12,9 +12,9 @@ namespace engine::component
      * need to have the PositionComponent
      * to be used with the CollisionService.
      */
-    struct DynamicCollisionComponent
+    struct DynamicCollisionCircle
     {
-        float radius = 0.0f;
         glm::vec2 velocity{};
+        float radius = 0.0f;
     };
 }

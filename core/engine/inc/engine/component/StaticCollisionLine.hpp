@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 namespace engine::component
 {
     /**
@@ -10,9 +12,9 @@ namespace engine::component
      * need to have the PositionComponent
      * to be used with the CollisionService.
      */
-    struct StaticCollisionComponent
+    struct StaticCollisionLine
     {
-        float half_width = 0.0f;
-        float half_height = 0.0f;
+        glm::vec2 position{};
+        glm::vec2 direction{};
     };
 }

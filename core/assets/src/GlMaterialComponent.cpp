@@ -21,13 +21,13 @@ namespace asset::material
     {
         auto mvm = glm::identity<glm::mat4>();
         mvm = glm::rotate(mvm, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        return create_plane(asset::material::dirty_hammered_copper, mvm);
+        return create_plane(asset::material::chunky_wet_gravel_and_dirt, mvm);
     }
 
     engine::component::GlMaterialComponent create_wall_back ()
     {
         auto mvm = glm::identity<glm::mat4>();
-        return create_plane(asset::material::black_granite, mvm);
+        return create_plane(asset::material::broken_limestone_brick_path, mvm);
     }
 
     engine::component::GlMaterialComponent create_wall_right ()
@@ -48,34 +48,6 @@ namespace asset::material
     {
         auto mvm = glm::identity<glm::mat4>();
         mvm = glm::rotate(mvm, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        return create_plane(asset::material::chunky_wet_gravel_and_dirt, mvm);
-    }
-
-    engine::component::GlMaterialComponent create_wall_top ()
-    {
-        auto mvm = glm::identity<glm::mat4>();
-        mvm = glm::translate(mvm, glm::vec3(0.0f, 1.0f, 0.0f));
-        mvm = glm::rotate(mvm, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        return create_plane(asset::material::black_granite, mvm);
-    }
-
-    engine::component::GlMaterialComponent create_player ()
-    {
-        using namespace asset;
-        using namespace asset::internal;
-
-        auto mvm = glm::identity<glm::mat4>();
-        mvm = glm::scale(mvm, glm::vec3{0.125f, 0.125f, 0.125f});
-        return {program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, mvm, material::black_granite};
-    }
-
-    engine::component::GlMaterialComponent create_debug_light ()
-    {
-        using namespace asset;
-        using namespace asset::internal;
-
-        auto mvm = glm::identity<glm::mat4>();
-        mvm = glm::scale(mvm, glm::vec3{0.0625f, 0.0625f, 0.0625f});
-        return {program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, mvm, material::pile_of_skulls};
+        return create_plane(asset::material::broken_limestone_brick_path, mvm);
     }
 }
