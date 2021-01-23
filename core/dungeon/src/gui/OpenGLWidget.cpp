@@ -8,11 +8,8 @@
 
 #include <QMouseEvent>
 
-#include <engine/component/GlPointLightComponent.hpp>
-
 #include <gui/Scene001.hpp>
 
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
 [[maybe_unused]] OpenGLWidget::OpenGLWidget (QWidget *parent)
@@ -27,7 +24,7 @@
         QWidget::update();
     });
 
-    m_timer.setInterval(10);
+    m_timer.setInterval(8);
     m_timer.start();
 
     m_elapsed_timer.start();
@@ -66,7 +63,7 @@ void OpenGLWidget::paintGL ()
     auto &player_position = engine::Game::get_component<engine::component::PositionComponent>(m_player);
 
     auto velocity_sideway = glm::vec2(-camera_position.z, camera_position.x);
-    auto velocity_forward = glm::vec2(velocity_sideway.y, -velocity_sideway.x);
+    auto velocity_forward = glm::vec2(camera_position.x, camera_position.z);
 
     glm::vec2 v{};
     v += gui::key_states[gui::KEY_A] ? velocity_sideway : glm::vec2{};

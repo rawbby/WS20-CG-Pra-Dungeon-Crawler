@@ -11,6 +11,8 @@
 namespace
 {
     /*
+     * @https://www.cs.cmu.edu/~quake/robust.html
+     *
      * Return a positive value if the points pa, pb, and pc occur
      * in counterclockwise order; a negative value if they occur
      * in clockwise order; and zero if they are collinear.  The
@@ -97,6 +99,9 @@ namespace engine::service
 
     void Collision::update (entt::registry &reg, float delta)
     {
+        static auto i = 0;
+        ++i;
+
         using namespace component;
         delta = std::min(delta, 0.024f); // assume min 24 fps or drop time
 
@@ -108,16 +113,21 @@ namespace engine::service
             auto &dynamic_i = reg.get<DynamicCollisionCircle>(dynamic_comp);
             auto &position_i = reg.get<PositionComponent>(dynamic_comp);
 
+            LABEL_RELOOP:
             for (const auto static_comp: static_group)
             {
                 const auto &line = static_group.get<StaticCollisionLine>(static_comp);
 
                 glm::vec2 circle_pos = position_i + dynamic_i.velocity() * delta;
-                if (intersect(line.position, line.direction, circle_pos, dynamic_i.radius))
+
+                // only check for collision if the circle moves against wall
+                if (orient2dfast(line.position, line.position + line.direction, line.position + dynamic_i.direction_norm) > 0)
                 {
-                    if (orient2dfast(line.position, line.position + line.direction, line.position + dynamic_i.direction_norm) > 0)
+                    // check whether the circle will intersect at target position
+                    if (intersect(line.position, line.direction, circle_pos, dynamic_i.radius))
                     {
                         dynamic_i.velocity(glm::proj(dynamic_i.velocity(), glm::normalize(line.direction)));
+                        goto LABEL_RELOOP;
                     }
                 }
             }
