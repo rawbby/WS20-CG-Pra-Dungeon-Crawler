@@ -18,7 +18,11 @@ namespace gui
     constexpr size_t KEY_W = 2;
     constexpr size_t KEY_D = 3;
 
+    constexpr size_t MOUSE_LEFT = 0;
+    constexpr size_t MOUSE_RIGHT = 1;
+
     inline std::array<bool, 4> key_states;
+    inline std::array<bool, 2> mouse_keys;
 }
 
 namespace Ui
@@ -34,7 +38,6 @@ Q_OBJECT
 private:
 
     QPoint m_mouse_position = {};
-    bool m_mouse_pressed = false;
 
 private:
 

@@ -68,7 +68,7 @@ void OpenGLWidget::paintGL ()
     glm::vec2 v{};
     v += gui::key_states[gui::KEY_A] ? velocity_sideway : glm::vec2{};
     v += gui::key_states[gui::KEY_S] ? velocity_forward : glm::vec2{};
-    v += gui::key_states[gui::KEY_W] ? -velocity_forward : glm::vec2{};
+    v += gui::key_states[gui::KEY_W] || (gui::mouse_keys[gui::MOUSE_LEFT] && gui::mouse_keys[gui::MOUSE_RIGHT]) ? -velocity_forward : glm::vec2{};
     v += gui::key_states[gui::KEY_D] ? -velocity_sideway : glm::vec2{};
     player_dynamic.direction(v);
     player_dynamic.speed = gui::camera_distance;

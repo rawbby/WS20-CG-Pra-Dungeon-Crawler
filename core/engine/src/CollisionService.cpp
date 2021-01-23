@@ -28,66 +28,63 @@ namespace
         return acx * bcy - acy * bcx;
     }
 
-    bool intersect (glm::vec2 line_pos, glm::vec2 line_dir, glm::vec2 circle_pos, float circle_radius)
+    /*
+     * @https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
+     *
+     * using:
+     *
+     *
+     * @param e  is the starting point of the ray,
+     * @param d  is the direction vector of ray, from start to end
+     * @param ci is the center of sphere you're testing against
+     * @param r  is the radius of that sphere
+     *
+     * f = e - ci; is the vector from center sphere to ray start
+     *
+     * then the intersection is found by plugging:
+     * p = e + t * d
+     * into
+     * (p.x - ci.x)^2 + (p.y - ci.y)^2 = r2
+     *
+     * by reforming the term we get an eqution of form:
+     * t = a * x^2 + b * x^2 + c
+     * where:
+     * a = dot(d, d)
+     * b = 2 * dot(f, d)
+     * c = dot(f, f) - r^2
+     *
+     * here we can get the discriminant, to see if the line hits the circle:
+     * [discriminant = 0] => two roots are equal, single result => touch
+     * [discriminant < 0] => no root in real numbers, no result => miss
+     * [discriminant > 0] => two roots arent equal, two results => hit
+     *
+     * on touch and miss we return false (no intersect), where touch is a design decision that is not accurate in math.
+     * on hit we need to further analyse if the hit was on the line segment, by calculating the equation.
+     */
+    bool intersect (glm::vec2 e, glm::vec2 d, glm::vec2 ci, float r)
     {
-        //@https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
-
-        auto d = line_dir;
-        auto f = line_pos - circle_pos;
-        auto r = circle_radius;
+        auto f = e - ci;
 
         auto a = glm::dot(d, d);
-        auto b = 2 * glm::dot(f, d);
+        auto b = 2.0f * glm::dot(f, d);
         auto c = glm::dot(f, f) - r * r;
 
-        auto discriminant = b * b - 4 * a * c;
+        auto discriminant = b * b - 4.0f * a * c;
 
-        if (discriminant < 0)
+        if (discriminant > 0.0f)
         {
-            // no intersection
-            return false;
-        }
-        else
-        {
-            // ray didn't totally miss sphere,
-            // so there is a solution to
-            // the equation.
-
             discriminant = sqrt(discriminant);
 
-            // either solution may be on or off the ray so need to test both
-            // t1 is always the smaller value, because BOTH discriminant and
-            // a are nonnegative.
             float t1 = (-b - discriminant) / (a + a);
+            if (t1 >= 0.0f && t1 <= 1.0f)
+                return true;
+
             float t2 = (-b + discriminant) / (a + a);
-
-            // 3x HIT cases:
-            //          -o->             --|-->  |            |  --|->
-            // Impale(t1 hit,t2 hit), Poke(t1 hit,t2>1), ExitWound(t1<0, t2 hit),
-
-            // 3x MISS cases:
-            //       ->  o                     o ->              | -> |
-            // FallShort (t1>1,t2>1), Past (t1<0,t2<0), CompletelyInside(t1<0, t2>1)
-
-            if (t1 >= 0 && t1 <= 1)
-            {
-                // t1 is the intersection, and it's closer than t2
-                // (since t1 uses -b - discriminant)
-                // Impale, Poke
+            if (t2 >= 0.0f && t2 <= 1.0f)
                 return true;
-            }
-
-            // here t1 didn't intersect so we are either started
-            // inside the sphere or completely past it
-            if (t2 >= 0 && t2 <= 1)
-            {
-                // ExitWound
-                return true;
-            }
-
-            // no intn: FallShort, Past, CompletelyInside
-            return false;
         }
+
+        return false;
     }
 }
 
@@ -105,36 +102,34 @@ namespace engine::service
         using namespace component;
         delta = std::min(delta, 0.024f); // assume min 24 fps or drop time
 
-        auto static_group = reg.view<StaticCollisionLine>();
-        auto dynamic_group = reg.group<DynamicCollisionCircle>(entt::get<PositionComponent>);
+        auto line_entities = reg.view<StaticCollisionLine>();
+        auto circle_entities = reg.group<DynamicCollisionCircle>(entt::get<PositionComponent>);
 
-        for (const auto dynamic_comp: dynamic_group)
+        for (const auto circle_entity: circle_entities)
         {
-            auto &dynamic_i = reg.get<DynamicCollisionCircle>(dynamic_comp);
-            auto &position_i = reg.get<PositionComponent>(dynamic_comp);
+            auto &circle = reg.get<DynamicCollisionCircle>(circle_entity);
+            auto &circle_position = reg.get<PositionComponent>(circle_entity);
 
             LABEL_RELOOP:
-            for (const auto static_comp: static_group)
+            for (const auto static_comp: line_entities)
             {
-                const auto &line = static_group.get<StaticCollisionLine>(static_comp);
-
-                glm::vec2 circle_pos = position_i + dynamic_i.velocity() * delta;
+                const auto &line = line_entities.get<StaticCollisionLine>(static_comp);
 
                 // only check for collision if the circle moves against wall
-                if (orient2dfast(line.position, line.position + line.direction, line.position + dynamic_i.direction_norm) > 0)
+                if (orient2dfast(line.position, line.position + line.direction, line.position + circle.direction_norm) > 0)
                 {
                     // check whether the circle will intersect at target position
-                    if (intersect(line.position, line.direction, circle_pos, dynamic_i.radius))
+                    if (intersect(line.position, line.direction, circle_position + circle.velocity() * delta, circle.radius))
                     {
-                        dynamic_i.velocity(glm::proj(dynamic_i.velocity(), glm::normalize(line.direction)));
+                        circle.velocity(glm::proj(circle.velocity(), glm::normalize(line.direction)));
                         goto LABEL_RELOOP;
                     }
                 }
             }
 
-            position_i += dynamic_i.velocity() * delta;
-            dynamic_i.direction_norm = {};
-            dynamic_i.speed = 0.0f;
+            circle_position += circle.velocity() * delta;
+            circle.direction_norm = {};
+            circle.speed = 0.0f;
         }
     }
 }

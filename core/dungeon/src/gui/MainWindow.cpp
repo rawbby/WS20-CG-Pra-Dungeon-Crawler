@@ -37,19 +37,27 @@ MainWindow::~MainWindow () = default;
 
 [[maybe_unused]] void MainWindow::mousePressEvent (QMouseEvent *event)
 {
-    m_mouse_pressed = true;
+    if (event->button() == Qt::RightButton)
+        gui::mouse_keys[gui::MOUSE_RIGHT] = true;
+
+    if (event->button() == Qt::LeftButton)
+        gui::mouse_keys[gui::MOUSE_LEFT] = true;
+
     m_mouse_position = event->pos();
 }
 
 [[maybe_unused]] void MainWindow::mouseReleaseEvent (QMouseEvent *event)
 {
-    Q_UNUSED(event);
-    m_mouse_pressed = false;
+    if (event->button() == Qt::RightButton)
+        gui::mouse_keys[gui::MOUSE_RIGHT] = false;
+
+    if (event->button() == Qt::LeftButton)
+        gui::mouse_keys[gui::MOUSE_LEFT] = false;
 }
 
 [[maybe_unused]] void MainWindow::mouseMoveEvent (QMouseEvent *event)
 {
-    if (m_mouse_pressed)
+    if (gui::mouse_keys[gui::MOUSE_RIGHT])
     {
         auto delta = event->pos() - m_mouse_position;
         m_mouse_position = event->pos();
