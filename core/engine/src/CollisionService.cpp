@@ -10,25 +10,29 @@
 
 namespace
 {
-    struct SCLine
+    /*
+     * Return a positive value if the points pa, pb, and pc occur
+     * in counterclockwise order; a negative value if they occur
+     * in clockwise order; and zero if they are collinear.  The
+     * result is also a rough approximation of twice the signed
+     * area of the triangle defined by the three points.
+     */
+    float orient2dfast (glm::vec2 pa, glm::vec2 pb, glm::vec2 pc)
     {
-        glm::vec2 position{};
-        glm::vec2 direction{};
-    };
+        const float acx = pa[0] - pc[0];
+        const float bcx = pb[0] - pc[0];
+        const float acy = pa[1] - pc[1];
+        const float bcy = pb[1] - pc[1];
+        return acx * bcy - acy * bcx;
+    }
 
-    struct DCCircle
-    {
-        glm::vec2 position{};
-        float radius = 0.0f;
-    };
-
-    bool intersect (SCLine line, DCCircle circle)
+    bool intersect (glm::vec2 line_pos, glm::vec2 line_dir, glm::vec2 circle_pos, float circle_radius)
     {
         //@https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
 
-        auto d = line.direction;
-        auto f = line.position - circle.position;
-        auto r = circle.radius;
+        auto d = line_dir;
+        auto f = line_pos - circle_pos;
+        auto r = circle_radius;
 
         auto a = glm::dot(d, d);
         auto b = 2 * glm::dot(f, d);
@@ -52,8 +56,8 @@ namespace
             // either solution may be on or off the ray so need to test both
             // t1 is always the smaller value, because BOTH discriminant and
             // a are nonnegative.
-            float t1 = (-b - discriminant) / (a+a);
-            float t2 = (-b + discriminant) / (a+a);
+            float t1 = (-b - discriminant) / (a + a);
+            float t2 = (-b + discriminant) / (a + a);
 
             // 3x HIT cases:
             //          -o->             --|-->  |            |  --|->
@@ -94,7 +98,7 @@ namespace engine::service
     void Collision::update (entt::registry &reg, float delta)
     {
         using namespace component;
-        delta = std::min(delta, 0.2f);
+        delta = std::min(delta, 0.024f); // assume min 24 fps or drop time
 
         auto static_group = reg.view<StaticCollisionLine>();
         auto dynamic_group = reg.group<DynamicCollisionCircle>(entt::get<PositionComponent>);
@@ -108,14 +112,19 @@ namespace engine::service
             {
                 const auto &line = static_group.get<StaticCollisionLine>(static_comp);
 
-                if (intersect({line.position, line.direction}, {position_i + dynamic_i.velocity, dynamic_i.radius}))
+                glm::vec2 circle_pos = position_i + dynamic_i.velocity() * delta;
+                if (intersect(line.position, line.direction, circle_pos, dynamic_i.radius))
                 {
-                    dynamic_i.velocity = glm::proj(dynamic_i.velocity, glm::normalize(line.direction));
+                    if (orient2dfast(line.position, line.position + line.direction, line.position + dynamic_i.direction_norm) > 0)
+                    {
+                        dynamic_i.velocity(glm::proj(dynamic_i.velocity(), glm::normalize(line.direction)));
+                    }
                 }
             }
 
-            position_i += dynamic_i.velocity;
-            dynamic_i.velocity = {};
+            position_i += dynamic_i.velocity() * delta;
+            dynamic_i.direction_norm = {};
+            dynamic_i.speed = 0.0f;
         }
     }
 }

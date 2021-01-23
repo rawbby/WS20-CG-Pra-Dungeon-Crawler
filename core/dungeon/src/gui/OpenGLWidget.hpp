@@ -4,6 +4,7 @@
 #include <QPoint>
 #include <QWidget>
 #include <QOpenGLWidget>
+#include <QElapsedTimer>
 #include <vector>
 
 #include <entt/entt.hpp>
@@ -26,6 +27,7 @@ private:
 private:
 
     QTimer m_timer;
+    QElapsedTimer m_elapsed_timer{};
 
 public:
 

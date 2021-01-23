@@ -14,7 +14,24 @@ namespace engine::component
      */
     struct DynamicCollisionCircle
     {
-        glm::vec2 velocity{};
+        glm::vec2 direction_norm{};
+        float speed = 0.0f;
         float radius = 0.0f;
+
+        [[nodiscard]] inline glm::vec2 velocity () const noexcept
+        {
+            return direction_norm * speed;
+        }
+
+        inline void velocity (glm::vec2 v)
+        {
+            speed = glm::length(v);
+            direction_norm = (speed == 0.0f) ? glm::vec2{0.0f} : glm::normalize(v);
+        }
+
+        inline void direction (glm::vec2 v)
+        {
+            direction_norm = (glm::length(v) == 0.0f) ? glm::vec2{0.0f} : glm::normalize(v);
+        }
     };
 }
