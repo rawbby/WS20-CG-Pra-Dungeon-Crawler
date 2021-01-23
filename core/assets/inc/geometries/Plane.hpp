@@ -47,13 +47,13 @@ namespace geometries
         {
             for (uint32_t x = 0; x < divisions + 1; ++x)
             {
+                indices.push_back((x + y + y * (divisions + 1)) + 1);
+                indices.push_back((x + y + y * (divisions + 1)) + divisions + 2);
                 indices.push_back((x + y + y * (divisions + 1)) + 0);
-                indices.push_back((x + y + y * (divisions + 1)) + divisions + 2);
-                indices.push_back((x + y + y * (divisions + 1)) + 1);
 
-                indices.push_back((x + y + y * (divisions + 1)) + divisions + 2 + 1);
-                indices.push_back((x + y + y * (divisions + 1)) + 1);
                 indices.push_back((x + y + y * (divisions + 1)) + divisions + 2);
+                indices.push_back((x + y + y * (divisions + 1)) + 1);
+                indices.push_back((x + y + y * (divisions + 1)) + divisions + 2 + 1);
             }
         }
 

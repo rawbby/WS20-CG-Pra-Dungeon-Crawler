@@ -3,6 +3,8 @@
 #include <engine/component/StaticCollisionLine.hpp>
 #include <engine/component/DynamicCollisionCircle.hpp>
 
+#include <glm/gtx/projection.hpp>
+
 #include <spdlog/spdlog.h>
 #include <cmath>
 
@@ -92,7 +94,7 @@ namespace engine::service
     void Collision::update (entt::registry &reg, float delta)
     {
         using namespace component;
-        (void) delta; // TODO use delta - this behavior is only accepted as this function is WIP
+        delta = std::min(delta, 0.2f);
 
         auto static_group = reg.view<StaticCollisionLine>();
         auto dynamic_group = reg.group<DynamicCollisionCircle>(entt::get<PositionComponent>);
@@ -108,7 +110,7 @@ namespace engine::service
 
                 if (intersect({line.position, line.direction}, {position_i + dynamic_i.velocity, dynamic_i.radius}))
                 {
-                    dynamic_i.velocity = {};
+                    dynamic_i.velocity = glm::proj(dynamic_i.velocity, glm::normalize(line.direction));
                 }
             }
 

@@ -24,6 +24,8 @@ namespace engine::service
         glewInit();
 
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
     }
 
     void Render::update (entt::registry &reg, glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position, float width, float height)
@@ -82,7 +84,7 @@ namespace engine::service
         {
             auto render_group = reg.group<GlMaterialComponent>(entt::get<PositionComponent>);
 
-            float far_plane = 10.0f;
+            float far_plane = 128.0f;
 
             for (const auto entity: render_group)
             {

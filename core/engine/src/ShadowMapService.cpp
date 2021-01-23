@@ -60,7 +60,7 @@ namespace engine::service
             glDrawBuffer(GL_NONE);
             glReadBuffer(GL_NONE);
 
-            float near_plane = 0.125f, far_plane = 10.0f;
+            float near_plane = 0.001f, far_plane = 128.0f;
 
             glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), 1.0f, near_plane, far_plane);
             std::vector<glm::mat4> shadowTransforms;
