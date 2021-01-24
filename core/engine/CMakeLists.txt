@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 set(THIS Engine)
 
-add_library(${THIS} STATIC)
+add_library(${THIS} STATIC inc/engine/Util.hpp)
 set_compile_options(${THIS})
 set_compile_warnings(${THIS})
 

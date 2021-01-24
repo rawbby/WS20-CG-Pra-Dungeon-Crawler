@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-#include "engine/service/RenderService.hpp"
+#include <engine/service/RenderService.hpp>
 
 #include <engine/component/GlRenderComponent.hpp>
 #include <engine/component/GlMaterialComponent.hpp>
@@ -9,6 +9,7 @@
 #include <engine/component/GlPointLightComponent.hpp>
 
 #include <engine/component/PositionComponent.hpp>
+#include <engine/Util.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
@@ -49,7 +50,7 @@ namespace engine::service
             {
                 auto[position, data] = light_group.get<PositionComponent, GlPointLightComponent>(entity);
 
-                light_positions.emplace_back(glm::vec3{position[0], data.height, position[1]});
+                light_positions.push_back(engine::fromCoordinate(position));
                 light_colors.push_back(data.color);
                 light_tex_shadows.push_back(data.tex_shadow);
 
@@ -73,7 +74,7 @@ namespace engine::service
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP_ARRAY, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-        for(int i = 0; i < light_tex_shadows.size(); ++i)
+        for (int i = 0; i < light_tex_shadows.size(); ++i)
         {
             glCopyImageSubData(light_tex_shadows[i], GL_TEXTURE_CUBE_MAP, 0, 0, 0, 0, shadow_maps, GL_TEXTURE_CUBE_MAP_ARRAY, 0, 0, 0, i * 6, 1024, 1024, 6);
         }
@@ -90,9 +91,7 @@ namespace engine::service
             {
                 auto[position, data] = render_group.get<PositionComponent, GlMaterialComponent>(entity);
 
-                const auto x = position[0];
-                const auto z = position[1];
-                const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, glm::vec3{x, 0.0f, z}) * data.model_view_matrix;
+                const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, engine::fromCoordinate(position)) * data.model_view_matrix;
 
                 glUseProgram(data.program);
                 glBindVertexArray(data.vao);

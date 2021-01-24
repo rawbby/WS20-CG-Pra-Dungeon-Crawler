@@ -48,15 +48,15 @@ namespace asset::internal
 {
     void init_materials ()
     {
-        material::black_granite                      = pbr_from_path("./res/materials/gametextures/BlackGranite_2048x2048.pbr", 2048, 2048, 0.0f);
-        material::black_ostrich_hide_wrinkles_2      = pbr_from_path("./res/materials/gametextures/BlackOstrichHideWrinkles2_2048x2048.pbr", 2048, 2048, 0.046875f);
-        material::broken_limestone_brick_path        = pbr_from_path("./res/materials/gametextures/BrokenLimestoneBrickPath_2048x2048.pbr", 2048, 2048, 0.046875f);
-        material::chunky_wet_gravel_and_dirt         = pbr_from_path("./res/materials/gametextures/ChunkyWetGravelAndDirt_2048x2048.pbr", 2048, 2048, 0.046875f);
-        material::clay_01                            = pbr_from_path("./res/materials/gametextures/Clay01_2048x2048.pbr", 2048, 2048, 0.046875f);
-        material::cracked_red_ceramic_roof           = pbr_from_path("./res/materials/gametextures/CrackedRedCeramicRoof_2048x2048.pbr", 2048, 2048, 0.046875f);
-        material::dirty_hammered_copper              = pbr_from_path("./res/materials/gametextures/DirtyHammeredCopper_2048x2048.pbr", 2048, 2048, 0.02f);
-        material::pile_of_skulls                     = pbr_from_path("./res/materials/gametextures/PileOfSkulls_2048x2048.pbr", 2048, 2048, 0.046875f);
-        material::white_wool_cloth                   = pbr_from_path("./res/materials/gametextures/WhiteWoolCloth_2048x2048.pbr", 2048, 2048, 0.02f);
+        material::black_granite = pbr_from_path("./res/materials/gametextures/BlackGranite_2048x2048.pbr", 2048, 2048, 0.0f);
+        material::black_ostrich_hide_wrinkles_2 = pbr_from_path("./res/materials/gametextures/BlackOstrichHideWrinkles2_2048x2048.pbr", 2048, 2048, 0.046875f);
+        material::broken_limestone_brick_path = pbr_from_path("./res/materials/gametextures/BrokenLimestoneBrickPath_2048x2048.pbr", 2048, 2048, 0.046875f);
+        material::chunky_wet_gravel_and_dirt = pbr_from_path("./res/materials/gametextures/ChunkyWetGravelAndDirt_2048x2048.pbr", 2048, 2048, 0.046875f);
+        material::clay_01 = pbr_from_path("./res/materials/gametextures/Clay01_2048x2048.pbr", 2048, 2048, 0.046875f);
+        material::cracked_red_ceramic_roof = pbr_from_path("./res/materials/gametextures/CrackedRedCeramicRoof_2048x2048.pbr", 2048, 2048, 0.046875f);
+        material::dirty_hammered_copper = pbr_from_path("./res/materials/gametextures/DirtyHammeredCopper_2048x2048.pbr", 2048, 2048, 0.02f);
+        material::pile_of_skulls = pbr_from_path("./res/materials/gametextures/PileOfSkulls_2048x2048.pbr", 2048, 2048, 0.046875f);
+        material::white_wool_cloth = pbr_from_path("./res/materials/gametextures/WhiteWoolCloth_2048x2048.pbr", 2048, 2048, 0.02f);
         material::wool_woven_carpet_striped_burgundy = pbr_from_path("./res/materials/gametextures/WoolWovenCarpetStripedBurgundy_2048x2048.pbr", 2048, 2048, 0.02f);
     }
 }

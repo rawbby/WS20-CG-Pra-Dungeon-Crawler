@@ -5,6 +5,7 @@
 #include <gui/MainWindow.hpp>
 
 #include <asset/Asset.hpp>
+#include <engine/Util.hpp>
 
 #include <QMouseEvent>
 
@@ -55,21 +56,21 @@ void OpenGLWidget::paintGL ()
     const auto delta = static_cast<float> (m_elapsed_timer.elapsed()) / 1000.0f;
     m_elapsed_timer.restart();
 
+    auto &player_dynamic = engine::Game::get_component<engine::component::DynamicCollisionCircle>(m_player);
+    auto &player_position = engine::Game::get_component<engine::component::PositionComponent>(m_player);
+
     auto camera_position = glm::vec3{0.0f, 0.0f, gui::camera_distance};
     camera_position = glm::rotateX(camera_position, glm::radians(gui::CAMERA_ROTATION_X));
     camera_position = glm::rotateY(camera_position, glm::radians(gui::camera_rotation_y));
 
-    auto &player_dynamic = engine::Game::get_component<engine::component::DynamicCollisionCircle>(m_player);
-    auto &player_position = engine::Game::get_component<engine::component::PositionComponent>(m_player);
-
-    auto velocity_sideway = glm::vec2(-camera_position.z, camera_position.x);
-    auto velocity_forward = glm::vec2(camera_position.x, camera_position.z);
+    auto velocity_forward = engine::toCoordinate(-camera_position);
+    auto velocity_right = glm::vec2(velocity_forward.y, -velocity_forward.x);
 
     glm::vec2 v{};
-    v += gui::key_states[gui::KEY_A] ? velocity_sideway : glm::vec2{};
-    v += gui::key_states[gui::KEY_S] ? velocity_forward : glm::vec2{};
-    v += gui::key_states[gui::KEY_W] || (gui::mouse_keys[gui::MOUSE_LEFT] && gui::mouse_keys[gui::MOUSE_RIGHT]) ? -velocity_forward : glm::vec2{};
-    v += gui::key_states[gui::KEY_D] ? -velocity_sideway : glm::vec2{};
+    v += gui::key_states[gui::KEY_A] ? -velocity_right  : glm::vec2{};
+    v += gui::key_states[gui::KEY_S] ? -velocity_forward : glm::vec2{};
+    v += gui::key_states[gui::KEY_W] || (gui::mouse_keys[gui::MOUSE_LEFT] && gui::mouse_keys[gui::MOUSE_RIGHT]) ? velocity_forward : glm::vec2{};
+    v += gui::key_states[gui::KEY_D] ? velocity_right   : glm::vec2{};
     player_dynamic.direction(v);
     player_dynamic.speed = gui::camera_distance;
 
@@ -77,15 +78,14 @@ void OpenGLWidget::paintGL ()
 
     const float fovy = glm::radians(90.0f);
     const float aspect = m_width / m_height;
-    const float zNear = 0.1f;
-    const float zFar = 10.0f;
+    const float zNear = 0.001f;
+    const float zFar = 1000.0f;
     const auto projection_matrix = glm::perspective(fovy, aspect, zNear, zFar);
 
-    auto camera_center = glm::vec3{0.0f, 0.0f, 0.0f};
     const auto camera_up = glm::vec3{0.0f, 1.0f, 0.0f};
 
-    camera_position += glm::vec3{player_position[0], 0.0f, player_position[1]};
-    camera_center += glm::vec3{player_position[0], 0.0f, player_position[1]};
+    camera_position += engine::fromCoordinate(player_position);
+    const auto camera_center   = engine::fromCoordinate(player_position);
 
     glm::mat4 camera_matrix = glm::lookAt(camera_position, camera_center, camera_up);
 
@@ -97,6 +97,8 @@ void OpenGLWidget::paintGL ()
     glViewport(0, 0, m_width, m_height);
 
     m_render.update(m_registry, projection_matrix, camera_matrix, camera_position, m_width, m_height);
+
+    glUseProgram(asset::program::trivial);
 }
 
 OpenGLWidget::~OpenGLWidget () = default;

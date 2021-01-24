@@ -99,7 +99,7 @@ namespace
         return program;
     }
 
-    GLuint compile_program (GLuint vertex_shader, GLuint geometry_shader ,GLuint fragment_shader)
+    GLuint compile_program (GLuint vertex_shader, GLuint geometry_shader, GLuint fragment_shader)
     {
         GLuint program = glCreateProgram();
 
