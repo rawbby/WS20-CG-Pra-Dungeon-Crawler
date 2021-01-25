@@ -91,7 +91,8 @@ namespace
 
     bool intersectCircle (glm::vec2 pos1, glm::vec2 pos2, float rad1, float rad2)
     {
-        if (glm::length(pos1 - pos2) <= rad1 + rad2)
+        auto diff = pos1 - pos2;
+        if (diff.x * diff.x + diff.y * diff.y < (rad1 + rad2) * (rad1 + rad2))
         {
             return true;
         }
@@ -123,40 +124,41 @@ namespace engine::service
             auto &circle = reg.get<DynamicCollisionCircle>(circle_entity);
             auto &circle_position = reg.get<PositionComponent>(circle_entity);
 
+            float speed_cap = 0.001f;
+            uint32_t over_stimulus = 8;
+            uint32_t stimulus = -1;
+
             LABEL_RELOOP:
-            size_t coll_count = 0;
-            for (const auto static_comp: static_circle_entities)
+            ++stimulus;
+            if (circle.speed > speed_cap && stimulus < over_stimulus)
             {
-                const auto &static_circle = static_circle_entities.get<StaticCollisionCircle>(static_comp);
+                for (const auto static_comp: static_circle_entities)
+                {
+                    const auto &static_circle = static_circle_entities.get<StaticCollisionCircle>(static_comp);
 
-                if (intersectCircle(static_circle.position, circle_position + circle.velocity() * delta, static_circle.radius, circle.radius))
-                {
-                    circle.velocity(glm::proj(circle.velocity(), glm::normalize(glm::rotate(static_circle.position - circle_position, glm::radians(90.0f)))));
-                    ++coll_count;
-                }
-                if (coll_count > 1)
-                {
-                    circle.velocity(glm::vec2(0.0f, 0.0f));
-                    break;
-                }
-            }
-            for (const auto static_comp: line_entities)
-            {
-                const auto &line = line_entities.get<StaticCollisionLine>(static_comp);
-
-                // only check for collision if the circle moves against wall
-                if (orient2dfast(line.position, line.position + line.direction, line.position + circle.direction_norm) > 0)
-                {
-                    // check whether the circle will intersect at target position
-                    if (intersect(line.position, line.direction, circle_position + circle.velocity() * delta, circle.radius))
+                    if (intersectCircle(static_circle.position, circle_position + circle.velocity() * delta, static_circle.radius, circle.radius))
                     {
-                        circle.velocity(glm::proj(circle.velocity(), glm::normalize(line.direction)));
+                        circle.velocity(glm::proj(circle.velocity(), glm::normalize(glm::rotate(static_circle.position - circle_position, glm::radians(90.0f)))));
                         goto LABEL_RELOOP;
                     }
                 }
-            }
+                for (const auto static_comp: line_entities)
+                {
+                    const auto &line = line_entities.get<StaticCollisionLine>(static_comp);
 
-            circle_position += circle.velocity() * delta;
+                    // only check for collision if the circle moves against wall
+                    if (orient2dfast(line.position, line.position + line.direction, line.position + circle.direction_norm) > 0)
+                    {
+                        // check whether the circle will intersect at target position
+                        if (intersect(line.position, line.direction, circle_position + circle.velocity() * delta, circle.radius))
+                        {
+                            circle.velocity(glm::proj(circle.velocity(), glm::normalize(line.direction)));
+                            goto LABEL_RELOOP;
+                        }
+                    }
+                }
+                circle_position += circle.velocity() * delta;
+            }
             circle.direction_norm = {};
             circle.speed = 0.0f;
         }
