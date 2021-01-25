@@ -9,6 +9,7 @@
 #include <engine/component/GlPointLightComponent.hpp>
 #include <engine/component/GlRenderComponent.hpp>
 #include <engine/component/PositionComponent.hpp>
+#include <engine/component/StaticCollisionCircle.hpp>
 #include <engine/component/StaticCollisionLine.hpp>
 
 #include <asset/Asset.hpp>
@@ -42,14 +43,20 @@ namespace scene001
         game.add_component<GlPointLightComponent>(player, glm::vec3{0.4f, 0.4f, 0.3f}, 0.0f, asset::program::shadow);
 
         // create main light source
-        game.add_component<GlPointLightComponent>(game.add_entity({1.0f, 1.0f}), glm::vec3{0.8f, 0.3f, 0.3f}, 1.0f, asset::program::shadow);
-        game.add_component<GlPointLightComponent>(game.add_entity({-1.0f, -1.0f}), glm::vec3{0.1f, 0.5f, 0.1f}, -0.125f, asset::program::shadow);
+        game.add_component<GlPointLightComponent>(game.add_entity({1.0f, 1.0f}), glm::vec3{0.8f, 0.3f, 0.3f}, 0.0f, asset::program::shadow);
+        game.add_component<GlPointLightComponent>(game.add_entity({-1.0f, -1.0f}), glm::vec3{0.1f, 0.5f, 0.1f}, 0.0f, asset::program::shadow);
 
         // create test walls with collision
         game.add_component<GlMaterialComponent>(game.add_entity({0.0f, 0.0f}), asset::material::create_wall_back());
         game.add_component<GlMaterialComponent>(game.add_entity({-1.0f, 1.0f}), asset::material::create_wall_right());
         game.add_component<StaticCollisionLine>(game.add_entity(), glm::vec2{-0.5f, 0.5f}, glm::vec2{1.0f, 0.0f});
         game.add_component<StaticCollisionLine>(game.add_entity(), glm::vec2{-0.5f, 1.5f}, glm::vec2{0.0f, -1.0f});
+
+        // create test collision circle
+        game.add_component<GlMaterialComponent>(game.add_entity({1.0f, -0.3f}), program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, glm::scale(glm::mat4{1.0f}, glm::vec3{0.6f}), material::black_granite);
+        game.add_component<GlMaterialComponent>(game.add_entity({1.0f, -1.0f}), program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, glm::scale(glm::mat4{1.0f}, glm::vec3{0.2f}), material::black_granite);
+        game.add_component<StaticCollisionCircle>(game.add_entity(), glm::vec2{1.0f, -0.3f}, 0.3f);
+        game.add_component<StaticCollisionCircle>(game.add_entity(), glm::vec2{1.0f, -1.0f}, 0.1f);
 
         // create the wall collision
         std::array<glm::vec2, 4> points{glm::vec2{-1.5, 1.5}, glm::vec2{1.5, 1.5}, glm::vec2{1.5, -1.5}, glm::vec2{-1.5, -1.5}};

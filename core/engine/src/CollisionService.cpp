@@ -1,9 +1,11 @@
 #include <engine/service/CollisionService.hpp>
 
 #include <engine/component/StaticCollisionLine.hpp>
+#include <engine/component/StaticCollisionCircle.hpp>
 #include <engine/component/DynamicCollisionCircle.hpp>
 
 #include <glm/gtx/projection.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 #include <spdlog/spdlog.h>
 #include <cmath>
@@ -86,6 +88,16 @@ namespace
 
         return false;
     }
+
+    bool intersectCircle (glm::vec2 pos1, glm::vec2 pos2, float rad1, float rad2)
+    {
+        if (glm::length(pos1 - pos2) <= rad1 + rad2)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 namespace engine::service
@@ -103,6 +115,7 @@ namespace engine::service
         delta = std::min(delta, 0.024f); // assume min 24 fps or drop time
 
         auto line_entities = reg.view<StaticCollisionLine>();
+        auto static_circle_entities = reg.view<StaticCollisionCircle>();
         auto circle_entities = reg.group<DynamicCollisionCircle>(entt::get<PositionComponent>);
 
         for (const auto circle_entity: circle_entities)
@@ -111,6 +124,22 @@ namespace engine::service
             auto &circle_position = reg.get<PositionComponent>(circle_entity);
 
             LABEL_RELOOP:
+            size_t coll_count = 0;
+            for (const auto static_comp: static_circle_entities)
+            {
+                const auto &static_circle = static_circle_entities.get<StaticCollisionCircle>(static_comp);
+
+                if (intersectCircle(static_circle.position, circle_position + circle.velocity() * delta, static_circle.radius, circle.radius))
+                {
+                    circle.velocity(glm::proj(circle.velocity(), glm::normalize(glm::rotate(static_circle.position - circle_position, glm::radians(90.0f)))));
+                    ++coll_count;
+                }
+                if (coll_count > 1)
+                {
+                    circle.velocity(glm::vec2(0.0f, 0.0f));
+                    break;
+                }
+            }
             for (const auto static_comp: line_entities)
             {
                 const auto &line = line_entities.get<StaticCollisionLine>(static_comp);
