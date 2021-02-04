@@ -6,7 +6,19 @@ add_library(${THIS} STATIC)
 set_compile_options(${THIS})
 set_compile_warnings(${THIS})
 
-target_include_directories(${THIS} PUBLIC inc)
+target_include_directories(${THIS} PUBLIC inc asrc)
+
+
+target_sources(${THIS} PRIVATE
+
+        asrc/gltf/GLTFLoader.hpp
+        asrc/gltf/LoadGltf.hpp
+        asrc/gltf/LoadSkin.hpp
+        asrc/gltf/LoadSkinAnimation.hpp
+        asrc/gltf/LoadSkinnedMesh.hpp
+        asrc/gltf/Types.hpp
+        asrc/gltf/Util.hpp)
+
 
 target_sources(${THIS} PUBLIC
         inc/asset/Asset.hpp
@@ -19,9 +31,13 @@ target_sources(${THIS} PRIVATE
         src/GlMaterialComponent.cpp
         src/Material.cpp
         src/Program.cpp
+        src/Skin.cpp
         src/Vao.cpp)
 
-target_resource_directories(${THIS} res/glsl)
+target_resource_directories(${THIS}
+        res/gltf
+        res/glsl)
+
 target_tar_gz_resources(${THIS}
         res/materials/gametextures/BlackGranite.tar.gz
         res/materials/gametextures/BlackOstrichHideWrinkles2.tar.gz
@@ -44,4 +60,5 @@ target_link_libraries(${THIS} PUBLIC
         $<$<NOT:${WIN32}>:GL>
         CONAN_PKG::glew
         CONAN_PKG::glm
+        CONAN_PKG::cgltf
         Engine)

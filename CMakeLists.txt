@@ -14,6 +14,7 @@ conan_cmake_run(REQUIRES
         glm/0.9.9.8
         spdlog/1.8.1
         entt/3.5.2
+        cgltf/1.9
         BASIC_SETUP CMAKE_TARGETS)
 
 find_package(Qt6 COMPONENTS

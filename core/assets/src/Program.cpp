@@ -152,6 +152,7 @@ namespace asset::internal
         const auto trivial_vertex_shader = vertex_shader_from_path("./res/glsl/Trivial.vs.glsl");
         const auto pbr_vertex_shader = vertex_shader_from_path("./res/glsl/PBR.vs.glsl");
         const auto shadow_vertex_shader = vertex_shader_from_path("./res/glsl/Shadow.vs.glsl");
+        const auto skinned_vertex_shader = vertex_shader_from_path("./res/glsl/SkinnedMesh.vs.glsl");
 
         const auto shadow_geometry_shader = geometry_shader_from_path("./res/glsl/Shadow.gs.glsl");
 
@@ -159,16 +160,19 @@ namespace asset::internal
         const auto trivial_red_fragment_shader = fragment_shader_from_path("./res/glsl/TrivialRed.fs.glsl");
         const auto pbr_fragment_shader = fragment_shader_from_path("./res/glsl/PBR.fs.glsl");
         const auto shadow_fragment_shader = fragment_shader_from_path("./res/glsl/Shadow.fs.glsl");
+        const auto skinned_fragment_shader = fragment_shader_from_path("./res/glsl/SkinnedMesh.fs.glsl");
 
         program::material = compile_program(material_vertex_shader, material_fragment_shader);
         program::trivial = compile_program(trivial_vertex_shader, trivial_red_fragment_shader);
         program::pbr = compile_program(pbr_vertex_shader, pbr_fragment_shader);
         program::shadow = compile_program(shadow_vertex_shader, shadow_geometry_shader, shadow_fragment_shader);
+        program::skinned = compile_program(skinned_vertex_shader, skinned_fragment_shader);
 
         glDeleteShader(material_vertex_shader);
         glDeleteShader(trivial_vertex_shader);
         glDeleteShader(pbr_vertex_shader);
         glDeleteShader(shadow_vertex_shader);
+        glDeleteShader(skinned_vertex_shader);
 
         glDeleteShader(shadow_geometry_shader);
 
@@ -176,5 +180,6 @@ namespace asset::internal
         glDeleteShader(trivial_red_fragment_shader);
         glDeleteShader(pbr_fragment_shader);
         glDeleteShader(shadow_fragment_shader);
+        glDeleteShader(skinned_fragment_shader);
     }
 }

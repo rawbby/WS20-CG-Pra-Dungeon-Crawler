@@ -7,35 +7,24 @@
 #include "engine/service/ShadowMapService.hpp"
 #include <engine/Entity.hpp>
 
+#include <engine/service/AnimatorService.hpp>
+
 #include <entt/entt.hpp>
 
 namespace engine
 {
     class Game
     {
-    protected: // TODO should be private
+    protected:
 
         entt::registry m_registry{};
 
-    protected: // TODO should be private
+    protected:
 
+        service::Animator m_animator;
         service::Collision m_collision;
         service::ShadowMap m_shadow_map;
         service::Render m_render;
-
-    public:
-
-        void init ()
-        {
-            m_collision.init();
-            m_render.init();
-        }
-
-        void update (glm::mat4 projection_matrix, glm::mat4 camera_matrix, glm::vec3 camera_position, float delta)
-        {
-            m_collision.update(m_registry, delta);
-            m_render.update(m_registry, projection_matrix, camera_matrix, camera_position, 1024.0f, 1024.0f);
-        }
 
     public:
 

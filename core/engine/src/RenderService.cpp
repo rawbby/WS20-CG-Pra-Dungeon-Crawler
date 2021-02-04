@@ -8,6 +8,9 @@
 #include <engine/component/GlBlendMaterialComponent.hpp>
 #include <engine/component/GlPointLightComponent.hpp>
 
+#include <model/GlSkinnedMesh.hpp>
+#include <model/SkinTransitionAnimator.hpp>
+
 #include <engine/component/PositionComponent.hpp>
 #include <engine/Util.hpp>
 
@@ -143,5 +146,34 @@ namespace engine::service
             }
         }
         glDeleteTextures(1, &shadow_maps);
+
+        // render material components
+        {
+            auto render_group = reg.group<model::GlSkinnedMesh, model::SkinTransitionAnimator>(entt::get<PositionComponent>);
+
+            for (const auto entity: render_group)
+            {
+                const auto data = render_group.get<model::GlSkinnedMesh>(entity);
+                const auto ator = render_group.get<model::SkinTransitionAnimator>(entity);
+                const auto position = render_group.get<PositionComponent>(entity);
+
+                const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, engine::fromCoordinate(position)) * data.mvm;
+
+                glUseProgram(data.program);
+                glBindVertexArray(data.vao);
+
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix * camera_matrix));
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
+                glUniformMatrix4fv(glGetUniformLocation(data.program, "u_joints"), ator.joint_count, GL_FALSE, glm::value_ptr(*ator.joints));
+
+                glDrawElements(GL_TRIANGLES, data.index_count, GL_UNSIGNED_INT, nullptr);
+
+                const auto status = glGetError();
+                if (GL_NO_ERROR != status)
+                {
+                    spdlog::error(R"(OPENGL ERROR! (FILE: "{}", LINE: "{}", STATUS: "{}"))", __FILE__, __LINE__, status);
+                }
+            }
+        }
     }
 }

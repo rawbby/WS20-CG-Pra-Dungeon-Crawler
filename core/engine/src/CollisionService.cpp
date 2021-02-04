@@ -109,9 +109,6 @@ namespace engine::service
 
     void Collision::update (entt::registry &reg, float delta)
     {
-        static auto i = 0;
-        ++i;
-
         using namespace component;
         delta = std::min(delta, 0.024f); // assume min 24 fps or drop time
 

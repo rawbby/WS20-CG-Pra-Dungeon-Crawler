@@ -6,6 +6,7 @@ add_library(${THIS} STATIC inc/engine/Util.hpp)
 set_compile_options(${THIS})
 set_compile_warnings(${THIS})
 
+
 target_sources(${THIS} PUBLIC
         inc/engine/component/DynamicCollisionCircle.hpp
         inc/engine/component/GlBlendMaterialComponent.hpp
@@ -14,9 +15,22 @@ target_sources(${THIS} PUBLIC
         inc/engine/component/PositionComponent.hpp
         inc/engine/component/StaticCollisionLine.hpp
 
+        inc/engine/service/AnimatorService.hpp
         inc/engine/service/CollisionService.hpp
         inc/engine/service/RenderService.hpp
         inc/engine/service/ShadowMapService.hpp
+
+        inc/model/GlSkinnedMesh.hpp
+        inc/model/HeapArray.hpp
+        inc/model/Skin.hpp
+        inc/model/SkinAnimation.hpp
+        inc/model/SkinAnimator.hpp
+        inc/model/SkinBlendAnimator.hpp
+        inc/model/SkinnedMesh.hpp
+        inc/model/SkinTransitionAnimator.hpp
+        inc/model/Types.hpp
+
+        inc/util/Assert.hpp
 
         inc/engine/Entity.hpp
         inc/engine/Game.hpp)

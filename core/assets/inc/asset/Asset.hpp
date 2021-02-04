@@ -7,6 +7,13 @@
 #include <engine/component/GlBlendMaterialComponent.hpp>
 #include <engine/component/GlMaterialComponent.hpp>
 
+#include <model/HeapArray.hpp>
+#include <model/Skin.hpp>
+#include <model/SkinnedMesh.hpp>
+#include <model/GlSkinnedMesh.hpp>
+#include <model/SkinAnimation.hpp>
+#include <model/SkinTransitionAnimator.hpp>
+
 #include <glm/glm.hpp>
 
 #include <array>
@@ -18,6 +25,7 @@ namespace asset
         void init_vaos ();
         void init_programs ();
         void init_materials ();
+        void init_skins();
     }
 
     inline void init_assets ()
@@ -25,6 +33,7 @@ namespace asset
         internal::init_vaos();
         internal::init_programs();
         internal::init_materials();
+        internal::init_skins();
     }
 
     namespace vao
@@ -48,6 +57,7 @@ namespace asset
         inline GLuint material{};
         inline GLuint pbr{};
         inline GLuint shadow{};
+        inline GLuint skinned{};
     }
 
     namespace material
@@ -71,5 +81,14 @@ namespace asset
         engine::component::GlMaterialComponent create_wall_top ();
         engine::component::GlMaterialComponent create_player ();
         engine::component::GlMaterialComponent create_debug_light ();
+    }
+
+    namespace skin
+    {
+        inline model::SkinnedMesh mesh{};
+        inline model::GlSkinnedMesh glmesh{};
+        inline model::Skin skin{};
+        inline model::HeapArray<model::SkinAnimation> anims{};
+        inline model::SkinTransitionAnimator ator;
     }
 }
