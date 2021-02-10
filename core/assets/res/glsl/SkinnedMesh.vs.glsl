@@ -1,8 +1,9 @@
 #version 400 core
 
 layout(location = 0) in vec3 v_vertex;
-layout(location = 1) in vec4 v_joint_indices;
-layout(location = 2) in vec4 v_joint_weights;
+layout(location = 1) in vec3 v_normal;
+layout(location = 2) in vec4 v_joint_indices;
+layout(location = 3) in vec4 v_joint_weights;
 
 uniform mat4 u_projection_matrix;
 uniform mat4 u_model_view_matrix;
