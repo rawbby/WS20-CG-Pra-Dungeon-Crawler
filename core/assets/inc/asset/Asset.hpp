@@ -57,6 +57,7 @@ namespace asset
         inline GLuint material{};
         inline GLuint pbr{};
         inline GLuint shadow{};
+        inline GLuint shadow_ani{};
         inline GLuint skinned{};
     }
 

@@ -46,14 +46,14 @@ namespace scene001
         //game.add_component<GlMaterialComponent>(player, program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, glm::scale(glm::mat4{1.0f}, glm::vec3{0.4f}), material::dirty_hammered_copper);
 
         game.add_component<DynamicCollisionCircle>(player, DynamicCollisionCircle{glm::vec2{}, 0.0f, 0.2f});
-        game.add_component<GlPointLightComponent>(player, glm::vec3{0.4f, 0.4f, 0.3f}, 0.0f, asset::program::shadow);
+        //game.add_component<GlPointLightComponent>(player, glm::vec3{0.4f, 0.4f, 0.3f}, 0.0f, asset::program::shadow);
 
         game.add_component<model::SkinTransitionAnimator>(player, asset::skin::ator);
         game.add_component<model::GlSkinnedMesh>(player, asset::skin::glmesh);
 
         // create main light source
-        game.add_component<GlPointLightComponent>(game.add_entity({1.0f, 1.0f}), glm::vec3{0.8f, 0.3f, 0.3f}, 0.0f, asset::program::shadow);
-        game.add_component<GlPointLightComponent>(game.add_entity({-1.0f, -1.0f}), glm::vec3{0.1f, 0.5f, 0.1f}, 0.0f, asset::program::shadow);
+        game.add_component<GlPointLightComponent>(game.add_entity({1.0f, 1.0f}), glm::vec3{0.8f, 0.3f, 0.3f}, 0.0f, asset::program::shadow, asset::program::shadow_ani);
+        game.add_component<GlPointLightComponent>(game.add_entity({-1.0f, -1.0f}), glm::vec3{0.1f, 0.5f, 0.1f}, 0.0f, asset::program::shadow, asset::program::shadow_ani);
 
         // create test walls with collision
         game.add_component<GlMaterialComponent>(game.add_entity({0.0f, 0.0f}), asset::material::create_wall_back());

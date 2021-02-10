@@ -13,5 +13,4 @@ void main()
 {
     float height = texture(u_height, v_tex_coords).x * u_height_mult;
     gl_Position = u_model_view_matrix * vec4(v_position + height * v_normal, 1.0);
-    // gl_Position = u_model_view_matrix * vec4(v_position, 1.0);
 }

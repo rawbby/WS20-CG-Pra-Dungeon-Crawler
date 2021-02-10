@@ -6,6 +6,9 @@
 #include <engine/component/GlPointLightComponent.hpp>
 #include <engine/component/GlMaterialComponent.hpp>
 
+#include <model/GlSkinnedMesh.hpp>
+#include <model/SkinTransitionAnimator.hpp>
+
 #include <engine/component/PositionComponent.hpp>
 #include <engine/Util.hpp>
 
@@ -33,6 +36,7 @@ namespace engine::service
             auto &data = reg.get<GlPointLightComponent>(entity);
 
             auto render_group = reg.group<GlMaterialComponent>(entt::get<PositionComponent>);
+            auto render_group_ani = reg.group<model::GlSkinnedMesh, model::SkinTransitionAnimator>(entt::get<PositionComponent>);
 
             // create shadow map
             glEnable(GL_DEPTH_TEST);
@@ -96,6 +100,25 @@ namespace engine::service
                 glBindVertexArray(material.vao_lr);
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
                 glDrawElements(GL_TRIANGLES, material.count_lr, GL_UNSIGNED_INT, nullptr);
+            }
+
+            glUseProgram(data.program_ani);
+            glUniformMatrix4fv(glGetUniformLocation(data.program_ani, "u_shadow_matrices"), 6, GL_FALSE, glm::value_ptr(*shadowTransforms.data()));
+            glUniform1f(glGetUniformLocation(data.program_ani, "u_far_plane"), far_plane);
+            glUniform3f(glGetUniformLocation(data.program_ani, "u_light_pos"), lightPos.x, lightPos.y, lightPos.z);
+
+            for (const auto entity: render_group_ani)
+            {
+                const auto material = render_group_ani.get<model::GlSkinnedMesh>(entity);
+                const auto ator = render_group_ani.get<model::SkinTransitionAnimator>(entity);
+                const auto position = render_group_ani.get<PositionComponent>(entity);
+
+                const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, engine::fromCoordinate(position)) * material.mvm;
+
+                glBindVertexArray(material.vao);
+                glUniformMatrix4fv(glGetUniformLocation(data.program_ani, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
+                glUniformMatrix4fv(glGetUniformLocation(data.program_ani, "u_joints"), ator.joint_count, GL_FALSE, glm::value_ptr(*ator.joints));
+                glDrawElements(GL_TRIANGLES, material.index_count, GL_UNSIGNED_INT, nullptr);
             }
 
             data.tex_shadow = shadow_map;
