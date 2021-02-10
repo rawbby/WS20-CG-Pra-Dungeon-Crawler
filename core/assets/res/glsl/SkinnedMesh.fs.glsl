@@ -76,9 +76,9 @@ vec3 fresnel_schlick(float cos_theta, vec3 f0)
 void main()
 {
     vec3  basecolor = vec3(0.1f, 0.1f, 0.1f);
-    float metallic  = 0.5;
-    float roughness = 0.5;
-    float ao        = 0.5;
+    float metallic  = 0.0;
+    float roughness = 0.1;
+    float ao        = 0.1;
 
     vec3  n         = f_normal;
     vec3  v         = normalize(u_camera_position - f_position);

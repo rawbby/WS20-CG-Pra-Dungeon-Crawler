@@ -140,27 +140,32 @@ namespace engine::service
                 }
             }
 
-            for (const auto i : light_tex_shadows)
-            {
-                glDeleteTextures(1, &i);
-            }
-        }
-        glDeleteTextures(1, &shadow_maps);
+            // render animated mesh
 
-        // render material components
-        {
-            auto render_group = reg.group<model::GlSkinnedMesh, model::SkinTransitionAnimator>(entt::get<PositionComponent>);
+            auto render_group_ani = reg.group<model::GlSkinnedMesh, model::SkinTransitionAnimator>(entt::get<PositionComponent>);
 
-            for (const auto entity: render_group)
+            for (const auto entity: render_group_ani)
             {
-                const auto data = render_group.get<model::GlSkinnedMesh>(entity);
-                const auto ator = render_group.get<model::SkinTransitionAnimator>(entity);
-                const auto position = render_group.get<PositionComponent>(entity);
+                const auto data = render_group_ani.get<model::GlSkinnedMesh>(entity);
+                const auto ator = render_group_ani.get<model::SkinTransitionAnimator>(entity);
+                const auto position = render_group_ani.get<PositionComponent>(entity);
 
                 const auto model_view_matrix = glm::translate(glm::mat4{1.0f}, engine::fromCoordinate(position)) * data.mvm;
 
                 glUseProgram(data.program);
                 glBindVertexArray(data.vao);
+
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, shadow_maps);
+
+                glUniform3fv(glGetUniformLocation(data.program, "u_light_positions"), static_cast<GLsizei> (light_positions.size()), glm::value_ptr(*light_positions.data()));
+                glUniform3fv(glGetUniformLocation(data.program, "u_light_colors"), static_cast<GLsizei> (light_colors.size()), glm::value_ptr(*light_colors.data()));
+                glUniform1i(glGetUniformLocation(data.program, "u_lights_count"), static_cast<GLsizei> (light_positions.size()));
+                glUniform1f(glGetUniformLocation(data.program, "u_far_plane"), far_plane);
+
+                glUniform3f(glGetUniformLocation(data.program, "u_camera_position"), camera_position.x, camera_position.y, camera_position.z);
+
+                glUniform1i(glGetUniformLocation(data.program, "u_shadow_maps"), 0);
 
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_projection_matrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix * camera_matrix));
                 glUniformMatrix4fv(glGetUniformLocation(data.program, "u_model_view_matrix"), 1, GL_FALSE, glm::value_ptr(model_view_matrix));
@@ -174,6 +179,12 @@ namespace engine::service
                     spdlog::error(R"(OPENGL ERROR! (FILE: "{}", LINE: "{}", STATUS: "{}"))", __FILE__, __LINE__, status);
                 }
             }
+
+            for (const auto i : light_tex_shadows)
+            {
+                glDeleteTextures(1, &i);
+            }
         }
+        glDeleteTextures(1, &shadow_maps);
     }
 }
