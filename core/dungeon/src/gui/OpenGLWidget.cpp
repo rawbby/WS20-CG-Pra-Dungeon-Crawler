@@ -31,6 +31,7 @@
     m_elapsed_timer.start();
 
     m_player_mvm = glm::rotate(m_player_mvm, glm::radians(270.0f), glm::vec3{0.0f, 1.0f, 0.0f});
+    m_player_mvm = glm::translate(m_player_mvm, glm::vec3(0.0f, -0.25f, 0.0f));
     m_player_mvm = glm::scale(m_player_mvm, glm::vec3{0.02f});
 }
 
