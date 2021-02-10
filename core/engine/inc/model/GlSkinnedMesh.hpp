@@ -51,8 +51,7 @@ namespace model
             ASSERT_OPEN_GL_STATUS();
 
             glBindVertexArray(GL_NONE);
-            glDeleteBuffers(1, &vertex_buffer);
-            glDeleteBuffers(1, &index_buffer);
+
             ASSERT_OPEN_GL_STATUS();
 
             return my_mesh;

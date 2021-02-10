@@ -21,9 +21,9 @@ namespace asset::internal
         asset::skin::glmesh = model::GlSkinnedMesh::fromSkinnedMesh(asset::skin::mesh);
         asset::skin::glmesh.program = asset::program::skinned;
         asset::skin::glmesh.mvm = glm::mat4{1.0f};
-        asset::skin::glmesh.mvm = glm::rotate(asset::skin::glmesh.mvm, glm::radians(90.0f), glm::vec3{0.0f, 0.0f, -1.0f});
-        asset::skin::glmesh.mvm = glm::rotate(asset::skin::glmesh.mvm, glm::radians(180.0f), glm::vec3{0.0f, 1.0f, 0.0f});
-        asset::skin::glmesh.mvm = glm::scale(asset::skin::glmesh.mvm, glm::vec3{0.1f});
+        //asset::skin::glmesh.mvm = glm::rotate(asset::skin::glmesh.mvm, glm::radians(90.0f), glm::vec3{0.0f, 0.0f, -1.0f});
+        asset::skin::glmesh.mvm = glm::rotate(asset::skin::glmesh.mvm, glm::radians(270.0f), glm::vec3{0.0f, 1.0f, 0.0f});
+        asset::skin::glmesh.mvm = glm::scale(asset::skin::glmesh.mvm, glm::vec3{0.02f});
 
         asset::skin::ator = model::create_skin_transition_animator(&asset::skin::skin, asset::skin::anims.data(), anims_extra.animation_count);
     }

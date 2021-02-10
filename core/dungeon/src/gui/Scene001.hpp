@@ -43,7 +43,7 @@ namespace scene001
     void create_scene (Game &game, Entity &player)
     {
         player = game.add_entity();
-        game.add_component<GlMaterialComponent>(player, program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, glm::scale(glm::mat4{1.0f}, glm::vec3{0.4f}), material::dirty_hammered_copper);
+        //game.add_component<GlMaterialComponent>(player, program::pbr, vao::sphere, vao::sphere_lr, vao::sphere_count, vao::sphere_lr_count, glm::scale(glm::mat4{1.0f}, glm::vec3{0.4f}), material::dirty_hammered_copper);
 
         game.add_component<DynamicCollisionCircle>(player, DynamicCollisionCircle{glm::vec2{}, 0.0f, 0.2f});
         game.add_component<GlPointLightComponent>(player, glm::vec3{0.4f, 0.4f, 0.3f}, 0.0f, asset::program::shadow);

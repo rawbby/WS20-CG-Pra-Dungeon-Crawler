@@ -6,7 +6,7 @@ layout(location = 2) in vec4 v_joint_weights;
 
 uniform mat4 u_projection_matrix;
 uniform mat4 u_model_view_matrix;
-uniform mat4 u_joints[32];
+uniform mat4 u_joints[48];
 
 void main()
 {

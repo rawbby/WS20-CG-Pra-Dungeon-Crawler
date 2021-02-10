@@ -87,7 +87,7 @@ namespace model
         ASSERT(anim, "Animator can not animate nullptr animation!");
 
         ASSERT(skin->joint_count, "Animator will loop infinite when joint_count is set to zero!");
-        ASSERT(skin->joint_count <= 32, "Animator is limited to 32 bones to minimize gpu traffic!");
+        ASSERT(skin->joint_count <= 48, "Animator is limited to 32 bones to minimize gpu traffic!");
         ASSERT(skin->joint_count == anim[0].joint_count, "Skin and SkinAnimation are not compatible!");
 
         size_t internal_joint_size = static_cast<size_t> (skin->joint_count) + 1;
