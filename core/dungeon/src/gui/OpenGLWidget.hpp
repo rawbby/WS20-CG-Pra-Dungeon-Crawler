@@ -18,6 +18,8 @@ class [[maybe_unused]] OpenGLWidget
 private:
 
     engine::Entity m_player = engine::ENTITY_NULL;
+    bool m_player_move = false;
+    glm::mat4 m_player_mvm = glm::mat4{1.0f};
 
 private:
 

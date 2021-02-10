@@ -36,6 +36,10 @@ namespace model
             glEnableVertexAttribArray(SkinnedMesh::vertex_layout);
             ASSERT_OPEN_GL_STATUS();
 
+            glVertexAttribPointer(SkinnedMesh::normal_layout, 3, GL_FLOAT, GL_FALSE, SkinnedMesh::stride, SkinnedMesh::normal_offset);
+            glEnableVertexAttribArray(SkinnedMesh::normal_layout);
+            ASSERT_OPEN_GL_STATUS();
+
             glVertexAttribPointer(SkinnedMesh::joint_index_layout, 4, GL_FLOAT, GL_FALSE, SkinnedMesh::stride, SkinnedMesh::joint_index_offset);
             glEnableVertexAttribArray(SkinnedMesh::joint_index_layout);
             ASSERT_OPEN_GL_STATUS();

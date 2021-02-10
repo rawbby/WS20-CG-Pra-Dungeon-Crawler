@@ -32,6 +32,21 @@ namespace gltf
             }
         }
 
+        void load_normals (model::SkinnedMesh &my_mesh, cgltf_primitive &primitive)
+        {
+            auto *attribute = attribute_by_type(primitive, cgltf_attribute_type_position);
+            auto *accessor = attribute->data;
+
+            ASSERT(accessor->count == my_mesh.vertex_count, "Invalid vertex count for attribute {}!", attribute->name);
+            ASSERT(accessor->component_type == cgltf_component_type_r_32f, "Invalid component type in accessor of attribute {}!", attribute->name);
+            ASSERT(accessor->type == cgltf_type_vec3, "Invalid component count in accessor of attribute {}!", attribute->name);
+
+            for (const auto &[i, data] : internal::Accessor<glm::vec3>{accessor})
+            {
+                my_mesh.vertices[i].normal = *data;
+            }
+        }
+
         void load_joint_indices (model::SkinnedMesh &my_mesh, cgltf_primitive &primitive, const internal::SkinExtra &skin_extra)
         {
             const auto &joint_map = skin_extra.joint_map;
@@ -222,6 +237,7 @@ namespace gltf
         auto my_mesh = model::SkinnedMesh::prepare(primitive.attributes[0].data->count, primitive.indices->count);
 
         internal::load_vertices(my_mesh, primitive);
+        internal::load_normals(my_mesh, primitive);
         internal::load_joint_indices(my_mesh, primitive, skin_extra);
         internal::load_joint_weights(my_mesh, primitive);
         internal::load_indices(my_mesh, primitive);

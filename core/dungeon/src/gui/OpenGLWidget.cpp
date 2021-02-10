@@ -29,6 +29,9 @@
     m_timer.start();
 
     m_elapsed_timer.start();
+
+    m_player_mvm = glm::rotate(m_player_mvm, glm::radians(270.0f), glm::vec3{0.0f, 1.0f, 0.0f});
+    m_player_mvm = glm::scale(m_player_mvm, glm::vec3{0.02f});
 }
 
 void OpenGLWidget::initializeGL ()
@@ -56,12 +59,16 @@ void OpenGLWidget::paintGL ()
     const auto delta = static_cast<float> (m_elapsed_timer.elapsed()) / 1000.0f;
     m_elapsed_timer.restart();
 
+    auto &player_render = engine::Game::get_component<model::GlSkinnedMesh>(m_player);
     auto &player_dynamic = engine::Game::get_component<engine::component::DynamicCollisionCircle>(m_player);
     auto &player_position = engine::Game::get_component<engine::component::PositionComponent>(m_player);
 
     auto camera_position = glm::vec3{0.0f, 0.0f, gui::camera_distance};
     camera_position = glm::rotateX(camera_position, glm::radians(gui::CAMERA_ROTATION_X));
     camera_position = glm::rotateY(camera_position, glm::radians(gui::camera_rotation_y));
+
+    player_render.mvm = m_player_mvm;
+    player_render.mvm = glm::rotate(player_render.mvm, glm::radians(gui::camera_rotation_y), glm::vec3(0.0f, 1.0f, 0.0f));
 
     auto velocity_forward = engine::toCoordinate(-camera_position);
     auto velocity_right = glm::vec2(velocity_forward.y, -velocity_forward.x);
@@ -71,8 +78,25 @@ void OpenGLWidget::paintGL ()
     v += gui::key_states[gui::KEY_S] ? -velocity_forward : glm::vec2{};
     v += gui::key_states[gui::KEY_W] || (gui::mouse_keys[gui::MOUSE_LEFT] && gui::mouse_keys[gui::MOUSE_RIGHT]) ? velocity_forward : glm::vec2{};
     v += gui::key_states[gui::KEY_D] ? velocity_right : glm::vec2{};
+
     player_dynamic.direction(v);
-    player_dynamic.speed = gui::camera_distance;
+    player_dynamic.speed = glm::length(v) == 0.0f ? 0.0f : gui::camera_distance;
+
+    auto player_move = player_dynamic.speed != 0.0f;
+    if (!m_player_move && player_move)
+    {
+        // transition move
+        auto &player_ator = engine::Game::get_component<model::SkinTransitionAnimator>(m_player);
+        model::update_transition(player_ator, 2, 1.0f);
+    }
+
+    if (m_player_move && !player_move)
+    {
+        // transition idle
+        auto &player_ator = engine::Game::get_component<model::SkinTransitionAnimator>(m_player);
+        model::update_transition(player_ator, 0, 1.0f);
+    }
+    m_player_move = player_move;
 
     m_collision.update(m_registry, delta);
 
